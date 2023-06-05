@@ -7,7 +7,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 @Entity
-@NoArgsConstructor(access = AccessLevel.PROTECTED)
+@NoArgsConstructor(access = AccessLevel.PUBLIC)
 @Getter
 @Table(name = "users")
 public class User extends TimeBaseEntity {
@@ -21,5 +21,5 @@ public class User extends TimeBaseEntity {
     private String nickname;
     private String profileImageUrl;
     private String email;
-    private int years;
+    private int years = 210;
 }
