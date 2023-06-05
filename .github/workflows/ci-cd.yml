@@ -1,8 +1,7 @@
 name: code-koi api-server CI/CD
 
 on:
-  pull_request:
-    type: ["closed"]
+  push:
     branches: ["develop", "master"]
 
 permissions:
@@ -20,17 +19,6 @@ jobs:
         with:
           java-version: '17'
           distribution: 'temurin' # https://github.com/actions/setup-java
-
-      ## gradle caching
-      - name: Gradle Caching
-        uses: actions/cache@v3
-        with:
-          path: |
-            ~/.gradle/caches
-            ~/.gradle/wrapper
-          key: ${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle*', '**/gradle-wrapper.properties') }}
-          restore-keys: |
-            ${{ runner.os }}-gradle-
 
       ## create application-dev.properties
       - name: make application-dev.properties
@@ -52,7 +40,7 @@ jobs:
 
       ## gradle build
       - name: Build with Gradle
-        run: ./gradlew build -x test -x ktlintCheck -x ktlintTestSourceSetCheck -x ktlintMainSourceSetCheck -x ktlintKotlinScriptCheck
+        run: ./gradlew clean build
 
       ## docker build & push to production
       - name: Docker build & push to prod
