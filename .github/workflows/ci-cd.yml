@@ -63,3 +63,12 @@ jobs:
           key: ${{ secrets.PRIVATE_KEY }}
           script: |
             ./docker-run.sh
+
+      - name: Deploy Api docs to S3
+        env:
+          AWS_ACCESS_KEY_ID : ${{ secrets.AWS_ACCESS_KEY_ID }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+        run: |
+          ls -asl ./build/docs/asciidoc/index.html 
+          cp ./build/docs/asciidoc/index.html ./index.html
+          aws s3 sync ./index.html s3:://code-koi/index.html
