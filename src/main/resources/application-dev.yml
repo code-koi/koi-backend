@@ -24,3 +24,13 @@ spring:
     url: ${DB_URL}
     username: ${DB_USERNAME}
     password: ${DB_PASSWORD}
+
+
+security:
+  jwt:
+    expire-length:
+      access-token: 300000 # 5분
+      refresh-token: 604800000 # 1주일
+#
+    secret-key: ${ACCESS_TOKEN_KEY}
+    refresh-secret-key: ${REFRESH_TOKEN_KEY}

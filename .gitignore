@@ -1,5 +1,6 @@
 /src/main/resources/static/docs/index.html
 
+src/main/resources/application-local.yml
 HELP.md
 .gradle
 build/
