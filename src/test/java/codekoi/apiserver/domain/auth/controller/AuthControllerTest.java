@@ -1,7 +1,7 @@
-package codekoi.apiserver.auth.controller;
+package codekoi.apiserver.domain.auth.controller;
 
 import codekoi.apiserver.domain.user.dto.UserAuth;
-import codekoi.apiserver.utils.ControllerTestSupport;
+import codekoi.apiserver.utils.ControllerTest;
 import jakarta.servlet.http.Cookie;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -10,12 +10,11 @@ import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.BDDMockito.given;
 import static org.springframework.http.HttpHeaders.AUTHORIZATION;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
-class AuthControllerTest extends ControllerTestSupport {
+class AuthControllerTest extends ControllerTest {
 
     final String accessToken = "eyJhbGciOiJIUzI1NiJ9.eyJpZCI6MSwiaWF0IjoxNjg2MTE5MjYzLCJleHAiOjE2ODYxMTk1NjN9.ZmNReTkQ0pZMXBsdaNDuri5xFQiSYEMYPggt3zj6P-k";
     final String refreshToken = "eyJhbGciOiJIUzI1NiJ9.eyJpZCI6MiwiaWF0IjoxNjg2MTE5MjYzLCJleHAiOjE2ODY3MjQwNjN9.3elRxRRR4Moa6U5TLHd2lC0yvN6TLiLu7on37Kadb2o";
@@ -34,7 +33,7 @@ class AuthControllerTest extends ControllerTestSupport {
                 .willReturn(refreshToken);
 
         //when, then
-        mockMvc.perform(get("/api/login")
+        mvc.perform(post("/api/login")
                         .queryParam("email", "sdcodebase@gmail.com")
                 ).andDo(print())
                 .andExpect(status().isOk())
@@ -55,12 +54,13 @@ class AuthControllerTest extends ControllerTestSupport {
         final Cookie refreshTokenCookie = new Cookie("refreshToken", refreshToken);
 
         //when, then
-        mockMvc.perform(post("/api/login/refresh")
+        mvc.perform(post("/api/login/refresh")
                         .header(AUTHORIZATION, "Bearer " + accessToken)
                         .cookie(refreshTokenCookie)
                 ).andDo(print())
                 .andExpect(status().isOk())
-                .andExpect(header().string(AUTHORIZATION, "Bearer " + newAccessToken));
+                .andExpect(header().string(AUTHORIZATION, "Bearer " + newAccessToken))
+                .andExpect(cookie().exists("refreshToken"));
     }
 
     @DisplayName("로그아웃 시, refreshToken 삭제")
@@ -70,7 +70,7 @@ class AuthControllerTest extends ControllerTestSupport {
         final Cookie refreshTokenCookie = new Cookie("refreshToken", refreshToken);
 
         //when, then
-        mockMvc.perform(post("/api/logout")
+        mvc.perform(post("/api/logout")
                         .cookie(refreshTokenCookie)
                 ).andDo(print())
                 .andExpect(status().isOk())

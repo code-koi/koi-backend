@@ -1,8 +1,8 @@
 package codekoi.apiserver.domain.auth.controller;
 
 import codekoi.apiserver.global.token.JwtTokenProvider;
-import codekoi.apiserver.domain.auth.service.AuthCommand;
-import codekoi.apiserver.domain.auth.service.AuthQuery;
+import codekoi.apiserver.domain.auth.service.UserTokenCommand;
+import codekoi.apiserver.domain.auth.service.UserTokenQuery;
 import codekoi.apiserver.domain.user.dto.UserAuth;
 import codekoi.apiserver.domain.user.service.UserQuery;
 import codekoi.apiserver.global.token.AuthenticationPrincipal;
@@ -13,6 +13,8 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseCookie;
 import org.springframework.web.bind.annotation.*;
 
+import static codekoi.apiserver.domain.auth.domain.UserToken.REFRESH_TOKEN_VALID_DURATION;
+
 @RestController
 @RequestMapping("/api")
 @RequiredArgsConstructor
@@ -20,21 +22,20 @@ public class AuthController {
 
     private final UserQuery userQuery;
 
-    private final AuthQuery authQuery;
-    private final AuthCommand authCommand;
+    private final UserTokenQuery userTokenQuery;
+    private final UserTokenCommand userTokenCommand;
 
     private final JwtTokenProvider jwtTokenProvider;
 
-    private final int SEVEN_DAYS = 604800000;
-
     //todo: oauth로 추후 전환하기.
-    @GetMapping("/login")
+    @PostMapping("/login")
     public void login(@RequestParam String email, HttpServletResponse response) {
         final UserAuth userAuth = userQuery.getUserAuth(email);
         setAccessTokenInResponse(response, userAuth);
 
         final String newRefreshToken = jwtTokenProvider.createRefreshToken();
-        setRefreshTokenInResponse(newRefreshToken, SEVEN_DAYS, response);
+        userTokenCommand.createUserToken(userAuth.getUserId(), newRefreshToken);
+        setRefreshTokenInResponse(newRefreshToken, REFRESH_TOKEN_VALID_DURATION, response);
     }
 
     @PostMapping("/login/refresh")
@@ -46,16 +47,17 @@ public class AuthController {
         jwtTokenProvider.validateRefreshToken(refreshToken);
 
         final Long userId = userAuth.getUserId();
-        authQuery.validateUserRefreshToken(userId, refreshToken);
+        userTokenQuery.validateUserRefreshToken(userId, refreshToken);
 
         setAccessTokenInResponse(response, userAuth);
+        setRefreshTokenInResponse(refreshToken, REFRESH_TOKEN_VALID_DURATION, response);
     }
 
     @PostMapping("/logout")
     public void logout(@CookieValue(value = "refreshToken") Cookie cookie,
                        HttpServletResponse response) {
         final String refreshToken = cookie.getValue();
-        authCommand.deleteUserAuth(refreshToken);
+        userTokenCommand.deleteUserToken(refreshToken);
 
         setRefreshTokenInResponse("", 0, response);
     }
