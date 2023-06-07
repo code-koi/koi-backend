@@ -7,3 +7,12 @@ spring:
     hibernate:
       ddl-auto: create
     open-in-view: false
+
+security:
+  jwt:
+    expire-length:
+      access-token: 300000 # 5분
+      refresh-token: 604800000 # 1주일
+    secret-key: aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa=
+    refresh-secret-key: bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb=
+
