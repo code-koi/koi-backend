@@ -5,21 +5,17 @@ import codekoi.apiserver.global.error.exception.ErrorInfo;
 import codekoi.apiserver.global.error.exception.InvalidValueException;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.ExpiredJwtException;
+import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.MalformedJwtException;
 import io.jsonwebtoken.security.Keys;
-import lombok.AccessLevel;
-import lombok.NoArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
-
-import io.jsonwebtoken.Jwts;
 
 import java.nio.charset.StandardCharsets;
 import java.security.Key;
 import java.util.Date;
 
 @Component
-@NoArgsConstructor(access = AccessLevel.PRIVATE)
 public class JwtTokenProvider {
 
     private long accessTokenValidMilliseconds;
