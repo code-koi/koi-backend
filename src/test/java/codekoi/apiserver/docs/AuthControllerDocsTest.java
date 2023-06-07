@@ -5,6 +5,8 @@ import codekoi.apiserver.utils.ControllerTest;
 import jakarta.servlet.http.Cookie;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.ResultActions;
 
 import static org.mockito.ArgumentMatchers.any;
@@ -37,6 +39,7 @@ public class AuthControllerDocsTest extends ControllerTest {
         final ResultActions result = mvc.perform(
                 post("/api/login")
                         .queryParam("email", "sdcodebase@gmail.com")
+                        .contentType(MediaType.APPLICATION_JSON)
         );
 
         result
@@ -66,6 +69,7 @@ public class AuthControllerDocsTest extends ControllerTest {
                 post("/api/login/refresh")
                         .cookie(new Cookie("refreshToken", refreshToken))
                         .header("Authorization", "Bearer " + accessToken)
+                        .contentType(MediaType.APPLICATION_JSON)
         );
 
         result
@@ -89,6 +93,7 @@ public class AuthControllerDocsTest extends ControllerTest {
                 post("/api/logout")
                         .cookie(new Cookie("refreshToken", refreshToken))
                         .header("Authorization", "Bearer " + accessToken)
+                        .contentType(MediaType.APPLICATION_JSON)
         );
 
         result
