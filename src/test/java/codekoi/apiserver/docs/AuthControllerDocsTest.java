@@ -1,6 +1,6 @@
 package codekoi.apiserver.docs;
 
-import codekoi.apiserver.domain.user.dto.UserAuth;
+import codekoi.apiserver.domain.user.dto.UserToken;
 import codekoi.apiserver.utils.ControllerTest;
 import jakarta.servlet.http.Cookie;
 import org.junit.jupiter.api.DisplayName;
@@ -26,7 +26,7 @@ public class AuthControllerDocsTest extends ControllerTest {
     @Test
     void login() throws Exception {
         given(userQuery.getUserAuth(any()))
-                .willReturn(new UserAuth(1L));
+                .willReturn(new UserToken(1L));
 
         given(jwtTokenProvider.createAccessToken(any()))
                 .willReturn("accessToken");

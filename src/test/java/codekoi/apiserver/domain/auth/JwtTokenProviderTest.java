@@ -1,6 +1,6 @@
 package codekoi.apiserver.domain.auth;
 
-import codekoi.apiserver.domain.user.dto.UserAuth;
+import codekoi.apiserver.domain.user.dto.UserToken;
 import codekoi.apiserver.global.error.exception.ErrorInfo;
 import codekoi.apiserver.global.error.exception.InvalidValueException;
 import codekoi.apiserver.global.token.JwtTokenProvider;
@@ -30,20 +30,20 @@ class JwtTokenProviderTest {
             accessTokenKey,
             refreshTokenKey);
 
-    final UserAuth userAuth = new UserAuth(1L);
+    final UserToken userToken = new UserToken(1L);
 
     @Test
     @DisplayName("User 정보를 통해서 토큰을 다시 파싱하면 같은 결과가 나온다.")
     void createAccessToken() {
         //given
-        final String accessToken = jwtTokenProvider.createAccessToken(userAuth);
+        final String accessToken = jwtTokenProvider.createAccessToken(userToken);
 
         //when
-        final UserAuth parsedUserAuth = jwtTokenProvider.parseByAccessToken(accessToken);
+        final UserToken parsedUserToken = jwtTokenProvider.parseByAccessToken(accessToken);
 
         //then
-        assertThat(userAuth).usingRecursiveComparison()
-                .isEqualTo(parsedUserAuth);
+        assertThat(userToken).usingRecursiveComparison()
+                .isEqualTo(parsedUserToken);
     }
 
     @Test
@@ -56,7 +56,7 @@ class JwtTokenProviderTest {
                 accessTokenKey,
                 refreshTokenKey);
 
-        final String accessToken = shortValidTokenProvider.createAccessToken(userAuth);
+        final String accessToken = shortValidTokenProvider.createAccessToken(userToken);
 
         //then
         assertThatThrownBy(() -> {

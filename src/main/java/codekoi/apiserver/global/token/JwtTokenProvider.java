@@ -1,6 +1,6 @@
 package codekoi.apiserver.global.token;
 
-import codekoi.apiserver.domain.user.dto.UserAuth;
+import codekoi.apiserver.domain.user.dto.UserToken;
 import codekoi.apiserver.global.error.exception.ErrorInfo;
 import codekoi.apiserver.global.error.exception.InvalidValueException;
 import io.jsonwebtoken.Claims;
@@ -38,12 +38,12 @@ public class JwtTokenProvider {
         this.refreshTokenSecretKey = Keys.hmacShaKeyFor(refreshTokenSecretKey.getBytes(StandardCharsets.UTF_8));
     }
 
-    public String createAccessToken(UserAuth userAuth) {
+    public String createAccessToken(UserToken userToken) {
         final Date now = new Date();
         final Date tokenExpiredAt = new Date(now.getTime() + accessTokenValidMilliseconds);
 
         return Jwts.builder()
-                .claim("id", userAuth.getUserId())
+                .claim("id", userToken.getUserId())
                 .setIssuedAt(now)
                 .setExpiration(tokenExpiredAt)
                 .signWith(accessTokenSecretKey)
@@ -61,11 +61,11 @@ public class JwtTokenProvider {
                 .compact();
     }
 
-    public UserAuth parseByAccessToken(String token) {
+    public UserToken parseByAccessToken(String token) {
         final Claims claims = getClaims(accessTokenSecretKey, token);
 
         Long id = claims.get("id", Long.class);
-        return new UserAuth(id);
+        return new UserToken(id);
     }
 
     public void validateRefreshToken(String token) {

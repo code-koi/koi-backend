@@ -3,7 +3,7 @@ package codekoi.apiserver.domain.auth.controller;
 import codekoi.apiserver.global.token.JwtTokenProvider;
 import codekoi.apiserver.domain.auth.service.UserTokenCommand;
 import codekoi.apiserver.domain.auth.service.UserTokenQuery;
-import codekoi.apiserver.domain.user.dto.UserAuth;
+import codekoi.apiserver.domain.user.dto.UserToken;
 import codekoi.apiserver.domain.user.service.UserQuery;
 import codekoi.apiserver.global.token.AuthenticationPrincipal;
 import jakarta.servlet.http.Cookie;
@@ -30,26 +30,26 @@ public class AuthController {
     //todo: oauth로 추후 전환하기.
     @PostMapping("/login")
     public void login(@RequestParam String email, HttpServletResponse response) {
-        final UserAuth userAuth = userQuery.getUserAuth(email);
-        setAccessTokenInResponse(response, userAuth);
+        final UserToken userToken = userQuery.getUserAuth(email);
+        setAccessTokenInResponse(response, userToken);
 
         final String newRefreshToken = jwtTokenProvider.createRefreshToken();
-        userTokenCommand.createUserToken(userAuth.getUserId(), newRefreshToken);
+        userTokenCommand.createUserToken(userToken.getUserId(), newRefreshToken);
         setRefreshTokenInResponse(newRefreshToken, REFRESH_TOKEN_VALID_DURATION, response);
     }
 
     @PostMapping("/login/refresh")
     public void refresh(@CookieValue(value = "refreshToken") Cookie cookie,
-                        @AuthenticationPrincipal UserAuth userAuth,
+                        @AuthenticationPrincipal UserToken userToken,
                         HttpServletResponse response
     ) {
         final String refreshToken = cookie.getValue();
         jwtTokenProvider.validateRefreshToken(refreshToken);
 
-        final Long userId = userAuth.getUserId();
+        final Long userId = userToken.getUserId();
         userTokenQuery.validateUserRefreshToken(userId, refreshToken);
 
-        setAccessTokenInResponse(response, userAuth);
+        setAccessTokenInResponse(response, userToken);
         setRefreshTokenInResponse(refreshToken, REFRESH_TOKEN_VALID_DURATION, response);
     }
 
@@ -62,8 +62,8 @@ public class AuthController {
         setRefreshTokenInResponse("", 0, response);
     }
 
-    private void setAccessTokenInResponse(HttpServletResponse response, UserAuth userAuth) {
-        final String accessToken = jwtTokenProvider.createAccessToken(userAuth);
+    private void setAccessTokenInResponse(HttpServletResponse response, UserToken userToken) {
+        final String accessToken = jwtTokenProvider.createAccessToken(userToken);
         response.setHeader(HttpHeaders.AUTHORIZATION, "Bearer " + accessToken);
     }
 
