@@ -35,7 +35,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @WebMvcTest(controllers = {
         UserApiController.class
 })
-public class UserApiDocsControllerTest {
+public class UserApiDocsController {
 
     protected ObjectMapper mapper = new ObjectMapper();
 

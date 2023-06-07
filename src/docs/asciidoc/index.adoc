@@ -10,7 +10,13 @@ endif::[]
 :sectnums:
 :sectlinks:
 
-== 유저
+== 로그인 관련 기능
 
-=== 유저상세
-operation::test/abc[]
+=== 로그인
+operation::auth/post-login[snippets='http-request,http-response']
+
+=== accessToken refresh
+operation::auth/post-login-refresh[snippets='http-request,http-response']
+
+=== 로그아웃
+operation::auth/post-logout[snippets='http-request,http-response']
