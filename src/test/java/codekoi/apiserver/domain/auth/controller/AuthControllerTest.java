@@ -16,9 +16,6 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 class AuthControllerTest extends ControllerTest {
 
-    final String accessToken = "eyJhbGciOiJIUzI1NiJ9.eyJpZCI6MSwiaWF0IjoxNjg2MTE5MjYzLCJleHAiOjE2ODYxMTk1NjN9.ZmNReTkQ0pZMXBsdaNDuri5xFQiSYEMYPggt3zj6P-k";
-    final String refreshToken = "eyJhbGciOiJIUzI1NiJ9.eyJpZCI6MiwiaWF0IjoxNjg2MTE5MjYzLCJleHAiOjE2ODY3MjQwNjN9.3elRxRRR4Moa6U5TLHd2lC0yvN6TLiLu7on37Kadb2o";
-
     @DisplayName("로그인 시 accessToekn과 refreshToken을 발급한다")
     @Test
     void successLogin() throws Exception {

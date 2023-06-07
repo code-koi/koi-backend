@@ -31,11 +31,11 @@ public class AuthController {
     @PostMapping("/login")
     public void login(@RequestParam String email, HttpServletResponse response) {
         final UserToken userToken = userQuery.getUserAuth(email);
-        setAccessTokenInResponse(response, userToken);
+        setNewAccessTokenInResponse(response, userToken);
 
-        final String newRefreshToken = jwtTokenProvider.createRefreshToken();
-        userTokenCommand.createUserToken(userToken.getUserId(), newRefreshToken);
-        setRefreshTokenInResponse(newRefreshToken, REFRESH_TOKEN_VALID_DURATION, response);
+        final String refreshToken = jwtTokenProvider.createRefreshToken();
+        userTokenCommand.createUserToken(userToken.getUserId(), refreshToken);
+        setRefreshTokenInResponse(refreshToken, REFRESH_TOKEN_VALID_DURATION, response);
     }
 
     @PostMapping("/login/refresh")
@@ -49,7 +49,7 @@ public class AuthController {
         final Long userId = userToken.getUserId();
         userTokenQuery.validateUserRefreshToken(userId, refreshToken);
 
-        setAccessTokenInResponse(response, userToken);
+        setNewAccessTokenInResponse(response, userToken);
         setRefreshTokenInResponse(refreshToken, REFRESH_TOKEN_VALID_DURATION, response);
     }
 
@@ -62,7 +62,7 @@ public class AuthController {
         setRefreshTokenInResponse("", 0, response);
     }
 
-    private void setAccessTokenInResponse(HttpServletResponse response, UserToken userToken) {
+    private void setNewAccessTokenInResponse(HttpServletResponse response, UserToken userToken) {
         final String accessToken = jwtTokenProvider.createAccessToken(userToken);
         response.setHeader(HttpHeaders.AUTHORIZATION, "Bearer " + accessToken);
     }
