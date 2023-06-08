@@ -5,6 +5,7 @@ import codekoi.apiserver.domain.user.dto.UserToken;
 import codekoi.apiserver.domain.user.repository.UserRepository;
 import codekoi.apiserver.global.error.exception.ErrorInfo;
 import codekoi.apiserver.global.error.exception.InvalidValueException;
+import codekoi.apiserver.utils.ServiceTest;
 import codekoi.apiserver.utils.fixture.UserFixture;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -15,9 +16,7 @@ import org.springframework.transaction.annotation.Transactional;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
-@SpringBootTest
-@Transactional
-class UserQueryTest {
+class UserQueryTest extends ServiceTest {
 
     @Autowired
     UserRepository userRepository;

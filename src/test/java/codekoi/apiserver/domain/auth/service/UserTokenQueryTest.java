@@ -6,20 +6,17 @@ import codekoi.apiserver.domain.user.domain.User;
 import codekoi.apiserver.domain.user.repository.UserRepository;
 import codekoi.apiserver.global.error.exception.ErrorInfo;
 import codekoi.apiserver.global.error.exception.InvalidValueException;
+import codekoi.apiserver.utils.ServiceTest;
 import codekoi.apiserver.utils.fixture.UserFixture;
 import codekoi.apiserver.utils.fixture.UserTokenFixture;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.transaction.annotation.Transactional;
 
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 
-@SpringBootTest
-@Transactional
-class UserTokenQueryTest {
+class UserTokenQueryTest extends ServiceTest {
 
     @Autowired
     UserTokenQuery userTokenQuery;

@@ -1,4 +1,4 @@
-package codekoi.apiserver.domain.auth;
+package codekoi.apiserver.global.token;
 
 import codekoi.apiserver.domain.user.dto.UserToken;
 import codekoi.apiserver.global.error.exception.ErrorInfo;
