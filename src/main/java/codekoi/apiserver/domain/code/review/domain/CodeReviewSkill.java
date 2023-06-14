@@ -1,8 +1,7 @@
-package codekoi.apiserver.domain.skill.review.domain;
+package codekoi.apiserver.domain.code.review.domain;
 
-import codekoi.apiserver.domain.code.review.domain.CodeReview;
 import codekoi.apiserver.domain.model.TimeBaseEntity;
-import codekoi.apiserver.domain.skill.skill.HardSkill;
+import codekoi.apiserver.domain.skill.doamin.HardSkill;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.Getter;

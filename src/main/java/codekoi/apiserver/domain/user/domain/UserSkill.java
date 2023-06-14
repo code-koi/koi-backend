@@ -1,10 +1,10 @@
-package codekoi.apiserver.domain.skill.user.domain;
+package codekoi.apiserver.domain.user.domain;
 
 import codekoi.apiserver.domain.model.TimeBaseEntity;
-import codekoi.apiserver.domain.skill.skill.HardSkill;
-import codekoi.apiserver.domain.user.domain.User;
+import codekoi.apiserver.domain.skill.doamin.HardSkill;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -25,4 +25,11 @@ public class UserSkill extends TimeBaseEntity {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "users_id")
     private User user;
+
+    @Builder
+    private UserSkill(Long id, HardSkill hardSkill, User user) {
+        this.id = id;
+        this.hardSkill = hardSkill;
+        this.user = user;
+    }
 }

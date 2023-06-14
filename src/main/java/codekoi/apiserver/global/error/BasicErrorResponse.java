@@ -2,9 +2,11 @@
 package codekoi.apiserver.global.error;
 
 import codekoi.apiserver.global.error.exception.ErrorInfo;
+import lombok.Getter;
 
 import java.time.LocalDateTime;
 
+@Getter
 public class BasicErrorResponse {
     private LocalDateTime timestamp;
     private String message;

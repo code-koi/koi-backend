@@ -4,22 +4,19 @@ import codekoi.apiserver.domain.auth.domain.UserToken;
 import codekoi.apiserver.domain.auth.repository.UserTokenRepository;
 import codekoi.apiserver.domain.user.domain.User;
 import codekoi.apiserver.domain.user.repository.UserRepository;
+import codekoi.apiserver.utils.ServiceTest;
 import codekoi.apiserver.utils.fixture.UserFixture;
 import codekoi.apiserver.utils.fixture.UserTokenFixture;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
 
-@SpringBootTest
-@Transactional
-class UserTokenCommandTest {
+class UserTokenCommandTest extends ServiceTest {
 
     @Autowired
     private UserRepository userRepository;
