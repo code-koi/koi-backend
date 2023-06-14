@@ -1,12 +1,16 @@
 package codekoi.apiserver.domain.user.domain;
 
 import codekoi.apiserver.domain.model.TimeBaseEntity;
+import codekoi.apiserver.domain.skill.doamin.HardSkill;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.Where;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
@@ -34,6 +38,9 @@ public class User extends TimeBaseEntity {
 
     private String profileImageUrl;
 
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<UserSkill> skills = new ArrayList<>();
+
     @Builder
     private User(Long id, String introduce, String nickname, String email, int years, String profileImageUrl) {
         this.id = id;
@@ -42,6 +49,14 @@ public class User extends TimeBaseEntity {
         this.email = new Email(email);
         this.years = new Years(years);
         this.profileImageUrl = profileImageUrl;
+    }
+
+    public void addUserSkill(HardSkill skill) {
+        final UserSkill userSkill = UserSkill.builder()
+                .hardSkill(skill)
+                .user(this)
+                .build();
+        this.skills.add(userSkill);
     }
 
     public String getIntroduce() {
@@ -58,5 +73,9 @@ public class User extends TimeBaseEntity {
 
     public int getYears() {
         return years.getValue();
+    }
+
+    public String getYearString() {
+        return years.toYearString();
     }
 }

@@ -20,8 +20,17 @@ public enum UserFixture {
         this.profileImageUrl = profileImageUrl;
     }
 
+    public User toUser(Long userId) {
+        return getUser(userId);
+    }
+
     public User toUser() {
+        return getUser(null);
+    }
+
+    private User getUser(Long userId) {
         return User.builder()
+                .id(userId)
                 .introduce(introduce)
                 .nickname(nickname)
                 .email(email)

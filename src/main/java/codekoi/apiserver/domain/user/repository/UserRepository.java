@@ -2,6 +2,8 @@ package codekoi.apiserver.domain.user.repository;
 
 import codekoi.apiserver.domain.user.domain.User;
 import codekoi.apiserver.global.error.exception.EntityNotFoundException;
+import codekoi.apiserver.global.error.exception.ErrorInfo;
+import codekoi.apiserver.global.error.exception.InvalidValueException;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
@@ -14,10 +16,10 @@ public interface UserRepository extends JpaRepository<User, Long> {
 
     default User findUserById(Long userId) {
         final User user = this.findById(userId).orElseThrow(() -> {
-            throw new EntityNotFoundException();
+            throw new InvalidValueException(ErrorInfo.USER_NOT_FOUND_ERROR);
         });
         if (user.getCanceledAt() != null) {
-            throw new EntityNotFoundException();
+            throw new InvalidValueException(ErrorInfo.USER_NOT_FOUND_ERROR);
         }
         return user;
     }

@@ -4,6 +4,7 @@ import codekoi.apiserver.domain.model.TimeBaseEntity;
 import codekoi.apiserver.domain.user.domain.User;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -26,4 +27,13 @@ public class CodeReview extends TimeBaseEntity {
 
     @Enumerated(EnumType.STRING)
     private CodeReviewStatus status;
+
+    @Builder
+    private CodeReview(Long id, User user, String title, String content, CodeReviewStatus status) {
+        this.id = id;
+        this.user = user;
+        this.title = title;
+        this.content = content;
+        this.status = status;
+    }
 }

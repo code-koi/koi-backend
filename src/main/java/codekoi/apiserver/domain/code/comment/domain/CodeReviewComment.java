@@ -5,6 +5,7 @@ import codekoi.apiserver.domain.model.TimeBaseEntity;
 import codekoi.apiserver.domain.user.domain.User;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -27,4 +28,12 @@ public class CodeReviewComment extends TimeBaseEntity {
     private User user;
 
     private String content;
+
+    @Builder
+    private CodeReviewComment(Long id, CodeReview codeReview, User user, String content) {
+        this.id = id;
+        this.codeReview = codeReview;
+        this.user = user;
+        this.content = content;
+    }
 }
