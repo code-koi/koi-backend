@@ -11,7 +11,7 @@ import org.junit.jupiter.params.provider.NullSource;
 
 import java.util.stream.Stream;
 
-import static org.assertj.core.api.Assertions.*;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 class IntroduceTest {
     static Stream<Arguments> invalidIntroduce() {
