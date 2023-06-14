@@ -1,11 +1,10 @@
-package codekoi.apiserver.docs;
+package codekoi.apiserver.domain.auth.controller;
 
 import codekoi.apiserver.domain.user.dto.UserToken;
 import codekoi.apiserver.utils.ControllerTest;
 import jakarta.servlet.http.Cookie;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.ResultActions;
 

@@ -1,4 +1,4 @@
-package codekoi.apiserver.domain.skill.skill;
+package codekoi.apiserver.domain.skill.doamin;
 
 public enum MentoringType {
     DEV, CAREER, ARCHITECTURE, CODE_REVIEW

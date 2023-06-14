@@ -3,7 +3,6 @@ package codekoi.apiserver.global.token;
 import codekoi.apiserver.domain.user.dto.UserToken;
 import codekoi.apiserver.global.error.exception.ErrorInfo;
 import codekoi.apiserver.global.error.exception.InvalidValueException;
-import codekoi.apiserver.global.token.JwtTokenProvider;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;

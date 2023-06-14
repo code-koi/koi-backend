@@ -1,4 +1,4 @@
-package codekoi.apiserver.domain.skill.skill;
+package codekoi.apiserver.domain.skill.doamin;
 
 import jakarta.persistence.DiscriminatorValue;
 import jakarta.persistence.Entity;

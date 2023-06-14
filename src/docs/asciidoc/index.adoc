@@ -10,13 +10,45 @@ endif::[]
 :sectnums:
 :sectlinks:
 
-== 로그인 관련 기능
+= JWT 관련 기능
 
-=== 로그인
-operation::auth/post-login[snippets='http-request,http-response']
+== 로그인
+=== Request
+include::{snippets}/auth/post-login/http-request.adoc[]
+=== Response
+cookie:
+include::{snippets}/auth/post-login/response-cookies.adoc[]
+header:
+include::{snippets}/auth/post-login/response-headers.adoc[]
+include::{snippets}/auth/post-logout/http-response.adoc[]
 
-=== accessToken refresh
-operation::auth/post-login-refresh[snippets='http-request,http-response']
 
-=== 로그아웃
-operation::auth/post-logout[snippets='http-request,http-response']
+== accessToken refresh
+=== Request
+include::{snippets}/auth/post-login-refresh/http-request.adoc[]
+=== Response
+header:
+include::{snippets}/auth/post-login-refresh/response-headers.adoc[]
+cookie:
+include::{snippets}/auth/post-login-refresh/response-cookies.adoc[]
+include::{snippets}/auth/post-logout/http-response.adoc[]
+
+
+
+== 로그아웃
+=== Request
+include::{snippets}/auth/post-logout/http-request.adoc[]
+
+=== Response
+include::{snippets}/auth/post-logout/response-cookies.adoc[]
+include::{snippets}/auth/post-logout/http-response.adoc[]
+
+= 유저
+
+== 유저 로그인
+=== Request
+include::{snippets}/users/get/http-request.adoc[]
+
+=== Response
+include::{snippets}/users/get/response-fields.adoc[]
+include::{snippets}/users/get/response-body.adoc[]
