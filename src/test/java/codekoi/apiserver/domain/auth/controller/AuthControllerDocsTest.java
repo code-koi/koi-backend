@@ -1,4 +1,4 @@
-package codekoi.apiserver.docs;
+package codekoi.apiserver.domain.auth.controller;
 
 import codekoi.apiserver.domain.user.dto.UserToken;
 import codekoi.apiserver.utils.ControllerTest;

@@ -1,7 +1,6 @@
 package codekoi.apiserver.domain.user.repository;
 
 import codekoi.apiserver.domain.user.domain.User;
-import codekoi.apiserver.global.error.exception.EntityNotFoundException;
 import codekoi.apiserver.global.error.exception.ErrorInfo;
 import codekoi.apiserver.global.error.exception.InvalidValueException;
 import org.springframework.data.jpa.repository.JpaRepository;

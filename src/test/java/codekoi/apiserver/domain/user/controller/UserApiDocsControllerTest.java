@@ -1,6 +1,5 @@
-package codekoi.apiserver.docs;
+package codekoi.apiserver.domain.user.controller;
 
-import codekoi.apiserver.domain.user.controller.UserApiController;
 import codekoi.apiserver.domain.user.dto.UserDetail;
 import codekoi.apiserver.utils.ControllerTest;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -82,7 +81,7 @@ public class UserApiDocsControllerTest extends ControllerTest {
                                 fieldWithPath("years").type(JsonFieldType.NUMBER)
                                         .description("연차 정보"),
                                 fieldWithPath("introduce").type(JsonFieldType.STRING)
-                                        .description("자기소개"),
+                                        .description("자기소개").optional(),
                                 fieldWithPath("profileImageUrl").type(JsonFieldType.STRING)
                                         .description("프로필 이미지 경로").optional(),
                                 fieldWithPath("activity").type(JsonFieldType.OBJECT)
