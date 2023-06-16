@@ -1,7 +1,6 @@
 package codekoi.apiserver.domain.auth.controller;
 
 import codekoi.apiserver.domain.user.dto.UserToken;
-import codekoi.apiserver.utils.ControllerTest;
 import jakarta.servlet.http.Cookie;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -21,7 +20,8 @@ import static org.springframework.restdocs.request.RequestDocumentation.paramete
 import static org.springframework.restdocs.request.RequestDocumentation.queryParameters;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-public class AuthControllerDocsTest extends ControllerTest {
+
+public class AuthControllerDocsTest extends AuthControllerTestSupport {
 
     @DisplayName("로그인")
     @Test
@@ -63,6 +63,9 @@ public class AuthControllerDocsTest extends ControllerTest {
 
         given(jwtTokenProvider.createAccessToken(any()))
                 .willReturn("NEW_ACCESS_TOKEN");
+
+        given(jwtTokenProvider.parseByAccessToken(any()))
+                .willReturn(new UserToken(1L));
 
         final ResultActions result = mvc.perform(
                 post("/api/login/refresh")
