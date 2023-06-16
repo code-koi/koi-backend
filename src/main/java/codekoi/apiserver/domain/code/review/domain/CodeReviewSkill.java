@@ -4,6 +4,7 @@ import codekoi.apiserver.domain.model.TimeBaseEntity;
 import codekoi.apiserver.domain.skill.doamin.HardSkill;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -26,4 +27,11 @@ public class CodeReviewSkill extends TimeBaseEntity {
     @ManyToOne(fetch = LAZY)
     @JoinColumn(name = "code_review_id")
     private CodeReview codeReview;
+
+    @Builder
+    private CodeReviewSkill(Long id, HardSkill skill, CodeReview codeReview) {
+        this.id = id;
+        this.skill = skill;
+        this.codeReview = codeReview;
+    }
 }

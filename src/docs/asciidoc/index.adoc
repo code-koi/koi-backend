@@ -13,6 +13,8 @@ endif::[]
 = JWT 관련 기능
 
 == 로그인
+* 로그인 부분은 추후 OAuth로 변경 예정입니다. 우선, 간단하게 만들어 놓겠습니다
+
 === Request
 include::{snippets}/auth/post-login/http-request.adoc[]
 === Response
@@ -52,3 +54,13 @@ include::{snippets}/users/get/http-request.adoc[]
 === Response
 include::{snippets}/users/get/response-fields.adoc[]
 include::{snippets}/users/get/response-body.adoc[]
+
+
+= 코드리뷰
+== 유저가 남긴 코드리뷰
+=== Request
+include::{snippets}/codeReviews/get-userId/http-request.adoc[]
+
+=== Response
+include::{snippets}/codeReviews/get-userId/response-fields.adoc[]
+include::{snippets}/codeReviews/get-userId/response-body.adoc[]
