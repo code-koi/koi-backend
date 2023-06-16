@@ -1,7 +1,6 @@
 package codekoi.apiserver.domain.auth.controller;
 
 import codekoi.apiserver.domain.user.dto.UserToken;
-import codekoi.apiserver.utils.ControllerTest;
 import jakarta.servlet.http.Cookie;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -14,7 +13,7 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
-class AuthControllerTest extends ControllerTest {
+class AuthControllerTest extends AuthControllerTestSupport {
 
     @DisplayName("로그인 시 accessToekn과 refreshToken을 발급한다")
     @Test
@@ -47,6 +46,9 @@ class AuthControllerTest extends ControllerTest {
         final String newAccessToken = "NEW_ACCESS_TOKEN";
         given(jwtTokenProvider.createAccessToken(any()))
                 .willReturn(newAccessToken);
+
+        given(jwtTokenProvider.parseByAccessToken(any()))
+                .willReturn(new UserToken(1L));
 
         final Cookie refreshTokenCookie = new Cookie("refreshToken", refreshToken);
 
