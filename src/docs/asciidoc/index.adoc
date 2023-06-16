@@ -31,7 +31,7 @@ header:
 include::{snippets}/auth/post-login-refresh/response-headers.adoc[]
 cookie:
 include::{snippets}/auth/post-login-refresh/response-cookies.adoc[]
-include::{snippets}/auth/post-logout/http-response.adoc[]
+include::{snippets}/auth/post-login/http-response.adoc[]
 
 
 
@@ -45,7 +45,7 @@ include::{snippets}/auth/post-logout/http-response.adoc[]
 
 = 유저
 
-== 유저 로그인
+== 유저 상세보기
 === Request
 include::{snippets}/users/get/http-request.adoc[]
 
