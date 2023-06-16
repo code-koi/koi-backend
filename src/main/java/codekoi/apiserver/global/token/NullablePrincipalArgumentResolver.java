@@ -27,6 +27,10 @@ public class NullablePrincipalArgumentResolver implements HandlerMethodArgumentR
 
         final String accessToken = request.getHeader(HttpHeaders.AUTHORIZATION);
 
+        if (accessToken == null) {
+            return new UserToken(null);
+        }
+
         try {
             return jwtTokenProvider.parseByAccessToken(accessToken);
         } catch (Exception e) {
