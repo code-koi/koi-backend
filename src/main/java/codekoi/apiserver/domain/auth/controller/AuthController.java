@@ -73,6 +73,7 @@ public class AuthController {
                 .path("/")
                 .sameSite("None")
                 .httpOnly(true)
+                .secure(true)
                 .build();
 
         response.setHeader(HttpHeaders.SET_COOKIE, refreshTokenCookie.toString());
