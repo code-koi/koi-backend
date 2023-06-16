@@ -4,13 +4,13 @@ import codekoi.apiserver.global.token.AuthenticationPrincipalArgumentResolver;
 import codekoi.apiserver.global.token.JwtTokenProvider;
 import codekoi.apiserver.global.token.NullablePrincipalArgumentResolver;
 import lombok.RequiredArgsConstructor;
-import org.springframework.stereotype.Component;
+import org.springframework.context.annotation.Configuration;
 import org.springframework.web.method.support.HandlerMethodArgumentResolver;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 import java.util.List;
 
-@Component
+@Configuration
 @RequiredArgsConstructor
 public class ApiConfig implements WebMvcConfigurer {
 
