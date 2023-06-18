@@ -1,7 +1,7 @@
 package codekoi.apiserver.domain.auth.domain;
 
 import codekoi.apiserver.domain.user.domain.User;
-import codekoi.apiserver.utils.TestEntityReflection;
+import codekoi.apiserver.utils.EntityReflectionTestUtil;
 import codekoi.apiserver.utils.fixture.UserFixture;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -16,7 +16,7 @@ class UserTokenTest {
     void notMatchedUserId() {
         //given
         final User user = UserFixture.SUNDO.toUser();
-        TestEntityReflection.setId(user, 1L);
+        EntityReflectionTestUtil.setId(user, 1L);
 
         //when
         final UserToken userToken = UserToken.of(user, "refreshToken");

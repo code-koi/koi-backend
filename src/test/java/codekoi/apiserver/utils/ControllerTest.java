@@ -3,10 +3,11 @@ package codekoi.apiserver.utils;
 import codekoi.apiserver.domain.auth.controller.AuthController;
 import codekoi.apiserver.domain.auth.service.UserTokenCommand;
 import codekoi.apiserver.domain.auth.service.UserTokenQuery;
+import codekoi.apiserver.domain.code.comment.controller.CodeCommentController;
+import codekoi.apiserver.domain.code.comment.service.CodeCommentQuery;
 import codekoi.apiserver.domain.code.review.controller.CodeReviewController;
 import codekoi.apiserver.domain.code.review.service.CodeReviewQuery;
 import codekoi.apiserver.domain.user.controller.UserController;
-import codekoi.apiserver.domain.user.controller.UserControllerDocsTest;
 import codekoi.apiserver.domain.user.service.UserQuery;
 import codekoi.apiserver.global.token.JwtTokenProvider;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -33,12 +34,13 @@ import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.
 @WebMvcTest(controllers = {
         AuthController.class,
         UserController.class,
-        CodeReviewController.class
+        CodeReviewController.class,
+        CodeCommentController.class
 })
 public abstract class ControllerTest {
 
     protected MockMvc mvc;
-    protected ObjectMapper objectMapper = new ObjectMapper();
+    protected ObjectMapper mapper = new ObjectMapper();
 
     protected String accessToken = "eyJhbGciOiJIUzI1NiJ9.eyJpZCI6MSwiaWF0IjoxNjg2MTE5MjYzLCJleHAiOjE2ODYxMTk1NjN9.ZmNReTkQ0pZMXBsdaNDuri5xFQiSYEMYPggt3zj6P-k";
     protected String refreshToken = "eyJhbGciOiJIUzI1NiJ9.eyJpZCI6MiwiaWF0IjoxNjg2MTE5MjYzLCJleHAiOjE2ODY3MjQwNjN9.3elRxRRR4Moa6U5TLHd2lC0yvN6TLiLu7on37Kadb2o";
@@ -52,6 +54,9 @@ public abstract class ControllerTest {
 
     @MockBean
     protected CodeReviewQuery codeReviewQuery;
+
+    @MockBean
+    protected CodeCommentQuery codeCommentQuery;
 
     @Autowired
     protected JwtTokenProvider jwtTokenProvider;

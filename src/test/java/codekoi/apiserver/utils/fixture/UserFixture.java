@@ -4,6 +4,7 @@ import codekoi.apiserver.domain.user.domain.User;
 
 public enum UserFixture {
     SUNDO("만나서 반갑습니다!", "김선도", "sdcodebase@gmail.com", 2, "test.com/sundo.png"),
+    HONG("안녕하세요 반가워요", "홍길동", "hong@gmail.com", 5, "test.com/hong.png"),
     ;
 
     public final String introduce;
