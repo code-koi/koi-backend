@@ -4,7 +4,7 @@ import org.springframework.test.util.ReflectionTestUtils;
 
 import java.time.LocalDateTime;
 
-public class TestEntityReflection {
+public class EntityReflectionTestUtil {
 
     public static <T> void setId(T t, Long id) {
         ReflectionTestUtils.setField(t, "id", id);

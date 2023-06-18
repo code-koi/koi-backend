@@ -5,7 +5,7 @@ import codekoi.apiserver.domain.code.review.dto.UserCodeReviewDto;
 import codekoi.apiserver.domain.skill.doamin.HardSkill;
 import codekoi.apiserver.domain.user.domain.User;
 import codekoi.apiserver.utils.ControllerTest;
-import codekoi.apiserver.utils.TestEntityReflection;
+import codekoi.apiserver.utils.EntityReflectionTestUtil;
 import codekoi.apiserver.utils.fixture.HardSkillFixture;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -34,10 +34,10 @@ public class CodeReviewControllerDocsTest extends ControllerTest {
     void userCodeReviewList() throws Exception {
         //given
         final User user = SUNDO.toUser();
-        TestEntityReflection.setId(user, 1L);
+        EntityReflectionTestUtil.setId(user, 1L);
 
         final CodeReview codeReview = CodeReview.of(user, REVIEW.title, REVIEW.content);
-        TestEntityReflection.setCreatedAt(codeReview, LocalDateTime.now());
+        EntityReflectionTestUtil.setCreatedAt(codeReview, LocalDateTime.now());
 
         final HardSkill hardSkill = HardSkillFixture.JPA.toHardSkill();
         codeReview.addCodeReviewSkill(hardSkill);

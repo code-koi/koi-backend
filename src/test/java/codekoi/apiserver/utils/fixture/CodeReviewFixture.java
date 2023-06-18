@@ -30,4 +30,14 @@ public enum CodeReviewFixture {
                 .status(status)
                 .build();
     }
+
+    public CodeReview toCodeReview(Long id, User user) {
+        return CodeReview.builder()
+                .id(id)
+                .user(user)
+                .title(title)
+                .content(content)
+                .status(status)
+                .build();
+    }
 }

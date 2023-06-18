@@ -36,4 +36,12 @@ public class CodeReviewComment extends TimeBaseEntity {
         this.user = user;
         this.content = content;
     }
+
+    public static CodeReviewComment of(User user, CodeReview codeReview, String content) {
+        return CodeReviewComment.builder()
+                .user(user)
+                .codeReview(codeReview)
+                .content(content)
+                .build();
+    }
 }

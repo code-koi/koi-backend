@@ -21,4 +21,13 @@ public enum CodeReviewCommentFixture {
                 .content(content)
                 .build();
     }
+
+    public CodeReviewComment toCodeReviewComment(Long id, User user, CodeReview codeReview) {
+        return CodeReviewComment.builder()
+                .id(id)
+                .codeReview(codeReview)
+                .user(user)
+                .content(content)
+                .build();
+    }
 }
