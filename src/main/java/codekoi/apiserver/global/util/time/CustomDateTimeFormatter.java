@@ -1,5 +1,8 @@
 package codekoi.apiserver.global.util.time;
 
+import java.sql.Timestamp;
+import java.time.LocalDateTime;
+
 public class CustomDateTimeFormatter {
 
     private static class TIME_MAXIMUM {
@@ -11,7 +14,9 @@ public class CustomDateTimeFormatter {
         public static final int MONTH = 12;
     }
 
-    public static String beforeTimeFormat(int diffTime) {
+    public static String beforeTimeFormat(LocalDateTime localDateTime) {
+        long diffTime = (Timestamp.valueOf(LocalDateTime.now()).getTime() - Timestamp.valueOf(localDateTime).getTime()) /1000;
+
         String msg = null;
         if (diffTime < TIME_MAXIMUM.SEC) {
             msg = "방금 전";                 // sec
