@@ -3,8 +3,10 @@ package codekoi.apiserver.domain.code.review.dto;
 import codekoi.apiserver.domain.code.review.domain.CodeReview;
 import codekoi.apiserver.domain.code.review.domain.CodeReviewStatus;
 import codekoi.apiserver.domain.user.dto.UserProfileDto;
+import codekoi.apiserver.global.util.time.BeforeTimeSerializer;
 import codekoi.apiserver.global.util.time.TimePattern;
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -18,7 +20,7 @@ public class UserCodeReviewDto {
 
     private UserProfileDto user;
 
-    @JsonFormat(pattern = TimePattern.BASIC_FORMAT_STRING)
+    @JsonSerialize(using = BeforeTimeSerializer.class)
     private LocalDateTime createdAt;
     private String title;
     private List<String> skills = new ArrayList<>();

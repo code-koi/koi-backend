@@ -4,9 +4,11 @@ import codekoi.apiserver.domain.code.comment.domain.CodeReviewComment;
 import codekoi.apiserver.domain.koi.domain.KoiType;
 import codekoi.apiserver.domain.user.domain.User;
 import codekoi.apiserver.domain.user.dto.UserProfileDto;
+import codekoi.apiserver.global.util.time.BeforeTimeSerializer;
 import codekoi.apiserver.global.util.time.TimePattern;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -20,7 +22,7 @@ public class UserCodeCommentDto {
 
     private Long reviewId;
 
-    @JsonFormat(pattern = TimePattern.BASIC_FORMAT_STRING)
+    @JsonSerialize(using = BeforeTimeSerializer.class)
     private LocalDateTime createdAt;
 
     private String content;
