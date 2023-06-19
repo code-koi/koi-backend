@@ -72,7 +72,7 @@ public class CodeReviewControllerDocsTest extends ControllerTest {
                                         .description("유저 고유 아이디"),
 
                                 fieldWithPath("reviews[].createdAt").type(JsonFieldType.STRING)
-                                        .description("생성일 yyyyMMddHHmmss"),
+                                        .description("코드리뷰를 요청한 날"),
                                 fieldWithPath("reviews[].title").type(JsonFieldType.STRING)
                                         .description("제목"),
                                 fieldWithPath("reviews[].status").type(JsonFieldType.STRING)
