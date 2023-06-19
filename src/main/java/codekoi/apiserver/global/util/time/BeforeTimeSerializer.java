@@ -18,7 +18,6 @@ public class BeforeTimeSerializer extends StdSerializer<LocalDateTime> {
 
     @Override
     public void serialize(LocalDateTime value, JsonGenerator gen, SerializerProvider provider) throws IOException {
-        final String s = CustomDateTimeFormatter.beforeTimeFormat(LocalDateTime.now().compareTo(value));
-        gen.writeString(s);
+        gen.writeString(CustomDateTimeFormatter.beforeTimeFormat(value));
     }
 }
