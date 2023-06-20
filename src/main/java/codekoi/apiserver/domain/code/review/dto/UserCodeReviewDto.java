@@ -4,8 +4,6 @@ import codekoi.apiserver.domain.code.review.domain.CodeReview;
 import codekoi.apiserver.domain.code.review.domain.CodeReviewStatus;
 import codekoi.apiserver.domain.user.dto.UserProfileDto;
 import codekoi.apiserver.global.util.time.BeforeTimeSerializer;
-import codekoi.apiserver.global.util.time.TimePattern;
-import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -26,12 +24,16 @@ public class UserCodeReviewDto {
     private List<String> skills = new ArrayList<>();
     private CodeReviewStatus status;
 
-    public UserCodeReviewDto(UserProfileDto user, LocalDateTime createdAt, String title, List<String> skills, CodeReviewStatus status) {
+    private Long reviewId;
+
+    public UserCodeReviewDto(UserProfileDto user, LocalDateTime createdAt, String title, List<String> skills,
+                             CodeReviewStatus status, Long reviewId) {
         this.user = user;
         this.createdAt = createdAt;
         this.title = title;
         this.skills = skills;
         this.status = status;
+        this.reviewId = reviewId;
     }
 
     public static UserCodeReviewDto from(CodeReview codeReview) {
@@ -43,6 +45,6 @@ public class UserCodeReviewDto {
         final UserProfileDto profileDto = UserProfileDto.from(codeReview.getUser());
 
         return new UserCodeReviewDto(profileDto, codeReview.getCreatedAt(), codeReview.getTitle(), skillNames,
-                codeReview.getStatus());
+                codeReview.getStatus(), codeReview.getId());
     }
 }
