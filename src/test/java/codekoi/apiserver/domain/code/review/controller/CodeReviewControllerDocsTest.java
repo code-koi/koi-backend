@@ -6,6 +6,7 @@ import codekoi.apiserver.domain.skill.doamin.HardSkill;
 import codekoi.apiserver.domain.user.domain.User;
 import codekoi.apiserver.utils.ControllerTest;
 import codekoi.apiserver.utils.EntityReflectionTestUtil;
+import codekoi.apiserver.utils.fixture.CodeReviewFixture;
 import codekoi.apiserver.utils.fixture.HardSkillFixture;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -33,10 +34,9 @@ public class CodeReviewControllerDocsTest extends ControllerTest {
     @DisplayName("요청한 코드리뷰 목록 조회")
     void userCodeReviewList() throws Exception {
         //given
-        final User user = SUNDO.toUser();
-        EntityReflectionTestUtil.setId(user, 1L);
+        final User user = SUNDO.toUser(1L);
 
-        final CodeReview codeReview = CodeReview.of(user, REVIEW.title, REVIEW.content);
+        final CodeReview codeReview = REVIEW.toCodeReview(1L, user);
         EntityReflectionTestUtil.setCreatedAt(codeReview, LocalDateTime.now());
 
         final HardSkill hardSkill = HardSkillFixture.JPA.toHardSkill();
@@ -78,7 +78,9 @@ public class CodeReviewControllerDocsTest extends ControllerTest {
                                 fieldWithPath("reviews[].status").type(JsonFieldType.STRING)
                                         .description("리뷰 상태 PENDING(진행중), RESOLVED(해결 완료)"),
                                 fieldWithPath("reviews[].skills").type(JsonFieldType.ARRAY)
-                                        .description("스킬 목록")
+                                        .description("스킬 목록"),
+                                fieldWithPath("reviews[].reviewId").type(JsonFieldType.NUMBER)
+                                        .description("요청한 코드리뷰 고유 아이디")
                         )
                 ));
     }

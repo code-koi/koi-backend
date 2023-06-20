@@ -62,6 +62,7 @@ class CodeReviewQueryTest extends ServiceTest {
         assertThat(review.getCreatedAt()).isEqualTo(codeReview.getCreatedAt().toString());
         assertThat(review.getSkills()).containsExactlyInAnyOrder(JPA.name, SPRING.name);
         assertThat(review.getStatus()).isEqualTo(CodeReviewStatus.PENDING);
+        assertThat(review.getReviewId()).isEqualTo(codeReview.getId());
 
         final UserProfileDto reviewUser = review.getUser();
         assertThat(reviewUser.getId()).isEqualTo(user.getId());
