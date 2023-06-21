@@ -1,4 +1,4 @@
-package codekoi.apiserver.domain.code.review.controller.dto.response;
+package codekoi.apiserver.domain.code.review.dto.response;
 
 import codekoi.apiserver.domain.code.review.dto.UserCodeCommentDto;
 import lombok.Getter;

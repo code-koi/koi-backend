@@ -1,7 +1,7 @@
 package codekoi.apiserver.domain.code.comment.controller;
 
 import codekoi.apiserver.domain.code.comment.service.CodeCommentQuery;
-import codekoi.apiserver.domain.code.review.controller.dto.response.UserCommentedReviewListResponse;
+import codekoi.apiserver.domain.code.review.dto.response.UserCommentedReviewListResponse;
 import codekoi.apiserver.domain.code.review.dto.UserCodeCommentDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.GetMapping;

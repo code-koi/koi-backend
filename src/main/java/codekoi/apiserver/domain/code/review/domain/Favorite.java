@@ -1,10 +1,10 @@
-package codekoi.apiserver.domain.code.favorite.domain;
+package codekoi.apiserver.domain.code.review.domain;
 
-import codekoi.apiserver.domain.code.review.domain.CodeReview;
 import codekoi.apiserver.domain.model.TimeBaseEntity;
 import codekoi.apiserver.domain.user.domain.User;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -27,4 +27,18 @@ public class Favorite extends TimeBaseEntity {
     @ManyToOne(fetch = LAZY)
     @JoinColumn(name = "user_id")
     private User user;
+
+    @Builder
+    private Favorite(Long id, CodeReview codeReview, User user) {
+        this.id = id;
+        this.codeReview = codeReview;
+        this.user = user;
+    }
+
+    public static Favorite of(CodeReview codeReview, User user) {
+        return Favorite.builder()
+                .codeReview(codeReview)
+                .user(user)
+                .build();
+    }
 }
