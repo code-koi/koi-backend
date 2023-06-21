@@ -1,6 +1,6 @@
 package codekoi.apiserver.domain.code.review.controller;
 
-import codekoi.apiserver.domain.code.review.controller.dto.response.UserRequestedCodeReviewListResponse;
+import codekoi.apiserver.domain.code.review.dto.response.UserDetailCodeReviewListResponse;
 import codekoi.apiserver.domain.code.review.dto.UserCodeReviewDto;
 import codekoi.apiserver.domain.code.review.service.CodeReviewQuery;
 import lombok.RequiredArgsConstructor;
@@ -19,8 +19,14 @@ public class CodeReviewController {
     private final CodeReviewQuery codeReviewQuery;
 
     @GetMapping
-    public UserRequestedCodeReviewListResponse requestedReviews(@RequestParam Long userId) {
-        final List<UserCodeReviewDto> codeReviewList = codeReviewQuery.findRequestedCodeReviewList(userId);
-        return UserRequestedCodeReviewListResponse.from(codeReviewList);
+    public UserDetailCodeReviewListResponse requestedReviews(@RequestParam Long userId) {
+        final List<UserCodeReviewDto> codeReviewList = codeReviewQuery.findRequestedCodeReviews(userId);
+        return UserDetailCodeReviewListResponse.from(codeReviewList);
+    }
+
+    @GetMapping("/favorite")
+    public UserDetailCodeReviewListResponse favoriteReviews(@RequestParam Long userId) {
+        final List<UserCodeReviewDto> favoriteCodeReviews = codeReviewQuery.findFavoriteCodeReviews(userId);
+        return UserDetailCodeReviewListResponse.from(favoriteCodeReviews);
     }
 }

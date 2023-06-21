@@ -22,7 +22,7 @@ cookie:
 include::{snippets}/auth/post-login/response-cookies.adoc[]
 header:
 include::{snippets}/auth/post-login/response-headers.adoc[]
-include::{snippets}/auth/post-logout/http-response.adoc[]
+include::{snippets}/auth/post-login/http-response.adoc[]
 
 
 == accessToken refresh
@@ -57,7 +57,7 @@ include::{snippets}/users/get/response-body.adoc[]
 
 
 = 코드리뷰
-== 유저가 요청한 코드리뷰
+== 요청한 코드리뷰
 === Request
 include::{snippets}/codeReviews/get-userId/http-request.adoc[]
 
@@ -65,8 +65,17 @@ include::{snippets}/codeReviews/get-userId/http-request.adoc[]
 include::{snippets}/codeReviews/get-userId/response-fields.adoc[]
 include::{snippets}/codeReviews/get-userId/response-body.adoc[]
 
+== 즐겨찾기한 코드리뷰
+=== Request
+include::{snippets}/codeReviews/get-favorite-userId/http-request.adoc[]
+
+=== Response
+include::{snippets}/codeReviews/get-favorite-userId/response-fields.adoc[]
+include::{snippets}/codeReviews/get-favorite-userId/response-body.adoc[]
+
+
 = 코드리뷰 댓글
-== 유저가 남긴 코드리뷰 댓글
+== 남긴 코드리뷰 댓글
 === Request
 include::{snippets}/codeComments/get-userId/http-request.adoc[]
 
