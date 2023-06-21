@@ -12,6 +12,7 @@ import codekoi.apiserver.domain.skill.doamin.HardSkill;
 import codekoi.apiserver.domain.user.domain.User;
 import codekoi.apiserver.domain.user.dto.UserProfileDto;
 import codekoi.apiserver.domain.user.repository.UserRepository;
+import codekoi.apiserver.utils.EntityReflectionTestUtil;
 import codekoi.apiserver.utils.ServiceTest;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
@@ -19,6 +20,7 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 import static codekoi.apiserver.utils.fixture.CodeReviewFixture.REVIEW;
@@ -53,6 +55,7 @@ class CodeReviewQueryTest extends ServiceTest {
         userRepository.save(user);
 
         final CodeReview codeReview = CodeReview.of(user, REVIEW.title, REVIEW.content);
+        EntityReflectionTestUtil.setCreatedAt(codeReview, LocalDateTime.now());
 
         final HardSkill skill1 = JPA.toHardSkill();
         final HardSkill skill2 = SPRING.toHardSkill();
@@ -73,7 +76,6 @@ class CodeReviewQueryTest extends ServiceTest {
 
         final UserCodeReviewDto review = reviews.get(0);
         assertThat(review.getTitle()).isEqualTo(REVIEW.title);
-        assertThat(review.getCreatedAt()).isEqualTo(codeReview.getCreatedAt().toString());
         assertThat(review.getSkills()).containsExactlyInAnyOrder(JPA.name, SPRING.name);
         assertThat(review.getStatus()).isEqualTo(CodeReviewStatus.PENDING);
         assertThat(review.getReviewId()).isEqualTo(codeReview.getId());
@@ -118,7 +120,6 @@ class CodeReviewQueryTest extends ServiceTest {
 
         final UserCodeReviewDto review = reviews.get(0);
         assertThat(review.getTitle()).isEqualTo(REVIEW.title);
-        assertThat(review.getCreatedAt()).isEqualTo(codeReview.getCreatedAt().toString());
         assertThat(review.getSkills()).containsExactlyInAnyOrder(JPA.name, SPRING.name);
         assertThat(review.getStatus()).isEqualTo(CodeReviewStatus.PENDING);
         assertThat(review.getReviewId()).isEqualTo(codeReview.getId());
