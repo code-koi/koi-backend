@@ -1,6 +1,7 @@
 package codekoi.apiserver.domain.code.review.controller;
 
 import codekoi.apiserver.domain.code.review.domain.CodeReview;
+import codekoi.apiserver.domain.code.review.domain.Favorite;
 import codekoi.apiserver.domain.code.review.dto.UserCodeReviewDto;
 import codekoi.apiserver.domain.skill.doamin.HardSkill;
 import codekoi.apiserver.domain.user.domain.User;
@@ -38,10 +39,10 @@ public class CodeReviewControllerDocsTest extends ControllerTest {
         @DisplayName("요청한 코드리뷰 목록 조회")
         void userCodeReviewList() throws Exception {
             //given
-            final UserCodeReviewDto dto = setUp();
+            final List<UserCodeReviewDto> dto = setUp();
 
-            given(codeReviewQuery.findRequestedCodeReviews(anyLong()))
-                    .willReturn(List.of(dto));
+            given(codeReviewQuery.findRequestedCodeReviews(anyLong(), anyLong()))
+                    .willReturn(dto);
 
             //when
             final ResultActions result = mvc.perform(
@@ -57,10 +58,10 @@ public class CodeReviewControllerDocsTest extends ControllerTest {
         @DisplayName("유저가 즐겨찾기한 코드리뷰 목록 조회")
         void userFavoriteCodeReviews() throws Exception {
             //given
-            final UserCodeReviewDto dto = setUp();
+            final List<UserCodeReviewDto> dto = setUp();
 
-            given(codeReviewQuery.findRequestedCodeReviews(anyLong()))
-                    .willReturn(List.of(dto));
+            given(codeReviewQuery.findRequestedCodeReviews(anyLong(), anyLong()))
+                    .willReturn(dto);
 
             //when
             final ResultActions result = mvc.perform(
@@ -100,12 +101,15 @@ public class CodeReviewControllerDocsTest extends ControllerTest {
                                     fieldWithPath("reviews[].skills").type(JsonFieldType.ARRAY)
                                             .description("스킬 목록"),
                                     fieldWithPath("reviews[].reviewId").type(JsonFieldType.NUMBER)
-                                            .description("요청한 코드리뷰 고유 아이디")
+                                            .description("요청한 코드리뷰 고유 아이디"),
+                                    fieldWithPath("reviews[].isFavorite").type(JsonFieldType.BOOLEAN)
+                                            .description("세션 유저가 해당 리뷰건에 대해 즐겨찾기 여부." +
+                                                    "세션유저가 즐겨찾기 한 경우 true, 세션유저가 자신의 프로필이 아니거나, 즐겨찾기를 하지 않은 경우 false")
                             )
                     ));
         }
 
-        private UserCodeReviewDto setUp() {
+        private List<UserCodeReviewDto> setUp() {
             final User user = SUNDO.toUser(1L);
 
             final CodeReview codeReview = REVIEW.toCodeReview(1L, user);
@@ -114,7 +118,9 @@ public class CodeReviewControllerDocsTest extends ControllerTest {
             final HardSkill hardSkill = HardSkillFixture.JPA.toHardSkill();
             codeReview.addCodeReviewSkill(hardSkill);
 
-            return UserCodeReviewDto.from(codeReview);
+            final Favorite favorite = Favorite.of(codeReview, user);
+
+            return UserCodeReviewDto.listOf(List.of(codeReview), List.of(favorite), true);
         }
     }
 }

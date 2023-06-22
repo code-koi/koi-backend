@@ -16,7 +16,9 @@ import codekoi.apiserver.utils.EntityReflectionTestUtil;
 import codekoi.apiserver.utils.ServiceTest;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -47,14 +49,15 @@ class CodeReviewQueryTest extends ServiceTest {
     @PersistenceContext
     EntityManager em;
 
-    @Test
-    @DisplayName("userId로 남긴 코드리뷰 목록 조회하기 테스트")
-    void userCodeReviewList() {
-        //given
-        final User user = SUNDO.toUser();
+    private User user;
+    private CodeReview codeReview;
+
+    @BeforeEach
+    public void init() {
+        user = SUNDO.toUser();
         userRepository.save(user);
 
-        final CodeReview codeReview = CodeReview.of(user, REVIEW.title, REVIEW.content);
+        codeReview = CodeReview.of(user, REVIEW.title, REVIEW.content);
         EntityReflectionTestUtil.setCreatedAt(codeReview, LocalDateTime.now());
 
         final HardSkill skill1 = JPA.toHardSkill();
@@ -65,25 +68,68 @@ class CodeReviewQueryTest extends ServiceTest {
         codeReview.addCodeReviewSkill(skill2);
 
         codeReviewRepository.save(codeReview);
+    }
 
-        clearPersistenceContext();
+    @DisplayName("userId로 남긴 코드리뷰 목록 조회하기 테스트")
+    @Nested
+    class UserCodeReviewList {
 
-        //when
-        final List<UserCodeReviewDto> reviews = codeReviewQuery.findRequestedCodeReviews(user.getId());
+        @Test
+        @DisplayName("세션유저의 유저 상세페이지를 조회하는 경우, 즐겨찾기한 상태를 같이 보여준다.")
+        void getMyUserDetail() {
+            //given
+            final Favorite favorite = Favorite.of(codeReview, user);
+            favoriteRepository.save(favorite);
 
-        //then
-        assertThat(reviews).hasSize(1);
+            clearPersistenceContext();
 
-        final UserCodeReviewDto review = reviews.get(0);
-        assertThat(review.getTitle()).isEqualTo(REVIEW.title);
-        assertThat(review.getSkills()).containsExactlyInAnyOrder(JPA.name, SPRING.name);
-        assertThat(review.getStatus()).isEqualTo(CodeReviewStatus.PENDING);
-        assertThat(review.getReviewId()).isEqualTo(codeReview.getId());
+            Long sessionUserId = user.getId();
 
-        final UserProfileDto reviewUser = review.getUser();
-        assertThat(reviewUser.getId()).isEqualTo(user.getId());
-        assertThat(reviewUser.getProfileImageUrl()).isEqualTo(SUNDO.profileImageUrl);
-        assertThat(reviewUser.getNickname()).isEqualTo(SUNDO.nickname);
+            //when
+            final List<UserCodeReviewDto> reviews = codeReviewQuery.findRequestedCodeReviews(sessionUserId, user.getId());
+
+            //then
+            assertThat(reviews).hasSize(1);
+
+            final UserCodeReviewDto review = reviews.get(0);
+            assertThat(review.getTitle()).isEqualTo(REVIEW.title);
+            assertThat(review.getSkills()).containsExactlyInAnyOrder(JPA.name, SPRING.name);
+            assertThat(review.getStatus()).isEqualTo(CodeReviewStatus.PENDING);
+            assertThat(review.getReviewId()).isEqualTo(codeReview.getId());
+            assertThat(review.getIsFavorite()).isTrue();
+
+            final UserProfileDto reviewUser = review.getUser();
+            assertThat(reviewUser.getId()).isEqualTo(user.getId());
+            assertThat(reviewUser.getProfileImageUrl()).isEqualTo(SUNDO.profileImageUrl);
+            assertThat(reviewUser.getNickname()).isEqualTo(SUNDO.nickname);
+        }
+
+        @Test
+        @DisplayName("세션유저와 다른 유저 상세페이지를 조회하는 경우, 즐겨찾기한 상태가 포함되지 않는다.")
+        void getOtherUserDetail() {
+            //given
+            clearPersistenceContext();
+
+            Long sessionUserId = 99999L;
+
+            //when
+            final List<UserCodeReviewDto> reviews = codeReviewQuery.findRequestedCodeReviews(sessionUserId, user.getId());
+
+            //then
+            assertThat(reviews).hasSize(1);
+
+            final UserCodeReviewDto review = reviews.get(0);
+            assertThat(review.getTitle()).isEqualTo(REVIEW.title);
+            assertThat(review.getSkills()).containsExactlyInAnyOrder(JPA.name, SPRING.name);
+            assertThat(review.getStatus()).isEqualTo(CodeReviewStatus.PENDING);
+            assertThat(review.getReviewId()).isEqualTo(codeReview.getId());
+            assertThat(review.getIsFavorite()).isFalse();
+
+            final UserProfileDto reviewUser = review.getUser();
+            assertThat(reviewUser.getId()).isEqualTo(user.getId());
+            assertThat(reviewUser.getProfileImageUrl()).isEqualTo(SUNDO.profileImageUrl);
+            assertThat(reviewUser.getNickname()).isEqualTo(SUNDO.nickname);
+        }
     }
 
 
@@ -91,20 +137,6 @@ class CodeReviewQueryTest extends ServiceTest {
     @DisplayName("코드 리뷰 즐겨찾기 목록 조회")
     void findUserFavoriteCodeReviews() {
         //given
-        final User sundo = SUNDO.toUser();
-        userRepository.save(sundo);
-
-        final CodeReview codeReview = CodeReview.of(sundo, REVIEW.title, REVIEW.content);
-
-        final HardSkill skill1 = JPA.toHardSkill();
-        final HardSkill skill2 = SPRING.toHardSkill();
-        hardSkillRepository.saveAll(List.of(skill1, skill2));
-
-        codeReview.addCodeReviewSkill(skill1);
-        codeReview.addCodeReviewSkill(skill2);
-
-        codeReviewRepository.save(codeReview);
-
         final User hong = HONG.toUser();
         userRepository.save(hong);
         final Favorite favorite = Favorite.of(codeReview, hong);
@@ -112,8 +144,10 @@ class CodeReviewQueryTest extends ServiceTest {
 
         clearPersistenceContext();
 
+        Long sessionUserId = hong.getId();
+
         //when
-        final List<UserCodeReviewDto> reviews = codeReviewQuery.findFavoriteCodeReviews(hong.getId());
+        final List<UserCodeReviewDto> reviews = codeReviewQuery.findFavoriteCodeReviews(sessionUserId, hong.getId());
 
         //then
         assertThat(reviews).hasSize(1);
@@ -123,9 +157,10 @@ class CodeReviewQueryTest extends ServiceTest {
         assertThat(review.getSkills()).containsExactlyInAnyOrder(JPA.name, SPRING.name);
         assertThat(review.getStatus()).isEqualTo(CodeReviewStatus.PENDING);
         assertThat(review.getReviewId()).isEqualTo(codeReview.getId());
+        assertThat(review.getIsFavorite()).isTrue();
 
         final UserProfileDto reviewUser = review.getUser();
-        assertThat(reviewUser.getId()).isEqualTo(sundo.getId());
+        assertThat(reviewUser.getId()).isEqualTo(user.getId());
         assertThat(reviewUser.getProfileImageUrl()).isEqualTo(SUNDO.profileImageUrl);
         assertThat(reviewUser.getNickname()).isEqualTo(SUNDO.nickname);
 
