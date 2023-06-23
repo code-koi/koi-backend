@@ -1,7 +1,6 @@
 package codekoi.apiserver.domain.user.domain;
 
-import codekoi.apiserver.global.error.exception.DomainLogicException;
-import codekoi.apiserver.global.error.exception.ErrorInfo;
+import codekoi.apiserver.domain.user.exception.InvalidUserEmailException;
 import jakarta.persistence.Column;
 import jakarta.persistence.Embeddable;
 import lombok.AccessLevel;
@@ -34,7 +33,7 @@ public class Email {
         if (!StringUtils.hasText(email) ||
                 email.length() < MIN_LENGTH || email.length() > MAX_LENGTH ||
                 !PATTERN.matcher(email).matches()) {
-            throw new DomainLogicException(ErrorInfo.USER_EMAIL_ERROR);
+            throw new InvalidUserEmailException();
         }
     }
 }

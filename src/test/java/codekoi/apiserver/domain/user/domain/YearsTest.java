@@ -1,7 +1,6 @@
 package codekoi.apiserver.domain.user.domain;
 
-import codekoi.apiserver.global.error.exception.DomainLogicException;
-import codekoi.apiserver.global.error.exception.ErrorInfo;
+import codekoi.apiserver.domain.user.exception.InvalidUserYearsException;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
@@ -27,9 +26,7 @@ class YearsTest {
     void invalidYearsTest(int years) {
         assertThatThrownBy(() -> {
             new Years(years);
-        }).isInstanceOf(DomainLogicException.class)
-                .extracting("errorInfo")
-                .isEqualTo(ErrorInfo.USER_YEARS_ERROR);
+        }).isInstanceOf(InvalidUserYearsException.class);
     }
 
 

@@ -1,7 +1,6 @@
 package codekoi.apiserver.domain.user.domain;
 
-import codekoi.apiserver.global.error.exception.DomainLogicException;
-import codekoi.apiserver.global.error.exception.ErrorInfo;
+import codekoi.apiserver.domain.user.exception.InvalidUserNicknameException;
 import jakarta.persistence.Column;
 import jakarta.persistence.Embeddable;
 import lombok.Getter;
@@ -29,7 +28,7 @@ public class Nickname {
         if (!StringUtils.hasText(nickname) ||
                 nickname.length() < MIN_SIZE ||
                 nickname.length() > MAX_SIZE) {
-            throw new DomainLogicException(ErrorInfo.USER_NICKNAME_OVER);
+            throw new InvalidUserNicknameException();
         }
     }
 }

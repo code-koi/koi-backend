@@ -4,6 +4,7 @@ import codekoi.apiserver.domain.code.comment.repository.CodeReviewCommentReposit
 import codekoi.apiserver.domain.user.domain.User;
 import codekoi.apiserver.domain.user.dto.UserDetail;
 import codekoi.apiserver.domain.user.dto.UserToken;
+import codekoi.apiserver.domain.user.exception.UserNotFoundException;
 import codekoi.apiserver.domain.user.repository.UserRepository;
 import codekoi.apiserver.global.error.exception.ErrorInfo;
 import codekoi.apiserver.global.error.exception.InvalidValueException;
@@ -21,7 +22,7 @@ public class UserQuery {
     public UserToken getUserAuth(String email) {
         final User user = userRepository.findByEmailValue(email)
                 .orElseThrow(() -> {
-                    throw new InvalidValueException(ErrorInfo.USER_NOT_FOUND_ERROR);
+                    throw new UserNotFoundException();
                 });
 
         return UserToken.from(user);
