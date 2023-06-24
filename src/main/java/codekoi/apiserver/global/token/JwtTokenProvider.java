@@ -1,8 +1,9 @@
 package codekoi.apiserver.global.token;
 
 import codekoi.apiserver.domain.user.dto.UserToken;
-import codekoi.apiserver.global.error.exception.ErrorInfo;
-import codekoi.apiserver.global.error.exception.InvalidValueException;
+import codekoi.apiserver.global.token.exception.AccessTokenExpiredException;
+import codekoi.apiserver.global.token.exception.InvalidTokenTypeException;
+import codekoi.apiserver.global.token.exception.RefreshTokenExpiredException;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.ExpiredJwtException;
 import io.jsonwebtoken.Jwts;
@@ -57,26 +58,51 @@ public class JwtTokenProvider {
                 .compact();
     }
 
-    public UserToken parseByAccessToken(String token) {
-        final Claims claims = getClaims(accessTokenSecretKey, token);
-
-        Long id = claims.get("id", Long.class);
-        return new UserToken(id);
-    }
-
-    public void validateRefreshToken(String token) {
-        getClaims(refreshTokenSecretKey, token);
-    }
-
-    private Claims getClaims(Key access, String token) {
+    public UserToken parseAccessToken(String token) {
         try {
-            return Jwts.parserBuilder()
-                    .setSigningKey(access)
-                    .build()
-                    .parseClaimsJws(token)
-                    .getBody();
-        } catch (MalformedJwtException | IllegalArgumentException | ExpiredJwtException e) {
-            throw new InvalidValueException(ErrorInfo.TOKEN_EXPIRED);
+            return parse(token);
+        } catch (ExpiredJwtException e) {
+            throw new AccessTokenExpiredException();
         }
+    }
+
+    public UserToken parseExpirableAccessToken(String token) {
+        try {
+            return parse(token);
+        } catch (ExpiredJwtException e) {
+            return getUserToken(e.getClaims());
+        }
+    }
+
+    private UserToken parse(String token) {
+        try {
+            final Claims claim = getClaim(accessTokenSecretKey, token);
+            return getUserToken(claim);
+        } catch (MalformedJwtException | IllegalArgumentException e) {
+            throw new InvalidTokenTypeException();
+        }
+    }
+
+    public void validateExpiredRefreshToken(String token) {
+        try {
+            getClaim(refreshTokenSecretKey, token);
+        } catch (MalformedJwtException | IllegalArgumentException exception) {
+            throw new InvalidTokenTypeException();
+        } catch (ExpiredJwtException e) {
+            throw new RefreshTokenExpiredException();
+        }
+    }
+
+    private Claims getClaim(Key key, String token) {
+        return Jwts.parserBuilder()
+                .setSigningKey(key)
+                .build()
+                .parseClaimsJws(token)
+                .getBody();
+    }
+
+    private UserToken getUserToken(Claims claim) {
+        final Long userId = claim.get("id", Long.class);
+        return new UserToken(userId);
     }
 }

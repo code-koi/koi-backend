@@ -5,6 +5,6 @@ import codekoi.apiserver.global.error.exception.InvalidValueException;
 
 public class InvalidUserIntroduceException extends InvalidValueException {
     public InvalidUserIntroduceException() {
-        super(ErrorInfo.USER_INTRODUCE_OVER_ERROR);
+        super(ErrorInfo.USER_INTRODUCE_OVER);
     }
 }

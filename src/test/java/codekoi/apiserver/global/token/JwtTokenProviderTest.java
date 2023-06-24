@@ -1,9 +1,11 @@
 package codekoi.apiserver.global.token;
 
 import codekoi.apiserver.domain.user.dto.UserToken;
-import codekoi.apiserver.global.error.exception.ErrorInfo;
-import codekoi.apiserver.global.error.exception.InvalidValueException;
+import codekoi.apiserver.global.token.exception.AccessTokenExpiredException;
+import codekoi.apiserver.global.token.exception.InvalidTokenTypeException;
+import codekoi.apiserver.global.token.exception.RefreshTokenExpiredException;
 import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
@@ -29,41 +31,89 @@ class JwtTokenProviderTest {
             accessTokenKey,
             refreshTokenKey);
 
+    final JwtTokenProvider shortTimeTokenProvider = new JwtTokenProvider(
+            1,
+            1,
+            accessTokenKey,
+            refreshTokenKey);
+
     final UserToken userToken = new UserToken(1L);
 
-    @Test
-    @DisplayName("User 정보를 통해서 토큰을 다시 파싱하면 같은 결과가 나온다.")
-    void createAccessToken() {
-        //given
-        final String accessToken = jwtTokenProvider.createAccessToken(userToken);
+    @Nested
+    @DisplayName("AccessToken 테스트")
+    class AccessTokenTest {
 
-        //when
-        final UserToken parsedUserToken = jwtTokenProvider.parseByAccessToken(accessToken);
+        @Test
+        @DisplayName("User 정보를 통해서 토큰을 다시 파싱하면 같은 결과가 나온다.")
+        void createAccessToken() {
+            //given
+            final String accessToken = jwtTokenProvider.createAccessToken(userToken);
 
-        //then
-        assertThat(userToken).usingRecursiveComparison()
-                .isEqualTo(parsedUserToken);
+            //when
+            final UserToken parsedUserToken = jwtTokenProvider.parseAccessToken(accessToken);
+
+            //then
+            assertThat(userToken).usingRecursiveComparison()
+                    .isEqualTo(parsedUserToken);
+        }
+
+        @Test
+        @DisplayName("accessToken의 유효시간이 지난 경우 예외가 발생한다.")
+        void overTimeRefreshToken() {
+            //given
+            final String accessToken = shortTimeTokenProvider.createAccessToken(userToken);
+
+            //then
+            assertThatThrownBy(() -> {
+                //when
+                shortTimeTokenProvider.parseAccessToken(accessToken);
+            }).isInstanceOf(AccessTokenExpiredException.class);
+        }
+
+        @Test
+        @DisplayName("만료된 accessToken도 파싱된다.")
+        void overTimeButParsed() {
+            //given
+            final String accessToken = shortTimeTokenProvider.createAccessToken(userToken);
+
+            //when
+            final UserToken newUserToken = shortTimeTokenProvider.parseExpirableAccessToken(accessToken);
+
+            //then
+            assertThat(newUserToken.getUserId()).isEqualTo(userToken.getUserId());
+        }
+
     }
 
-    @Test
-    @DisplayName("refresh토큰의 유효시간이 지난 경우 예외가 발생한다.")
-    void overTimeRefreshToken() {
-        //given
-        final JwtTokenProvider shortValidTokenProvider = new JwtTokenProvider(
-                10,
-                10,
-                accessTokenKey,
-                refreshTokenKey);
 
-        final String accessToken = shortValidTokenProvider.createAccessToken(userToken);
+    @Nested
+    @DisplayName("refreshToken 테스트")
+    class RefreshTokenTest {
+        @Test
+        @DisplayName("refreshToken의 형식이 이상하면 예외가 발생한다.")
+        void invalidRefreshToken() {
+            //given
+            String refreshToken = "a";
 
-        //then
-        assertThatThrownBy(() -> {
-            //when
-            shortValidTokenProvider.parseByAccessToken(accessToken);
-        }).isInstanceOf(InvalidValueException.class)
-                .extracting("errorInfo")
-                .isEqualTo(ErrorInfo.TOKEN_EXPIRED);
+            //then
+            assertThatThrownBy(() -> {
+                //when
+                jwtTokenProvider.validateExpiredRefreshToken(refreshToken);
+            }).isInstanceOf(InvalidTokenTypeException.class);
+        }
+
+        @Test
+        @DisplayName("refreshToken이 만료되면 예외가 발생한다.")
+        void expiredRefreshToken() {
+            //given
+            final String refreshToken = shortTimeTokenProvider.createRefreshToken();
+
+            //then
+            assertThatThrownBy(() -> {
+                //when
+                shortTimeTokenProvider.validateExpiredRefreshToken(refreshToken);
+            }).isInstanceOf(RefreshTokenExpiredException.class);
+        }
     }
 
     static Stream<Arguments> invalidToken() {
@@ -78,10 +128,7 @@ class JwtTokenProviderTest {
     @NullSource
     void invalidTokenType(String token) {
         assertThatThrownBy(() -> {
-            jwtTokenProvider.parseByAccessToken(token);
-        }).isInstanceOf(InvalidValueException.class)
-                .extracting("errorInfo")
-                .isEqualTo(ErrorInfo.TOKEN_EXPIRED);
-
+            jwtTokenProvider.parseAccessToken(token);
+        }).isInstanceOf(InvalidTokenTypeException.class);
     }
 }

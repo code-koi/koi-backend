@@ -5,6 +5,6 @@ import codekoi.apiserver.global.error.exception.InvalidValueException;
 
 public class UserNotFoundException extends InvalidValueException {
     public UserNotFoundException() {
-        super(ErrorInfo.USER_NOT_FOUND_ERROR);
+        super(ErrorInfo.USER_NOT_FOUND);
     }
 }

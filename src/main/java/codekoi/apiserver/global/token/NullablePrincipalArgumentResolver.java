@@ -31,10 +31,6 @@ public class NullablePrincipalArgumentResolver implements HandlerMethodArgumentR
             return new UserToken(0L);
         }
 
-        try {
-            return jwtTokenProvider.parseByAccessToken(accessToken);
-        } catch (Exception e) {
-            return new UserToken(0L);
-        }
+        return jwtTokenProvider.parseAccessToken(accessToken);
     }
 }

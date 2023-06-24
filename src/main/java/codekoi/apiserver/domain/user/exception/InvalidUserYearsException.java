@@ -5,6 +5,6 @@ import codekoi.apiserver.global.error.exception.InvalidValueException;
 
 public class InvalidUserYearsException extends InvalidValueException {
     public InvalidUserYearsException() {
-        super(ErrorInfo.USER_YEARS_ERROR);
+        super(ErrorInfo.USER_YEARS_INVALID);
     }
 }

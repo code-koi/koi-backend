@@ -5,6 +5,6 @@ import codekoi.apiserver.global.error.exception.InvalidValueException;
 
 public class InvalidUserEmailException extends InvalidValueException {
     public InvalidUserEmailException() {
-        super(ErrorInfo.USER_EMAIL_ERROR);
+        super(ErrorInfo.USER_EMAIL_INVALID);
     }
 }
