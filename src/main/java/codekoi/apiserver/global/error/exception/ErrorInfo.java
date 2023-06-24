@@ -19,7 +19,7 @@ public enum ErrorInfo {
     TOKEN_UNAUTHORIZED_USER("로그인되지 않은 유저입니다. 로그인 해주세요", "AUTH_001", UNAUTHORIZED),
     TOKEN_NOT_EXIST("토큰값이 존재하지 않습니다.", "AUTH_002", UNAUTHORIZED),
     TOKEN_INVALID_TYPE("식별되지 않는 토큰입니다.", "AUTH_003", UNAUTHORIZED),
-    TOKEN_NOT_MATCHED("변조된 토큰입니다.", "AUTH_004", UNAUTHORIZED),
+    TOKEN_NOT_MATCHED("다른 유저의 토큰입니다.", "AUTH_004", UNAUTHORIZED),
     TOKEN_EXPIRED_ACCESS_TOKEN("만료된 Access 토큰입니다. 토큰을 재활성화 해주세요.", "AUTH_005", UNAUTHORIZED),
     TOKEN_EXPIRED_REFRESH_TOKEN("만료된 Refresh 토큰입니다. 토큰을 재활성화 해주세요.", "AUTH_006", UNAUTHORIZED),
 
