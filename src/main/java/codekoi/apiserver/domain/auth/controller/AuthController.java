@@ -4,7 +4,6 @@ import codekoi.apiserver.domain.auth.service.UserTokenCommand;
 import codekoi.apiserver.domain.auth.service.UserTokenQuery;
 import codekoi.apiserver.domain.user.dto.UserToken;
 import codekoi.apiserver.domain.user.service.UserQuery;
-import codekoi.apiserver.global.token.AuthenticationPrincipal;
 import codekoi.apiserver.global.token.JwtTokenProvider;
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletResponse;
@@ -40,12 +39,12 @@ public class AuthController {
 
     @PostMapping("/login/refresh")
     public void refresh(@CookieValue(value = "refreshToken") Cookie cookie,
-                        @AuthenticationPrincipal UserToken userToken,
                         HttpServletResponse response
     ) {
         final String refreshToken = cookie.getValue();
-        jwtTokenProvider.validateRefreshToken(refreshToken);
+        jwtTokenProvider.validateExpiredRefreshToken(refreshToken);
 
+        final UserToken userToken = jwtTokenProvider.parseExpirableAccessToken(cookie.getValue());
         final Long userId = userToken.getUserId();
         userTokenQuery.validateUserRefreshToken(userId, refreshToken);
 

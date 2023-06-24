@@ -60,17 +60,16 @@ public class AuthControllerDocsTest extends AuthControllerTestSupport {
     @DisplayName("accessToken 새로 받기")
     @Test
     void getNewAccessToken() throws Exception {
+        given(jwtTokenProvider.parseExpirableAccessToken(any()))
+                .willReturn(new UserToken(1L));
+
 
         given(jwtTokenProvider.createAccessToken(any()))
                 .willReturn("NEW_ACCESS_TOKEN");
 
-        given(jwtTokenProvider.parseByAccessToken(any()))
-                .willReturn(new UserToken(1L));
-
         final ResultActions result = mvc.perform(
                 post("/api/login/refresh")
                         .cookie(new Cookie("refreshToken", refreshToken))
-                        .header("Authorization", "Bearer " + accessToken)
                         .contentType(MediaType.APPLICATION_JSON)
         );
 

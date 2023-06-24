@@ -43,12 +43,11 @@ class AuthControllerTest extends AuthControllerTestSupport {
     @Test
     void createNewAccessTokenByRefreshToken() throws Exception {
         //given
-        final String newAccessToken = "NEW_ACCESS_TOKEN";
-        given(jwtTokenProvider.createAccessToken(any()))
-                .willReturn(newAccessToken);
-
-        given(jwtTokenProvider.parseByAccessToken(any()))
+        given(jwtTokenProvider.parseExpirableAccessToken(any()))
                 .willReturn(new UserToken(1L));
+
+        given(jwtTokenProvider.createAccessToken(any()))
+                .willReturn("NEW_ACCESS_TOKEN");
 
         final Cookie refreshTokenCookie = new Cookie("refreshToken", refreshToken);
 
@@ -58,7 +57,7 @@ class AuthControllerTest extends AuthControllerTestSupport {
                         .cookie(refreshTokenCookie)
                 ).andDo(print())
                 .andExpect(status().isOk())
-                .andExpect(header().string(AUTHORIZATION, "Bearer " + newAccessToken))
+                .andExpect(header().string(AUTHORIZATION, "Bearer " + "NEW_ACCESS_TOKEN"))
                 .andExpect(cookie().exists("refreshToken"));
     }
 

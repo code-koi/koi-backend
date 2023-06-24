@@ -1,8 +1,7 @@
 package codekoi.apiserver.global.token;
 
-import codekoi.apiserver.domain.auth.exception.AuthorizationException;
 import codekoi.apiserver.domain.user.dto.UserToken;
-import codekoi.apiserver.global.error.exception.ErrorInfo;
+import codekoi.apiserver.global.token.exception.AuthorizationNotExistException;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.core.MethodParameter;
@@ -29,11 +28,12 @@ public class AuthenticationPrincipalArgumentResolver implements HandlerMethodArg
 
         HttpServletRequest request = (HttpServletRequest) webRequest.getNativeRequest();
         if (isUnauthorized(request)) {
-            throw new AuthorizationException(ErrorInfo.UNAUTHORIZED_USER_ERROR);
+            throw new AuthorizationNotExistException();
         }
 
         final String accessToken = request.getHeader(HttpHeaders.AUTHORIZATION);
-        return jwtTokenProvider.parseByAccessToken(accessToken);
+
+        return jwtTokenProvider.parseAccessToken(accessToken);
     }
 
     private boolean isUnauthorized(HttpServletRequest request) {

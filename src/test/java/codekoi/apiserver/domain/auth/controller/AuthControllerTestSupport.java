@@ -2,6 +2,7 @@ package codekoi.apiserver.domain.auth.controller;
 
 import codekoi.apiserver.domain.auth.service.UserTokenCommand;
 import codekoi.apiserver.domain.auth.service.UserTokenQuery;
+import codekoi.apiserver.domain.user.controller.UserController;
 import codekoi.apiserver.domain.user.service.UserQuery;
 import codekoi.apiserver.global.token.JwtTokenProvider;
 import org.junit.jupiter.api.BeforeEach;
@@ -21,7 +22,7 @@ import static org.springframework.restdocs.operation.preprocess.Preprocessors.pr
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 
 @ExtendWith({RestDocumentationExtension.class, MockitoExtension.class})
-@WebMvcTest(AuthController.class)
+@WebMvcTest(controllers = {AuthController.class, UserController.class})
 public abstract class AuthControllerTestSupport {
 
     @MockBean

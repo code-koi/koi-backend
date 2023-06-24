@@ -1,7 +1,6 @@
 package codekoi.apiserver.domain.user.domain;
 
-import codekoi.apiserver.global.error.exception.DomainLogicException;
-import codekoi.apiserver.global.error.exception.ErrorInfo;
+import codekoi.apiserver.domain.user.exception.InvalidUserYearsException;
 import jakarta.persistence.Column;
 import jakarta.persistence.Embeddable;
 import lombok.AccessLevel;
@@ -26,7 +25,7 @@ public class Years {
 
     private void validate(int years) {
         if (years < MIN_YEAR || years > MAX_YEAR) {
-            throw new DomainLogicException(ErrorInfo.USER_YEARS_ERROR);
+            throw new InvalidUserYearsException();
         }
     }
 

@@ -1,7 +1,6 @@
 package codekoi.apiserver.domain.user.domain;
 
-import codekoi.apiserver.global.error.exception.DomainLogicException;
-import codekoi.apiserver.global.error.exception.ErrorInfo;
+import codekoi.apiserver.domain.user.exception.InvalidUserEmailException;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
@@ -32,9 +31,7 @@ class EmailTest {
     @MethodSource("invalidLength")
     void createLengthFail(String email) {
         assertThatThrownBy(() -> new Email(email))
-                .isInstanceOf(DomainLogicException.class)
-                .extracting("errorInfo")
-                .isEqualTo(ErrorInfo.USER_EMAIL_ERROR);
+                .isInstanceOf(InvalidUserEmailException.class);
     }
 
     @DisplayName("이메일 형식에 올바르지 않는 경우 실패")
@@ -42,9 +39,7 @@ class EmailTest {
     @CsvSource({"@abc.abc", "aaa@abc.d", "aaa@naver", "naver.co.kr", "aaa@aaa..abc"})
     void createWrongFormatFail(String email) {
         assertThatThrownBy(() -> new Email(email))
-                .isInstanceOf(DomainLogicException.class)
-                .extracting("errorInfo")
-                .isEqualTo(ErrorInfo.USER_EMAIL_ERROR);
+                .isInstanceOf(InvalidUserEmailException.class);
     }
 
     @Test

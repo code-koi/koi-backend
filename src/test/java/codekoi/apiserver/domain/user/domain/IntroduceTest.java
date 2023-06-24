@@ -1,8 +1,7 @@
 package codekoi.apiserver.domain.user.domain;
 
 
-import codekoi.apiserver.global.error.exception.DomainLogicException;
-import codekoi.apiserver.global.error.exception.ErrorInfo;
+import codekoi.apiserver.domain.user.exception.InvalidUserIntroduceException;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
@@ -27,8 +26,6 @@ class IntroduceTest {
     void invalidLength(String input) {
         assertThatThrownBy(() -> {
             final Introduce introduce = new Introduce(input);
-        }).isInstanceOf(DomainLogicException.class)
-                .extracting("errorInfo")
-                .isEqualTo(ErrorInfo.USER_INTRODUCE_OVER_ERROR);
+        }).isInstanceOf(InvalidUserIntroduceException.class);
     }
 }

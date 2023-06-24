@@ -1,7 +1,6 @@
 package codekoi.apiserver.domain.user.domain;
 
-import codekoi.apiserver.global.error.exception.DomainLogicException;
-import codekoi.apiserver.global.error.exception.ErrorInfo;
+import codekoi.apiserver.domain.user.exception.InvalidUserNicknameException;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
@@ -32,9 +31,7 @@ class NicknameTest {
     @MethodSource("invalidLength")
     void createLengthFail(String nickname) {
         assertThatThrownBy(() -> new Nickname(nickname))
-                .isInstanceOf(DomainLogicException.class)
-                .extracting("errorInfo")
-                .isEqualTo(ErrorInfo.USER_NICKNAME_OVER);
+                .isInstanceOf(InvalidUserNicknameException.class);
     }
 
     @DisplayName("입력값이 올바른 경우 성공")

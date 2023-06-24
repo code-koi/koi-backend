@@ -12,7 +12,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -24,22 +23,19 @@ public class CodeReviewQuery {
 
     private final CodeFavoriteRepository favoriteRepository;
 
-    public List<UserCodeReviewDto> findRequestedCodeReviews(Long userId) {
+    public List<UserCodeReviewDto> findRequestedCodeReviews(Long sessionUserId, Long userId) {
         final User user = userRepository.findUserById(userId);
         final List<CodeReview> reviews = codeReviewRepository.findByUser(user);
 
-        return reviews.stream()
-                .map(UserCodeReviewDto::from)
-                .collect(Collectors.toList());
+        final List<Favorite> favorites = favoriteRepository.findFavoriteByUserAndCodeReviewIn(user, reviews);
+
+        return UserCodeReviewDto.listOf(reviews, favorites, sessionUserId.equals(userId));
     }
 
-    public List<UserCodeReviewDto> findFavoriteCodeReviews(Long userId) {
+    public List<UserCodeReviewDto> findFavoriteCodeReviews(Long sessionUserId, Long userId) {
         final User user = userRepository.findUserById(userId);
         final List<Favorite> favorites = favoriteRepository.findFavoriteByUser(user);
 
-        return favorites.stream()
-                .map(Favorite::getCodeReview)
-                .map(UserCodeReviewDto::from)
-                .collect(Collectors.toList());
+        return UserCodeReviewDto.listOf(favorites, sessionUserId.equals(userId));
     }
 }

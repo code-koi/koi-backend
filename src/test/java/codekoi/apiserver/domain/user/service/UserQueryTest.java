@@ -9,9 +9,8 @@ import codekoi.apiserver.domain.skill.doamin.HardSkill;
 import codekoi.apiserver.domain.user.domain.User;
 import codekoi.apiserver.domain.user.dto.UserDetail;
 import codekoi.apiserver.domain.user.dto.UserToken;
+import codekoi.apiserver.domain.user.exception.UserNotFoundException;
 import codekoi.apiserver.domain.user.repository.UserRepository;
-import codekoi.apiserver.global.error.exception.ErrorInfo;
-import codekoi.apiserver.global.error.exception.InvalidValueException;
 import codekoi.apiserver.utils.ServiceTest;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -61,9 +60,7 @@ class UserQueryTest extends ServiceTest {
         assertThatThrownBy(() -> {
             //when
             final UserToken userToken = userQuery.getUserAuth("random@abc.com");
-        }).isInstanceOf(InvalidValueException.class)
-                .extracting("errorInfo")
-                .isEqualTo(ErrorInfo.USER_NOT_FOUND_ERROR);
+        }).isInstanceOf(UserNotFoundException.class);
     }
 
     @Test

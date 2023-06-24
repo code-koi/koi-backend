@@ -1,7 +1,6 @@
 package codekoi.apiserver.domain.user.domain;
 
-import codekoi.apiserver.global.error.exception.DomainLogicException;
-import codekoi.apiserver.global.error.exception.ErrorInfo;
+import codekoi.apiserver.domain.user.exception.InvalidUserIntroduceException;
 import jakarta.persistence.Column;
 import jakarta.persistence.Embeddable;
 import lombok.AccessLevel;
@@ -28,7 +27,7 @@ public class Introduce {
     private void validate(String introduce) {
         if (!StringUtils.hasText(introduce) ||
                 introduce.length() > MAX_SIZE) {
-            throw new DomainLogicException(ErrorInfo.USER_INTRODUCE_OVER_ERROR);
+            throw new InvalidUserIntroduceException();
         }
     }
 }
