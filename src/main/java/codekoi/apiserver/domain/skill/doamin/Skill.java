@@ -12,7 +12,6 @@ import lombok.experimental.SuperBuilder;
 @DiscriminatorColumn(name = "skill_type")
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @SuperBuilder
-
 public abstract class Skill {
 
     @Id

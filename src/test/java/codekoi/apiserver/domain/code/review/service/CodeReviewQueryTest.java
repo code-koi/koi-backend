@@ -4,6 +4,7 @@ package codekoi.apiserver.domain.code.review.service;
 import codekoi.apiserver.domain.code.review.domain.CodeReview;
 import codekoi.apiserver.domain.code.review.domain.CodeReviewStatus;
 import codekoi.apiserver.domain.code.review.domain.Favorite;
+import codekoi.apiserver.domain.code.review.dto.CodeReviewDetailDto;
 import codekoi.apiserver.domain.code.review.dto.UserCodeReviewDto;
 import codekoi.apiserver.domain.code.review.repository.CodeFavoriteRepository;
 import codekoi.apiserver.domain.code.review.repository.CodeReviewRepository;
@@ -164,6 +165,30 @@ class CodeReviewQueryTest extends ServiceTest {
         assertThat(reviewUser.getProfileImageUrl()).isEqualTo(SUNDO.profileImageUrl);
         assertThat(reviewUser.getNickname()).isEqualTo(SUNDO.nickname);
 
+    }
+
+    @Test
+    @DisplayName("코드리뷰 상세 테스트")
+    void codeReviewDetail() {
+        //given
+        Long sessionUserId = 999L;
+
+        clearPersistenceContext();
+
+        //when
+        final CodeReviewDetailDto review = codeReviewQuery.findCodeReviewDetail(sessionUserId, codeReview.getId());
+
+        //then
+        assertThat(review.getTitle()).isEqualTo(REVIEW.title);
+        assertThat(review.getSkills()).containsExactlyInAnyOrder(JPA.name, SPRING.name);
+        assertThat(review.getStatus()).isEqualTo(CodeReviewStatus.PENDING);
+        assertThat(review.getIsFavorite()).isFalse();
+        assertThat(review.getMe()).isFalse();
+
+        final UserProfileDto reviewUser = review.getUser();
+        assertThat(reviewUser.getId()).isEqualTo(user.getId());
+        assertThat(reviewUser.getProfileImageUrl()).isEqualTo(SUNDO.profileImageUrl);
+        assertThat(reviewUser.getNickname()).isEqualTo(SUNDO.nickname);
     }
 
     private void clearPersistenceContext() {

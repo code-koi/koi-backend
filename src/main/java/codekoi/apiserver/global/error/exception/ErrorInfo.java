@@ -30,6 +30,9 @@ public enum ErrorInfo {
     USER_YEARS_INVALID("유저의 경력은 0 ~ 20년 사이만 가능합니다.", "USER_003", BAD_REQUEST),
     USER_EMAIL_INVALID("유저의 이메일 형식이 올바르지 않습니다", "USER_004", BAD_REQUEST),
     USER_NICKNAME_OVER("유저의 닉네임은 10자 이하만 가능합니다.", "USER_005", BAD_REQUEST),
+
+
+    CODE_REVIEW_NOT_FOUND("해당 코드리뷰 요청건을 찾을 수 없습니다.", "REVIEW_001", BAD_REQUEST),
     ;
 
 

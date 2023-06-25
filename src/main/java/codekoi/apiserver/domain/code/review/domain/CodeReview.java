@@ -2,6 +2,7 @@ package codekoi.apiserver.domain.code.review.domain;
 
 import codekoi.apiserver.domain.model.TimeBaseEntity;
 import codekoi.apiserver.domain.skill.doamin.HardSkill;
+import codekoi.apiserver.domain.skill.doamin.Skill;
 import codekoi.apiserver.domain.user.domain.User;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
@@ -11,6 +12,7 @@ import lombok.NoArgsConstructor;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Entity
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
@@ -59,5 +61,12 @@ public class CodeReview extends TimeBaseEntity {
                 .codeReview(this)
                 .build();
         this.skills.add(reviewSkill);
+    }
+
+    public List<String> getSkillNames() {
+        return skills.stream()
+                .map(CodeReviewSkill::getSkill)
+                .map(Skill::getName)
+                .collect(Collectors.toList());
     }
 }
