@@ -21,7 +21,7 @@ public class UserTokenCommand {
     }
 
     public void createUserToken(Long userId, String refreshToken) {
-        final User user = userRepository.findUserById(userId);
+        final User user = userRepository.findByUserId(userId);
 
         final UserToken userToken = UserToken.of(user, refreshToken);
         userTokenRepository.save(userToken);

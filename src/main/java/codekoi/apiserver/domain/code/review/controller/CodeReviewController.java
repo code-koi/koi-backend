@@ -1,14 +1,17 @@
 package codekoi.apiserver.domain.code.review.controller;
 
+import codekoi.apiserver.domain.code.comment.dto.CodeCommentDetailDto;
+import codekoi.apiserver.domain.code.comment.service.CodeCommentQuery;
 import codekoi.apiserver.domain.code.review.dto.CodeReviewDetailDto;
-import codekoi.apiserver.domain.code.review.dto.UserCodeReviewDto;
-import codekoi.apiserver.domain.code.review.dto.response.UserDetailCodeReviewListResponse;
 import codekoi.apiserver.domain.code.review.service.CodeReviewQuery;
 import codekoi.apiserver.domain.user.dto.UserToken;
 import codekoi.apiserver.global.token.Principal;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
 import java.util.Map;
@@ -19,12 +22,8 @@ import java.util.Map;
 public class CodeReviewController {
 
     private final CodeReviewQuery codeReviewQuery;
+    private final CodeCommentQuery commentQuery;
 
-    @GetMapping
-    public UserDetailCodeReviewListResponse requestedReviews(@Principal UserToken userToken, @RequestParam Long userId) {
-        final List<UserCodeReviewDto> codeReviewList = codeReviewQuery.findRequestedCodeReviews(userToken.getUserId(), userId);
-        return UserDetailCodeReviewListResponse.from(codeReviewList);
-    }
 
     @GetMapping("/{reviewId}")
     public ResponseEntity<Object> reviewDetail(@Principal UserToken userToken, @PathVariable Long reviewId) {
@@ -32,9 +31,9 @@ public class CodeReviewController {
         return ResponseEntity.ok(Map.of("review", codeReviewDetail));
     }
 
-    @GetMapping("/favorite")
-    public UserDetailCodeReviewListResponse favoriteReviews(@Principal UserToken userToken, @RequestParam Long userId) {
-        final List<UserCodeReviewDto> favoriteCodeReviews = codeReviewQuery.findFavoriteCodeReviews(userToken.getUserId(), userId);
-        return UserDetailCodeReviewListResponse.from(favoriteCodeReviews);
+    @GetMapping("/{reviewId}/comments")
+    public ResponseEntity<Object> commentsOnReview(@Principal UserToken userToken, @PathVariable Long reviewId) {
+        final List<CodeCommentDetailDto> comments = commentQuery.getCommentsOnReview(userToken.getUserId(), reviewId);
+        return ResponseEntity.ok(Map.of("comments", comments));
     }
 }

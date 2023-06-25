@@ -27,7 +27,7 @@ public class CodeReviewQuery {
     private final CodeFavoriteRepository favoriteRepository;
 
     public List<UserCodeReviewDto> findRequestedCodeReviews(Long sessionUserId, Long userId) {
-        final User user = userRepository.findUserById(userId);
+        final User user = userRepository.findByUserId(userId);
         final List<CodeReview> reviews = codeReviewRepository.findByUser(user);
 
         final List<Favorite> favorites = favoriteRepository.findFavoriteByUserAndCodeReviewIn(user, reviews);
@@ -36,14 +36,14 @@ public class CodeReviewQuery {
     }
 
     public List<UserCodeReviewDto> findFavoriteCodeReviews(Long sessionUserId, Long userId) {
-        final User user = userRepository.findUserById(userId);
+        final User user = userRepository.findByUserId(userId);
         final List<Favorite> favorites = favoriteRepository.findFavoritesByUser(user);
 
         return UserCodeReviewDto.listOf(favorites, sessionUserId.equals(userId));
     }
 
     public CodeReviewDetailDto findCodeReviewDetail(Long sessionUserId, Long codeReviewId) {
-        final CodeReview codeReview = codeReviewRepository.findByCodeReviewId(codeReviewId)
+        final CodeReview codeReview = codeReviewRepository.findByCodeReviewIdWithUser(codeReviewId)
                 .orElseThrow(CodeReviewNotFoundException::new);
 
         final User reviewRequestUser = codeReview.getUser();

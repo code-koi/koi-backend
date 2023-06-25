@@ -1,6 +1,7 @@
 package codekoi.apiserver.domain.code.review.repository;
 
 import codekoi.apiserver.domain.code.review.domain.CodeReview;
+import codekoi.apiserver.domain.code.review.exception.CodeReviewNotFoundException;
 import codekoi.apiserver.domain.user.domain.User;
 import org.springframework.data.jpa.repository.EntityGraph;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -19,6 +20,15 @@ public interface CodeReviewRepository extends JpaRepository<CodeReview, Long>, C
 
     @EntityGraph(attributePaths = {"user"})
     @Query("select c from CodeReview c where c.id=:id")
-    Optional<CodeReview> findByCodeReviewId(@Param("id") Long codeReviewId);
+    Optional<CodeReview> findByCodeReviewIdWithUser(@Param("id") Long codeReviewId);
 
+    default CodeReview findByCodeReviewId(Long codeReviewId) {
+        final CodeReview codeReview = this.findById(codeReviewId)
+                .orElseThrow(CodeReviewNotFoundException::new);
+
+        if (codeReview.getCanceledAt() != null) {
+            throw new CodeReviewNotFoundException();
+        }
+        return codeReview;
+    }
 }

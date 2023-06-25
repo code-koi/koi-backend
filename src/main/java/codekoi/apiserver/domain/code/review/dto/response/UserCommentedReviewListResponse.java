@@ -1,6 +1,6 @@
 package codekoi.apiserver.domain.code.review.dto.response;
 
-import codekoi.apiserver.domain.code.review.dto.UserCodeCommentDto;
+import codekoi.apiserver.domain.code.comment.dto.UserCodeCommentDto;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 

@@ -22,7 +22,7 @@ import static org.springframework.restdocs.operation.preprocess.Preprocessors.pr
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 
 @ExtendWith({RestDocumentationExtension.class, MockitoExtension.class})
-@WebMvcTest(controllers = {AuthController.class, UserController.class})
+@WebMvcTest(controllers = {AuthController.class})
 public abstract class AuthControllerTestSupport {
 
     @MockBean

@@ -18,4 +18,7 @@ public interface CodeReviewCommentRepository extends JpaRepository<CodeReviewCom
 
     @Query("select cr from CodeReviewComment cr where cr.user.id = :id")
     List<CodeReviewComment> findByUser(@Param("id") Long userId);
+
+    @Query("select cr from CodeReviewComment cr where cr.codeReview.id = :id")
+    List<CodeReviewComment> findByCodeReviewId(@Param("id") Long codeReviewId);
 }

@@ -103,48 +103,66 @@ include::{snippets}/auth/post-logout/http-response.adoc[]
     - RefreshToken이 만료된 경우: AUTH_006
 
 
+
+
 = 유저
 
 == 유저 상세보기
 === Request
 include::{snippets}/users/get/http-request.adoc[]
+include::{snippets}/users/get/path-parameters.adoc[]
 
 === Response
 include::{snippets}/users/get/response-fields.adoc[]
 include::{snippets}/users/get/response-body.adoc[]
 
 
+== 유저의 코드리뷰 목록
+=== Request
+include::{snippets}/users/get-userId-reviews/http-request.adoc[]
+include::{snippets}/users/get-userId-reviews/path-parameters.adoc[]
+
+=== Response
+include::{snippets}/users/get-userId-reviews/response-fields.adoc[]
+include::{snippets}/users/get-userId-reviews/response-body.adoc[]
+
+
+== 유저가 즐겨찾기한 코드리뷰 목록
+=== Request
+include::{snippets}/users/get-userId-favorite/http-request.adoc[]
+include::{snippets}/users/get-userId-favorite/path-parameters.adoc[]
+
+=== Response
+include::{snippets}/users/get-userId-favorite/response-fields.adoc[]
+include::{snippets}/users/get-userId-favorite/response-body.adoc[]
+
+
+== 유저의 코드리뷰 댓글 목록
+=== Request
+include::{snippets}/users/get-userId-comments/http-request.adoc[]
+include::{snippets}/users/get-userId-comments/path-parameters.adoc[]
+
+=== Response
+include::{snippets}/users/get-userId-comments/response-fields.adoc[]
+include::{snippets}/users/get-userId-comments/response-body.adoc[]
+
+
+
 = 코드리뷰
-== 요청한 코드리뷰
-=== Request
-include::{snippets}/codeReviews/get-userId/http-request.adoc[]
-
-=== Response
-include::{snippets}/codeReviews/get-userId/response-fields.adoc[]
-include::{snippets}/codeReviews/get-userId/response-body.adoc[]
-
-== 즐겨찾기한 코드리뷰
-=== Request
-include::{snippets}/codeReviews/get-favorite-userId/http-request.adoc[]
-
-=== Response
-include::{snippets}/codeReviews/get-favorite-userId/response-fields.adoc[]
-include::{snippets}/codeReviews/get-favorite-userId/response-body.adoc[]
-
 == 코드리뷰 상세 정보
 === Request
 include::{snippets}/codeReviews/get-reviewId/http-request.adoc[]
+include::{snippets}/codeReviews/get-reviewId/path-parameters.adoc[]
 
 === Response
 include::{snippets}/codeReviews/get-reviewId/response-fields.adoc[]
 include::{snippets}/codeReviews/get-reviewId/response-body.adoc[]
 
 
-= 코드리뷰 댓글
-== 남긴 코드리뷰 댓글
-=== Request
-include::{snippets}/codeComments/get-userId/http-request.adoc[]
+== 코드리뷰 상세의 댓글 목록
+include::{snippets}/codeReviews/get-reviewId-comments/http-request.adoc[]
+include::{snippets}/codeReviews/get-reviewId-comments/path-parameters.adoc[]
 
 === Response
-include::{snippets}/codeComments/get-userId/response-fields.adoc[]
-include::{snippets}/codeComments/get-userId/response-body.adoc[]
+include::{snippets}/codeReviews/get-reviewId-comments/response-fields.adoc[]
+include::{snippets}/codeReviews/get-reviewId-comments/response-body.adoc[]
