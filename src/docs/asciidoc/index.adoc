@@ -131,6 +131,14 @@ include::{snippets}/codeReviews/get-favorite-userId/http-request.adoc[]
 include::{snippets}/codeReviews/get-favorite-userId/response-fields.adoc[]
 include::{snippets}/codeReviews/get-favorite-userId/response-body.adoc[]
 
+== 코드리뷰 상세 정보
+=== Request
+include::{snippets}/codeReviews/get-reviewId/http-request.adoc[]
+
+=== Response
+include::{snippets}/codeReviews/get-reviewId/response-fields.adoc[]
+include::{snippets}/codeReviews/get-reviewId/response-body.adoc[]
+
 
 = 코드리뷰 댓글
 == 남긴 코드리뷰 댓글
