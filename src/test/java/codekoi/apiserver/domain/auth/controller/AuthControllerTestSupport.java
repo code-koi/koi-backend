@@ -2,7 +2,6 @@ package codekoi.apiserver.domain.auth.controller;
 
 import codekoi.apiserver.domain.auth.service.UserTokenCommand;
 import codekoi.apiserver.domain.auth.service.UserTokenQuery;
-import codekoi.apiserver.domain.user.controller.UserController;
 import codekoi.apiserver.domain.user.service.UserQuery;
 import codekoi.apiserver.global.token.JwtTokenProvider;
 import org.junit.jupiter.api.BeforeEach;
