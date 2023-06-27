@@ -105,7 +105,7 @@ include::{snippets}/auth/post-logout/http-response.adoc[]
 
 
 
-= 유저
+= 유저 [ /users ]
 
 == 유저 상세보기
 === Request
@@ -148,7 +148,7 @@ include::{snippets}/users/get-userId-comments/response-body.adoc[]
 
 
 
-= 코드리뷰
+= 코드리뷰 [ /code-reviews ]
 == 코드리뷰 상세 정보
 === Request
 include::{snippets}/codeReviews/get-reviewId/http-request.adoc[]

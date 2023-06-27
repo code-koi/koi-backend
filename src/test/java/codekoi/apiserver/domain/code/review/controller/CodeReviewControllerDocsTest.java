@@ -3,9 +3,7 @@ package codekoi.apiserver.domain.code.review.controller;
 import codekoi.apiserver.domain.code.comment.domain.CodeReviewComment;
 import codekoi.apiserver.domain.code.comment.dto.CodeCommentDetailDto;
 import codekoi.apiserver.domain.code.review.domain.CodeReview;
-import codekoi.apiserver.domain.code.review.domain.Favorite;
 import codekoi.apiserver.domain.code.review.dto.CodeReviewDetailDto;
-import codekoi.apiserver.domain.code.review.dto.UserCodeReviewDto;
 import codekoi.apiserver.domain.skill.doamin.HardSkill;
 import codekoi.apiserver.domain.user.domain.User;
 import codekoi.apiserver.utils.ControllerTest;
@@ -14,7 +12,6 @@ import codekoi.apiserver.utils.fixture.CodeReviewFixture;
 import codekoi.apiserver.utils.fixture.HardSkillFixture;
 import codekoi.apiserver.utils.fixture.UserFixture;
 import org.junit.jupiter.api.DisplayName;
-import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 import org.springframework.restdocs.payload.JsonFieldType;
 import org.springframework.test.web.servlet.ResultActions;
@@ -31,7 +28,8 @@ import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.docu
 import static org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders.get;
 import static org.springframework.restdocs.payload.PayloadDocumentation.fieldWithPath;
 import static org.springframework.restdocs.payload.PayloadDocumentation.responseFields;
-import static org.springframework.restdocs.request.RequestDocumentation.*;
+import static org.springframework.restdocs.request.RequestDocumentation.parameterWithName;
+import static org.springframework.restdocs.request.RequestDocumentation.pathParameters;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 public class CodeReviewControllerDocsTest extends ControllerTest {

@@ -2,9 +2,9 @@ package codekoi.apiserver.domain.code.comment.service;
 
 import codekoi.apiserver.domain.code.comment.domain.CodeReviewComment;
 import codekoi.apiserver.domain.code.comment.dto.CodeCommentDetailDto;
+import codekoi.apiserver.domain.code.comment.dto.UserCodeCommentDto;
 import codekoi.apiserver.domain.code.comment.repository.CodeReviewCommentRepository;
 import codekoi.apiserver.domain.code.review.domain.CodeReview;
-import codekoi.apiserver.domain.code.comment.dto.UserCodeCommentDto;
 import codekoi.apiserver.domain.code.review.repository.CodeReviewRepository;
 import codekoi.apiserver.domain.koi.history.domain.KoiHistory;
 import codekoi.apiserver.domain.koi.history.repository.KoiHistoryRepository;
