@@ -3,7 +3,7 @@ package codekoi.apiserver.domain.code.like.service;
 import codekoi.apiserver.domain.code.comment.domain.CodeReviewComment;
 import codekoi.apiserver.domain.code.comment.repository.CodeReviewCommentRepository;
 import codekoi.apiserver.domain.code.like.domain.Like;
-import codekoi.apiserver.domain.code.like.exception.AlreadyLikedComment;
+import codekoi.apiserver.domain.code.like.exception.AlreadyLikedCommentException;
 import codekoi.apiserver.domain.code.like.exception.LikeNotFoundException;
 import codekoi.apiserver.domain.code.like.repository.LikeRepository;
 import codekoi.apiserver.domain.user.domain.User;
@@ -27,7 +27,7 @@ public class LikeCommand {
 
         final Optional<Like> likeOptional = likeRepository.findByUserIdAndCommentId(userId, commentId);
         if (likeOptional.isPresent()) {
-            throw new AlreadyLikedComment();
+            throw new AlreadyLikedCommentException();
         }
 
         final CodeReviewComment comment = commentRepository.findByCommentId(commentId);

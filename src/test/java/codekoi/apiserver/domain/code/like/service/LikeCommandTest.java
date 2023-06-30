@@ -3,7 +3,7 @@ package codekoi.apiserver.domain.code.like.service;
 import codekoi.apiserver.domain.code.comment.domain.CodeReviewComment;
 import codekoi.apiserver.domain.code.comment.repository.CodeReviewCommentRepository;
 import codekoi.apiserver.domain.code.like.domain.Like;
-import codekoi.apiserver.domain.code.like.exception.AlreadyLikedComment;
+import codekoi.apiserver.domain.code.like.exception.AlreadyLikedCommentException;
 import codekoi.apiserver.domain.code.like.exception.LikeNotFoundException;
 import codekoi.apiserver.domain.code.like.repository.LikeRepository;
 import codekoi.apiserver.domain.code.review.domain.CodeReview;
@@ -90,7 +90,7 @@ class LikeCommandTest extends ServiceTest {
             assertThatThrownBy(() -> {
                 //when
                 likeCommand.like(user.getId(), comment.getId());
-            }).isInstanceOf(AlreadyLikedComment.class);
+            }).isInstanceOf(AlreadyLikedCommentException.class);
         }
     }
 
