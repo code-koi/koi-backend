@@ -3,6 +3,7 @@ package codekoi.apiserver.domain.code.like.service;
 import codekoi.apiserver.domain.code.comment.domain.CodeReviewComment;
 import codekoi.apiserver.domain.code.comment.repository.CodeReviewCommentRepository;
 import codekoi.apiserver.domain.code.like.domain.Like;
+import codekoi.apiserver.domain.code.like.exception.AlreadyLikedComment;
 import codekoi.apiserver.domain.code.like.exception.LikeNotFoundException;
 import codekoi.apiserver.domain.code.like.repository.LikeRepository;
 import codekoi.apiserver.domain.code.review.domain.CodeReview;
@@ -21,8 +22,7 @@ import java.util.Optional;
 
 import static codekoi.apiserver.utils.fixture.CodeReviewCommentFixture.REVIEW_COMMENT;
 import static codekoi.apiserver.utils.fixture.CodeReviewFixture.REVIEW;
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.Assertions.assertThatThrownBy;
+import static org.assertj.core.api.Assertions.*;
 
 
 class LikeCommandTest extends ServiceTest {
@@ -56,25 +56,42 @@ class LikeCommandTest extends ServiceTest {
         commentRepository.save(comment);
     }
 
-    @Test
-    @DisplayName("좋아요를 시도하여 좋아요 개수를 증가시킨다.")
-    void like() {
-        //given
+    @Nested
+    @DisplayName("좋아요 테스트")
+    class Likes {
+        @Test
+        @DisplayName("좋아요를 시도하여 좋아요 개수를 증가시킨다.")
+        void like() {
+            //given
 
-        //when
-        likeCommand.like(user.getId(), comment.getId());
+            //when
+            likeCommand.like(user.getId(), comment.getId());
 
-        //then
-        final Optional<Like> likeOptional = likeRepository.findByUserIdAndCommentId(user.getId(), comment.getId());
+            //then
+            final Optional<Like> likeOptional = likeRepository.findByUserIdAndCommentId(user.getId(), comment.getId());
 
-        assertThat(likeOptional).isPresent();
+            assertThat(likeOptional).isPresent();
 
-        final Like like = likeOptional.get();
-        assertThat(like.getUser().getId()).isEqualTo(user.getId());
-        assertThat(like.getComment().getId()).isEqualTo(like.getComment().getId());
-        assertThat(like.getId()).isEqualTo(comment.getLikes().get(0).getId());
+            final Like like = likeOptional.get();
+            assertThat(like.getUser().getId()).isEqualTo(user.getId());
+            assertThat(like.getComment().getId()).isEqualTo(like.getComment().getId());
+            assertThat(like.getId()).isEqualTo(comment.getLikes().get(0).getId());
 
-        assertThat(comment.getLikeCount()).isEqualTo(1);
+            assertThat(comment.getLikeCount()).isEqualTo(1);
+        }
+
+        @Test
+        @DisplayName("이미 좋아요한 경우 예외가 발생한다.")
+        void alreadyLiked() {
+            //given
+            likeCommand.like(user.getId(), comment.getId());
+
+            //then
+            assertThatThrownBy(() -> {
+                //when
+                likeCommand.like(user.getId(), comment.getId());
+            }).isInstanceOf(AlreadyLikedComment.class);
+        }
     }
 
     @Nested

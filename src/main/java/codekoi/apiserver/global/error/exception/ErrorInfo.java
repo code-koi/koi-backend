@@ -36,8 +36,10 @@ public enum ErrorInfo {
 
     COMMENT_NOT_FOUND("해당 답변을 찾을 수 없습니다.", "COMMENT_001", BAD_REQUEST),
 
+    // COMMENT_LIKE
     LIKE_NOT_FOUND("해당 좋아요를 찾을 수 없습니다.", "LIKE_001", BAD_REQUEST),
     LIKE_USER_NOT_MATCHED("좋아요를 한 유저와 매칭되지 않는 세션입니다.", "LIKE_002", BAD_REQUEST),
+    ALREADY_LIKED_COMMENT("이미 좋아요한 답변입니다.", "LIKE_003", BAD_GATEWAY),
     ;
 
 
