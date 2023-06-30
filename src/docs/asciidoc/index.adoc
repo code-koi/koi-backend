@@ -166,3 +166,16 @@ include::{snippets}/codeReviews/get-reviewId-comments/path-parameters.adoc[]
 === Response
 include::{snippets}/codeReviews/get-reviewId-comments/response-fields.adoc[]
 include::{snippets}/codeReviews/get-reviewId-comments/response-body.adoc[]
+
+
+= 코드리뷰 댓글 [ /code-comments ]
+== 좋아요
+=== Request
+include::{snippets}/codeComments/post-commentId-like/http-request.adoc[]
+include::{snippets}/codeComments/post-commentId-like/path-parameters.adoc[]
+
+
+== 좋아요 취소
+=== Request
+include::{snippets}/codeComments/post-commentId-unlike/http-request.adoc[]
+include::{snippets}/codeComments/post-commentId-unlike/path-parameters.adoc[]

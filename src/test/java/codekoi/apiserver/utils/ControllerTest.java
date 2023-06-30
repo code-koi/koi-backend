@@ -5,6 +5,7 @@ import codekoi.apiserver.domain.auth.service.UserTokenCommand;
 import codekoi.apiserver.domain.auth.service.UserTokenQuery;
 import codekoi.apiserver.domain.code.comment.controller.CodeCommentController;
 import codekoi.apiserver.domain.code.comment.service.CodeCommentQuery;
+import codekoi.apiserver.domain.code.like.service.LikeCommand;
 import codekoi.apiserver.domain.code.review.controller.CodeReviewController;
 import codekoi.apiserver.domain.code.review.service.CodeReviewQuery;
 import codekoi.apiserver.domain.user.controller.UserController;
@@ -42,7 +43,7 @@ public abstract class ControllerTest {
     protected MockMvc mvc;
     protected ObjectMapper mapper = new ObjectMapper();
 
-    protected String accessToken = "eyJhbGciOiJIUzI1NiJ9.eyJpZCI6MSwiaWF0IjoxNjg2MTE5MjYzLCJleHAiOjE2ODYxMTk1NjN9.ZmNReTkQ0pZMXBsdaNDuri5xFQiSYEMYPggt3zj6P-k";
+    protected String accessToken = "eyJhbGciOiJIUzI1NiJ9.eyJpZCI6MSwiaWF0IjoxNjgwMDA5MjYzLCJleHAiOjE2ODYxODE5NTYzfQ.P5gzo1eNYtoog5ZtNpuqpWLqQDu2zRH1Rcdt-u_QUtQ";
     protected String refreshToken = "eyJhbGciOiJIUzI1NiJ9.eyJpZCI6MiwiaWF0IjoxNjg2MTE5MjYzLCJleHAiOjE2ODY3MjQwNjN9.3elRxRRR4Moa6U5TLHd2lC0yvN6TLiLu7on37Kadb2o";
 
     @MockBean
@@ -57,6 +58,9 @@ public abstract class ControllerTest {
 
     @MockBean
     protected CodeCommentQuery codeCommentQuery;
+
+    @MockBean
+    protected LikeCommand likeCommand;
 
     @Autowired
     protected JwtTokenProvider jwtTokenProvider;
