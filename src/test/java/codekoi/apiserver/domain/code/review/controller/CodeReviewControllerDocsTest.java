@@ -102,7 +102,7 @@ public class CodeReviewControllerDocsTest extends ControllerTest {
         final CodeReviewComment reviewComment = REVIEW_COMMENT.toCodeReviewComment(3L, user2, codeReview);
         EntityReflectionTestUtil.setCreatedAt(reviewComment, LocalDateTime.now());
 
-        final List<CodeCommentDetailDto> dto = CodeCommentDetailDto.listOf(List.of(reviewComment), List.of(), 10L);
+        final List<CodeCommentDetailDto> dto = CodeCommentDetailDto.listOf(List.of(reviewComment), List.of(), 10L, List.of());
 
         given(codeCommentQuery.getCommentsOnReview(anyLong(), anyLong()))
                 .willReturn(dto);
@@ -135,6 +135,8 @@ public class CodeReviewControllerDocsTest extends ControllerTest {
 
                                 fieldWithPath("comments[].id").type(JsonFieldType.NUMBER)
                                         .description("댓글 고유아이디"),
+                                fieldWithPath("comments[].likeCount").type(JsonFieldType.NUMBER)
+                                        .description("좋아요 개수"),
                                 fieldWithPath("comments[].createdAt").type(JsonFieldType.STRING)
                                         .description("댓글 남긴 시각"),
                                 fieldWithPath("comments[].content").type(JsonFieldType.STRING)

@@ -96,7 +96,7 @@ public class UserControllerDocsTest extends ControllerTest {
         final CodeReviewComment reviewComment = REVIEW_COMMENT.toCodeReviewComment(3L, user2, codeReview);
         EntityReflectionTestUtil.setCreatedAt(reviewComment, LocalDateTime.now());
 
-        final UserCodeCommentDto dto = UserCodeCommentDto.of(user2, reviewComment, KoiType.FISHBOWL);
+        final UserCodeCommentDto dto = UserCodeCommentDto.of(user2, reviewComment, KoiType.FISHBOWL, 2L);
         given(codeCommentQuery.getUserComments(anyLong()))
                 .willReturn(List.of(dto));
 
@@ -128,6 +128,8 @@ public class UserControllerDocsTest extends ControllerTest {
 
                                 fieldWithPath("comments[].createdAt").type(JsonFieldType.STRING)
                                         .description("댓글 남긴 시각"),
+                                fieldWithPath("comments[].likeCount").type(JsonFieldType.NUMBER)
+                                        .description("좋아요 개수"),
                                 fieldWithPath("comments[].reviewId").type(JsonFieldType.NUMBER)
                                         .description("코드리뷰 요청의 고유 아이디"),
                                 fieldWithPath("comments[].content").type(JsonFieldType.STRING)

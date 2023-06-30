@@ -5,6 +5,8 @@ import codekoi.apiserver.domain.code.comment.domain.CodeReviewComment;
 import codekoi.apiserver.domain.code.comment.dto.CodeCommentDetailDto;
 import codekoi.apiserver.domain.code.comment.dto.UserCodeCommentDto;
 import codekoi.apiserver.domain.code.comment.repository.CodeReviewCommentRepository;
+import codekoi.apiserver.domain.code.like.domain.Like;
+import codekoi.apiserver.domain.code.like.repository.LikeRepository;
 import codekoi.apiserver.domain.code.review.domain.CodeReview;
 import codekoi.apiserver.domain.code.review.repository.CodeReviewRepository;
 import codekoi.apiserver.domain.koi.history.domain.KoiHistory;
@@ -41,6 +43,9 @@ class CodeCommentQueryTest extends ServiceTest {
     CodeReviewRepository codeReviewRepository;
 
     @Autowired
+    LikeRepository likeRepository;
+
+    @Autowired
     CodeCommentQuery commentQuery;
 
     private User user1;
@@ -48,11 +53,12 @@ class CodeCommentQueryTest extends ServiceTest {
     private CodeReview codeReview;
     private CodeReviewComment reviewComment;
     private KoiHistory koiHistory;
+    private Like like;
 
     @BeforeEach
     public void init() {
-        user1 = UserFixture.SUNDO.toUser();
-        user2 = UserFixture.HONG.toUser();
+        user1 = UserFixture.SUNDO.toUser(); //리뷰를 요청한 사람
+        user2 = UserFixture.HONG.toUser(); //리뷰에 답변 남긴 사람
         userRepository.saveAll(List.of(user1, user2));
 
         codeReview = CodeReview.of(user1, REVIEW.title, REVIEW.content);
@@ -63,6 +69,9 @@ class CodeCommentQueryTest extends ServiceTest {
 
         koiHistory = KoiHistory.of(user2, user1, reviewComment, RIVER.koiType, RIVER.message);
         koiHistoryRepository.save(koiHistory);
+
+        like = Like.of(user1, reviewComment);
+        likeRepository.save(like);
     }
 
     @Test
@@ -84,6 +93,7 @@ class CodeCommentQueryTest extends ServiceTest {
         assertThat(dto.getReviewId()).isEqualTo(codeReview.getId());
         assertThat(dto.getContent()).isEqualTo(reviewComment.getContent());
         assertThat(dto.getKoiType()).isEqualTo(koiHistory.getKoiType());
+        assertThat(dto.getLikeCount()).isEqualTo(1);
     }
 
     @Test
@@ -106,5 +116,6 @@ class CodeCommentQueryTest extends ServiceTest {
         assertThat(dto.getContent()).isEqualTo(reviewComment.getContent());
         assertThat(dto.getKoiType()).isEqualTo(koiHistory.getKoiType());
         assertThat(dto.getMe()).isFalse();
+        assertThat(dto.getLikeCount()).isEqualTo(1);
     }
 }
