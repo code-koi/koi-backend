@@ -33,6 +33,11 @@ public enum ErrorInfo {
 
 
     CODE_REVIEW_NOT_FOUND("해당 코드리뷰 요청건을 찾을 수 없습니다.", "REVIEW_001", BAD_REQUEST),
+
+    COMMENT_NOT_FOUND("해당 답변을 찾을 수 없습니다.", "COMMENT_001", BAD_REQUEST),
+
+    LIKE_NOT_FOUND("해당 좋아요를 찾을 수 없습니다.", "LIKE_001", BAD_REQUEST),
+    LIKE_USER_NOT_MATCHED("좋아요를 한 유저와 매칭되지 않는 세션입니다.", "LIKE_002", BAD_REQUEST),
     ;
 
 

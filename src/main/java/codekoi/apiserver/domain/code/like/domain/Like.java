@@ -1,6 +1,7 @@
 package codekoi.apiserver.domain.code.like.domain;
 
 import codekoi.apiserver.domain.code.comment.domain.CodeReviewComment;
+import codekoi.apiserver.domain.code.like.exception.LikeUserNotMatchedException;
 import codekoi.apiserver.domain.user.domain.User;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
@@ -18,12 +19,15 @@ public class Like {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "likes_id")
     private Long id;
 
     @ManyToOne(fetch = LAZY)
+    @JoinColumn(name = "users_id")
     private User user;
 
     @ManyToOne(fetch = LAZY)
+    @JoinColumn(name = "code_review_comment_id")
     private CodeReviewComment comment;
 
     @Builder
@@ -34,9 +38,17 @@ public class Like {
     }
 
     public static Like of(User user, CodeReviewComment comment) {
-        return Like.builder()
+        final Like like = Like.builder()
                 .user(user)
                 .comment(comment)
                 .build();
+
+        comment.getLikes().add(like);
+
+        return like;
+    }
+
+    public boolean isMyLike(Long userId) {
+        return user.getId().equals(userId);
     }
 }
