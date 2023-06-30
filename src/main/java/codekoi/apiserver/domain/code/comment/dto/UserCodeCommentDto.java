@@ -1,6 +1,7 @@
 package codekoi.apiserver.domain.code.comment.dto;
 
 import codekoi.apiserver.domain.code.comment.domain.CodeReviewComment;
+import codekoi.apiserver.domain.code.like.domain.Like;
 import codekoi.apiserver.domain.koi.domain.KoiType;
 import codekoi.apiserver.domain.koi.history.domain.KoiHistory;
 import codekoi.apiserver.domain.user.domain.User;
@@ -32,33 +33,29 @@ public class UserCodeCommentDto {
     @JsonInclude(JsonInclude.Include.NON_NULL)
     private KoiType koiType;
 
-    public UserCodeCommentDto(UserProfileDto user, Long reviewId, LocalDateTime createdAt, String content, KoiType koiType) {
+    private long likeCount;
+
+    public UserCodeCommentDto(UserProfileDto user, Long reviewId, LocalDateTime createdAt, String content, KoiType koiType, Long likeCount) {
         this.user = user;
         this.reviewId = reviewId;
         this.createdAt = createdAt;
         this.content = content;
         this.koiType = koiType;
+        this.likeCount = likeCount;
     }
 
-    public static UserCodeCommentDto of(User user, CodeReviewComment comment, KoiType koiType) {
+    public static UserCodeCommentDto of(User user, CodeReviewComment comment, KoiType koiType, Long likeCount) {
         final UserProfileDto userDto = UserProfileDto.from(user);
         return new UserCodeCommentDto(userDto, comment.getCodeReview().getId(), comment.getCreatedAt(), comment.getContent(),
-                koiType);
+                koiType, likeCount);
     }
 
-    public static List<UserCodeCommentDto> listOf(User user, List<CodeReviewComment> comments, List<KoiHistory> koiHistories) {
+    public static List<UserCodeCommentDto> listOf(User user, List<CodeReviewComment> comments, List<KoiHistory> koiHistories, List<Like> likes) {
         final Map<Long, KoiType> koiMap = getKoiMap(koiHistories);
+        final Map<Long, Long> likeCountMap = getLikeCountMap(likes);
 
         return comments.stream()
-                .map(c -> UserCodeCommentDto.of(user, c, koiMap.get(c.getId())))
-                .collect(Collectors.toList());
-    }
-
-    public static List<UserCodeCommentDto> listOf(List<CodeReviewComment> comment, List<KoiHistory> koiHistories) {
-        final Map<Long, KoiType> koiMap = getKoiMap(koiHistories);
-
-        return comment.stream()
-                .map(c -> UserCodeCommentDto.of(c.getUser(), c, koiMap.get(c.getId())))
+                .map(c -> UserCodeCommentDto.of(user, c, koiMap.get(c.getId()), likeCountMap.getOrDefault(c.getId(), 0L)))
                 .collect(Collectors.toList());
     }
 
@@ -66,5 +63,10 @@ public class UserCodeCommentDto {
         return koiHistories.stream()
                 .collect(Collectors.toMap(koiHistory -> koiHistory.getCodeReviewComment().getId(),
                         KoiHistory::getKoiType));
+    }
+
+    private static Map<Long, Long> getLikeCountMap(List<Like> likes) {
+        return likes.stream()
+                .collect(Collectors.groupingBy(like -> like.getComment().getId(), Collectors.counting()));
     }
 }

@@ -4,6 +4,8 @@ import codekoi.apiserver.domain.code.comment.domain.CodeReviewComment;
 import codekoi.apiserver.domain.code.comment.dto.CodeCommentDetailDto;
 import codekoi.apiserver.domain.code.comment.dto.UserCodeCommentDto;
 import codekoi.apiserver.domain.code.comment.repository.CodeReviewCommentRepository;
+import codekoi.apiserver.domain.code.like.domain.Like;
+import codekoi.apiserver.domain.code.like.repository.LikeRepository;
 import codekoi.apiserver.domain.code.review.domain.CodeReview;
 import codekoi.apiserver.domain.code.review.repository.CodeReviewRepository;
 import codekoi.apiserver.domain.koi.history.domain.KoiHistory;
@@ -26,6 +28,7 @@ public class CodeCommentQuery {
     private final CodeReviewCommentRepository codeReviewCommentRepository;
     private final KoiHistoryRepository koiHistoryRepository;
     private final CodeReviewRepository codeReviewRepository;
+    private final LikeRepository likeRepository;
 
     public List<UserCodeCommentDto> getUserComments(Long userId) {
         final User user = userRepository.findByUserId(userId);
@@ -37,19 +40,29 @@ public class CodeCommentQuery {
                         .collect(Collectors.toList())
         );
 
-        return UserCodeCommentDto.listOf(user, comments, koiHistories);
+        final List<Long> commentIds = extractCommentIds(comments);
+        final List<Like> likes = likeRepository.findByCommentIdIn(commentIds);
+
+        return UserCodeCommentDto.listOf(user, comments, koiHistories, likes);
     }
 
     public List<CodeCommentDetailDto> getCommentsOnReview(Long sessionUserId, Long reviewId) {
         final CodeReview codeReview = codeReviewRepository.findByCodeReviewId(reviewId);
         final List<CodeReviewComment> comments = codeReviewCommentRepository.findByCodeReviewId(codeReview.getId());
 
-        final List<Long> commentIds = comments.stream()
-                .map(CodeReviewComment::getId)
-                .toList();
+
+        final List<Long> commentIds = extractCommentIds(comments);
+        final List<Like> likes = likeRepository.findByCommentIdIn(commentIds);
 
         final List<KoiHistory> koiHistories = koiHistoryRepository.findUserCommentKoiHistory(commentIds);
 
-        return CodeCommentDetailDto.listOf(comments, koiHistories, sessionUserId);
+        return CodeCommentDetailDto.listOf(comments, koiHistories, sessionUserId, likes);
+    }
+
+    private static List<Long> extractCommentIds(List<CodeReviewComment> comments) {
+        return comments
+                .stream()
+                .map(CodeReviewComment::getId)
+                .collect(Collectors.toList());
     }
 }
