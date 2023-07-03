@@ -133,6 +133,7 @@ public class CodeReviewControllerDocsTest extends ControllerTest {
                                 fieldWithPath("comments[].user.id").type(JsonFieldType.NUMBER)
                                         .description("유저 고유 아이디"),
 
+
                                 fieldWithPath("comments[].id").type(JsonFieldType.NUMBER)
                                         .description("댓글 고유아이디"),
                                 fieldWithPath("comments[].likeCount").type(JsonFieldType.NUMBER)
@@ -144,7 +145,9 @@ public class CodeReviewControllerDocsTest extends ControllerTest {
                                 fieldWithPath("comments[].koiType").type(JsonFieldType.STRING)
                                         .description("코이 값").optional(),
                                 fieldWithPath("comments[].me").type(JsonFieldType.BOOLEAN)
-                                        .description("현재 로그인한 유저가 작성한 댓글인지 여부")
+                                        .description("현재 로그인한 유저가 작성한 댓글인지 여부"),
+                                fieldWithPath("comments[].liked").type(JsonFieldType.BOOLEAN)
+                                        .description("현재 로그인한 유저가 해당 댓글에 좋아요 했는 지 여부")
                         )
                 ));
     }
