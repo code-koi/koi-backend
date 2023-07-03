@@ -1,7 +1,7 @@
 package codekoi.apiserver.domain.user.domain;
 
 import codekoi.apiserver.domain.model.TimeBaseEntity;
-import codekoi.apiserver.domain.skill.doamin.HardSkill;
+import codekoi.apiserver.domain.skill.doamin.Skill;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.Builder;
@@ -20,14 +20,14 @@ public class UserSkill extends TimeBaseEntity {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "skill_id")
-    private HardSkill hardSkill;
+    private Skill hardSkill;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "users_id")
     private User user;
 
     @Builder
-    private UserSkill(Long id, HardSkill hardSkill, User user) {
+    private UserSkill(Long id, Skill hardSkill, User user) {
         this.id = id;
         this.hardSkill = hardSkill;
         this.user = user;

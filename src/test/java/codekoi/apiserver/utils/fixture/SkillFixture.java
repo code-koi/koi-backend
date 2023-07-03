@@ -1,8 +1,8 @@
 package codekoi.apiserver.utils.fixture;
 
-import codekoi.apiserver.domain.skill.doamin.HardSkill;
+import codekoi.apiserver.domain.skill.doamin.Skill;
 
-public enum HardSkillFixture {
+public enum SkillFixture {
     SPRING("스프링"),
     JPA("JPA"),
     JAVA("Java"),
@@ -10,12 +10,12 @@ public enum HardSkillFixture {
     ;
     public final String name;
 
-    HardSkillFixture(String name) {
+    SkillFixture(String name) {
         this.name = name;
     }
 
-    public HardSkill toHardSkill() {
-        return HardSkill.builder()
+    public Skill toHardSkill() {
+        return Skill.builder()
                 .name(name)
                 .build();
     }

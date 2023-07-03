@@ -1,7 +1,6 @@
 package codekoi.apiserver.domain.code.review.domain;
 
 import codekoi.apiserver.domain.model.TimeBaseEntity;
-import codekoi.apiserver.domain.skill.doamin.HardSkill;
 import codekoi.apiserver.domain.skill.doamin.Skill;
 import codekoi.apiserver.domain.user.domain.User;
 import jakarta.persistence.*;
@@ -55,7 +54,7 @@ public class CodeReview extends TimeBaseEntity {
                 .build();
     }
 
-    public void addCodeReviewSkill(HardSkill skill) {
+    public void addCodeReviewSkill(Skill skill) {
         final CodeReviewSkill reviewSkill = CodeReviewSkill.builder()
                 .skill(skill)
                 .codeReview(this)

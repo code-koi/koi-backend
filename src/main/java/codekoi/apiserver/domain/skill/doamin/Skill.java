@@ -1,25 +1,29 @@
 package codekoi.apiserver.domain.skill.doamin;
 
-import jakarta.persistence.*;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
 import lombok.AccessLevel;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import lombok.experimental.SuperBuilder;
 
 @Entity
-@Getter
-@Inheritance(strategy = InheritanceType.SINGLE_TABLE)
-@DiscriminatorColumn(name = "skill_type")
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-@SuperBuilder
-public abstract class Skill {
-
+@Getter
+public class Skill  {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "skill_id")
-    protected Long id;
+    private Long id;
+    private String name;
 
-    protected String name;
+    private Integer searchCount;
 
-
+    @Builder
+    private Skill(Long id, String name, Integer searchCount) {
+        this.id = id;
+        this.name = name;
+        this.searchCount = searchCount;
+    }
 }

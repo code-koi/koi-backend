@@ -9,7 +9,7 @@ import codekoi.apiserver.domain.code.review.dto.UserCodeReviewDto;
 import codekoi.apiserver.domain.code.review.repository.CodeFavoriteRepository;
 import codekoi.apiserver.domain.code.review.repository.CodeReviewRepository;
 import codekoi.apiserver.domain.skill.HardSkillRepository;
-import codekoi.apiserver.domain.skill.doamin.HardSkill;
+import codekoi.apiserver.domain.skill.doamin.Skill;
 import codekoi.apiserver.domain.user.domain.User;
 import codekoi.apiserver.domain.user.dto.UserProfileDto;
 import codekoi.apiserver.domain.user.repository.UserRepository;
@@ -27,8 +27,8 @@ import java.time.LocalDateTime;
 import java.util.List;
 
 import static codekoi.apiserver.utils.fixture.CodeReviewFixture.REVIEW;
-import static codekoi.apiserver.utils.fixture.HardSkillFixture.JPA;
-import static codekoi.apiserver.utils.fixture.HardSkillFixture.SPRING;
+import static codekoi.apiserver.utils.fixture.SkillFixture.JPA;
+import static codekoi.apiserver.utils.fixture.SkillFixture.SPRING;
 import static codekoi.apiserver.utils.fixture.UserFixture.HONG;
 import static codekoi.apiserver.utils.fixture.UserFixture.SUNDO;
 import static org.assertj.core.api.Assertions.assertThat;
@@ -61,8 +61,8 @@ class CodeReviewQueryTest extends ServiceTest {
         codeReview = CodeReview.of(user, REVIEW.title, REVIEW.content);
         EntityReflectionTestUtil.setCreatedAt(codeReview, LocalDateTime.now());
 
-        final HardSkill skill1 = JPA.toHardSkill();
-        final HardSkill skill2 = SPRING.toHardSkill();
+        final Skill skill1 = JPA.toHardSkill();
+        final Skill skill2 = SPRING.toHardSkill();
         hardSkillRepository.saveAll(List.of(skill1, skill2));
 
         codeReview.addCodeReviewSkill(skill1);
