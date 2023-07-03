@@ -37,7 +37,9 @@ public class CodeCommentDetailDto {
 
     private long likeCount;
 
-    public CodeCommentDetailDto(UserProfileDto user, Long id, LocalDateTime createdAt, String content, KoiType koiType, Boolean me, long likeCount) {
+    private boolean liked;
+
+    public CodeCommentDetailDto(UserProfileDto user, Long id, LocalDateTime createdAt, String content, KoiType koiType, Boolean me, long likeCount, boolean liked) {
         this.user = user;
         this.id = id;
         this.createdAt = createdAt;
@@ -45,16 +47,19 @@ public class CodeCommentDetailDto {
         this.koiType = koiType;
         this.me = me;
         this.likeCount = likeCount;
+        this.liked = liked;
     }
 
     public static List<CodeCommentDetailDto> listOf(List<CodeReviewComment> comment, List<KoiHistory> koiHistories, Long sessionUserId, List<Like> likes) {
         final Map<Long, KoiType> koiMap = getKoiMap(koiHistories);
         final Map<Long, Long> likeCountMap = getLikeCountMap(likes);
+        final Map<Long, Boolean> likedByMeMap = getLikedByMeMap(likes, sessionUserId);
 
         return comment.stream()
                 .map(c -> new CodeCommentDetailDto(UserProfileDto.from(c.getUser()), c.getId(), c.getCreatedAt(),
-                        c.getContent(), koiMap.get(c.getId()), Objects.equals(sessionUserId, c.getUser().getId()), likeCountMap.getOrDefault(c.getId(), 0L)))
-                .collect(Collectors.toList());
+                        c.getContent(), koiMap.get(c.getId()), Objects.equals(sessionUserId, c.getUser().getId()),
+                        likeCountMap.getOrDefault(c.getId(), 0L), likedByMeMap.getOrDefault(c.getId(), false)
+                )).collect(Collectors.toList());
     }
 
     private static Map<Long, KoiType> getKoiMap(List<KoiHistory> koiHistories) {
@@ -66,5 +71,11 @@ public class CodeCommentDetailDto {
     private static Map<Long, Long> getLikeCountMap(List<Like> likes) {
         return likes.stream()
                 .collect(Collectors.groupingBy(like -> like.getComment().getId(), Collectors.counting()));
+    }
+
+    private static Map<Long, Boolean> getLikedByMeMap(List<Like> likes, Long userId) {
+        return likes.stream()
+                .filter(like -> like.getUser().getId().equals(userId))
+                .collect(Collectors.toMap(Like::getId, like -> Boolean.TRUE));
     }
 }

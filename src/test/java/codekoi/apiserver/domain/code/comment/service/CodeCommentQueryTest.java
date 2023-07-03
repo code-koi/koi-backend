@@ -26,6 +26,7 @@ import java.util.List;
 import static codekoi.apiserver.utils.fixture.CodeReviewCommentFixture.REVIEW_COMMENT;
 import static codekoi.apiserver.utils.fixture.CodeReviewFixture.REVIEW;
 import static codekoi.apiserver.utils.fixture.KoiHistoryFixture.RIVER;
+import static org.assertj.core.api.Assertions.as;
 import static org.assertj.core.api.Assertions.assertThat;
 
 class CodeCommentQueryTest extends ServiceTest {
@@ -116,6 +117,7 @@ class CodeCommentQueryTest extends ServiceTest {
         assertThat(dto.getContent()).isEqualTo(reviewComment.getContent());
         assertThat(dto.getKoiType()).isEqualTo(koiHistory.getKoiType());
         assertThat(dto.getMe()).isFalse();
+        assertThat(dto.isLiked()).isFalse();
         assertThat(dto.getLikeCount()).isEqualTo(1);
     }
 }
