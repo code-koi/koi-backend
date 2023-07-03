@@ -179,3 +179,14 @@ include::{snippets}/codeComments/post-commentId-like/path-parameters.adoc[]
 === Request
 include::{snippets}/codeComments/post-commentId-unlike/http-request.adoc[]
 include::{snippets}/codeComments/post-commentId-unlike/path-parameters.adoc[]
+
+
+= 기술스택 [ /skills ]
+
+== 검색 순위 조회
+=== Request
+include::{snippets}/skills/get-rank/http-request.adoc[]
+
+=== Response
+include::{snippets}/skills/get-rank/response-fields.adoc[]
+include::{snippets}/skills/get-rank/response-body.adoc[]

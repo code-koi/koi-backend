@@ -19,4 +19,11 @@ public enum SkillFixture {
                 .name(name)
                 .build();
     }
+
+    public Skill toHardSkill(Long id) {
+        return Skill.builder()
+                .id(id)
+                .name(name)
+                .build();
+    }
 }

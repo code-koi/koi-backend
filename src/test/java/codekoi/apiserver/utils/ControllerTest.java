@@ -8,6 +8,8 @@ import codekoi.apiserver.domain.code.comment.service.CodeCommentQuery;
 import codekoi.apiserver.domain.code.like.service.LikeCommand;
 import codekoi.apiserver.domain.code.review.controller.CodeReviewController;
 import codekoi.apiserver.domain.code.review.service.CodeReviewQuery;
+import codekoi.apiserver.domain.skill.controller.SkillController;
+import codekoi.apiserver.domain.skill.service.SkillQuery;
 import codekoi.apiserver.domain.user.controller.UserController;
 import codekoi.apiserver.domain.user.service.UserQuery;
 import codekoi.apiserver.global.token.JwtTokenProvider;
@@ -36,7 +38,8 @@ import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.
         AuthController.class,
         UserController.class,
         CodeReviewController.class,
-        CodeCommentController.class
+        CodeCommentController.class,
+        SkillController.class
 })
 public abstract class ControllerTest {
 
@@ -61,6 +64,9 @@ public abstract class ControllerTest {
 
     @MockBean
     protected LikeCommand likeCommand;
+
+    @MockBean
+    protected SkillQuery skillQuery;
 
     @Autowired
     protected JwtTokenProvider jwtTokenProvider;
