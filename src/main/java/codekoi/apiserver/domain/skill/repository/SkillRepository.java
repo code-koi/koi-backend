@@ -10,6 +10,6 @@ import java.util.List;
 @Repository
 public interface SkillRepository extends JpaRepository<Skill, Long> {
 
-    @Query("select hs from Skill hs order by hs.searchCount desc limit 10")
+    @Query("select s from Skill s order by s.searchCount desc limit 10")
     List<Skill> findTop10();
 }

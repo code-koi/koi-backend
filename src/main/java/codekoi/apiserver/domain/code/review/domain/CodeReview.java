@@ -1,5 +1,6 @@
 package codekoi.apiserver.domain.code.review.domain;
 
+import codekoi.apiserver.domain.code.comment.domain.CodeReviewComment;
 import codekoi.apiserver.domain.model.TimeBaseEntity;
 import codekoi.apiserver.domain.skill.doamin.Skill;
 import codekoi.apiserver.domain.user.domain.User;
@@ -35,6 +36,9 @@ public class CodeReview extends TimeBaseEntity {
 
     @OneToMany(mappedBy = "codeReview", cascade = {CascadeType.REMOVE, CascadeType.PERSIST}, orphanRemoval = true)
     private List<CodeReviewSkill> skills = new ArrayList<>();
+
+    @OneToMany(mappedBy = "codeReview", cascade = {CascadeType.REMOVE, CascadeType.PERSIST}, orphanRemoval = true)
+    private List<CodeReviewComment> comments = new ArrayList<>();
 
     @Builder
     private CodeReview(Long id, User user, String title, String content, CodeReviewStatus status) {

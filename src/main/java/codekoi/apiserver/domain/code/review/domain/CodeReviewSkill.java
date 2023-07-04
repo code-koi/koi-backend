@@ -20,11 +20,11 @@ public class CodeReviewSkill extends TimeBaseEntity {
     @Column(name = "code_review_skill")
     private Long id;
 
-    @ManyToOne(fetch = LAZY)
+    @ManyToOne(fetch = LAZY, optional = false)
     @JoinColumn(name = "skill_id")
     private Skill skill;
 
-    @ManyToOne(fetch = LAZY)
+    @ManyToOne(fetch = LAZY, optional = false)
     @JoinColumn(name = "code_review_id")
     private CodeReview codeReview;
 

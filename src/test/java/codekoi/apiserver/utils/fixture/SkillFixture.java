@@ -3,20 +3,23 @@ package codekoi.apiserver.utils.fixture;
 import codekoi.apiserver.domain.skill.doamin.Skill;
 
 public enum SkillFixture {
-    SPRING("스프링"),
-    JPA("JPA"),
-    JAVA("Java"),
+    SPRING("스프링", 10),
+    JPA("JPA",9),
+    JAVA("Java",8),
 
     ;
     public final String name;
+    public final int searchCount;
 
-    SkillFixture(String name) {
+    SkillFixture(String name, int searchCount) {
         this.name = name;
+        this.searchCount = searchCount;
     }
 
     public Skill toHardSkill() {
         return Skill.builder()
                 .name(name)
+                .searchCount(searchCount)
                 .build();
     }
 
@@ -24,6 +27,7 @@ public enum SkillFixture {
         return Skill.builder()
                 .id(id)
                 .name(name)
+                .searchCount(searchCount)
                 .build();
     }
 }

@@ -50,11 +50,13 @@ public class CodeReviewComment extends TimeBaseEntity {
     }
 
     public static CodeReviewComment of(User user, CodeReview codeReview, String content) {
-        return CodeReviewComment.builder()
+        final CodeReviewComment comment = CodeReviewComment.builder()
                 .user(user)
                 .codeReview(codeReview)
                 .content(content)
                 .build();
+        codeReview.getComments().add(comment);
+        return comment;
     }
 
     public void addLikeCount() {
