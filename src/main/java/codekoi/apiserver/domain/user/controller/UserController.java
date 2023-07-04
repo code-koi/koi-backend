@@ -3,11 +3,13 @@ package codekoi.apiserver.domain.user.controller;
 import codekoi.apiserver.domain.code.comment.dto.UserCodeCommentDto;
 import codekoi.apiserver.domain.code.comment.service.CodeCommentQuery;
 import codekoi.apiserver.domain.code.review.dto.UserCodeReviewDto;
+import codekoi.apiserver.domain.code.review.dto.UserSkillStatistics;
 import codekoi.apiserver.domain.code.review.dto.response.UserCommentedReviewListResponse;
 import codekoi.apiserver.domain.code.review.dto.response.UserDetailCodeReviewListResponse;
 import codekoi.apiserver.domain.code.review.service.CodeReviewQuery;
 import codekoi.apiserver.domain.user.dto.UserDetail;
 import codekoi.apiserver.domain.user.dto.UserToken;
+import codekoi.apiserver.domain.user.dto.response.UserStatisticsResponse;
 import codekoi.apiserver.domain.user.service.UserQuery;
 import codekoi.apiserver.global.token.Principal;
 import lombok.RequiredArgsConstructor;
@@ -48,5 +50,11 @@ public class UserController {
     public UserDetailCodeReviewListResponse favoriteReviews(@Principal UserToken userToken, @PathVariable Long userId) {
         final List<UserCodeReviewDto> favoriteCodeReviews = codeReviewQuery.findFavoriteCodeReviews(userToken.getUserId(), userId);
         return UserDetailCodeReviewListResponse.from(favoriteCodeReviews);
+    }
+
+    @GetMapping("/{userId}/skills/statistics")
+    public UserStatisticsResponse userSkillStatistics(@PathVariable Long userId) {
+        final List<UserSkillStatistics> skillStatistics = codeReviewQuery.findUserSkillStatistics(userId);
+        return UserStatisticsResponse.from(skillStatistics);
     }
 }

@@ -1,7 +1,7 @@
 package codekoi.apiserver.domain.user.domain;
 
 import codekoi.apiserver.domain.model.TimeBaseEntity;
-import codekoi.apiserver.domain.skill.doamin.HardSkill;
+import codekoi.apiserver.domain.skill.doamin.Skill;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.Builder;
@@ -51,7 +51,7 @@ public class User extends TimeBaseEntity {
         this.profileImageUrl = profileImageUrl;
     }
 
-    public void addUserSkill(HardSkill skill) {
+    public void addUserSkill(Skill skill) {
         final UserSkill userSkill = UserSkill.builder()
                 .hardSkill(skill)
                 .user(this)

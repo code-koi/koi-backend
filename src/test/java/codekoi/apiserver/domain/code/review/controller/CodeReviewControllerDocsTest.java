@@ -4,12 +4,12 @@ import codekoi.apiserver.domain.code.comment.domain.CodeReviewComment;
 import codekoi.apiserver.domain.code.comment.dto.CodeCommentDetailDto;
 import codekoi.apiserver.domain.code.review.domain.CodeReview;
 import codekoi.apiserver.domain.code.review.dto.CodeReviewDetailDto;
-import codekoi.apiserver.domain.skill.doamin.HardSkill;
+import codekoi.apiserver.domain.skill.doamin.Skill;
 import codekoi.apiserver.domain.user.domain.User;
 import codekoi.apiserver.utils.ControllerTest;
 import codekoi.apiserver.utils.EntityReflectionTestUtil;
 import codekoi.apiserver.utils.fixture.CodeReviewFixture;
-import codekoi.apiserver.utils.fixture.HardSkillFixture;
+import codekoi.apiserver.utils.fixture.SkillFixture;
 import codekoi.apiserver.utils.fixture.UserFixture;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -43,7 +43,7 @@ public class CodeReviewControllerDocsTest extends ControllerTest {
         final CodeReview codeReview = REVIEW.toCodeReview(1L, user);
         EntityReflectionTestUtil.setCreatedAt(codeReview, LocalDateTime.now());
 
-        final HardSkill hardSkill = HardSkillFixture.JPA.toHardSkill();
+        final Skill hardSkill = SkillFixture.JPA.toHardSkill();
         codeReview.addCodeReviewSkill(hardSkill);
 
         final CodeReviewDetailDto dto = CodeReviewDetailDto.of(codeReview, true, true);

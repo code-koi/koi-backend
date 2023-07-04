@@ -32,7 +32,7 @@ public class CodeCommentQuery {
 
     public List<UserCodeCommentDto> getUserComments(Long userId) {
         final User user = userRepository.findByUserId(userId);
-        final List<CodeReviewComment> comments = codeReviewCommentRepository.findByUser(user.getId());
+        final List<CodeReviewComment> comments = codeReviewCommentRepository.findByUserId(user.getId());
 
         final List<KoiHistory> koiHistories = koiHistoryRepository.findUserCommentKoiHistory(
                 comments.stream()

@@ -5,7 +5,7 @@ import codekoi.apiserver.domain.code.comment.repository.CodeReviewCommentReposit
 import codekoi.apiserver.domain.code.review.domain.CodeReview;
 import codekoi.apiserver.domain.code.review.repository.CodeReviewRepository;
 import codekoi.apiserver.domain.skill.HardSkillRepository;
-import codekoi.apiserver.domain.skill.doamin.HardSkill;
+import codekoi.apiserver.domain.skill.doamin.Skill;
 import codekoi.apiserver.domain.user.domain.User;
 import codekoi.apiserver.domain.user.dto.UserDetail;
 import codekoi.apiserver.domain.user.dto.UserToken;
@@ -18,7 +18,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import static codekoi.apiserver.utils.fixture.CodeReviewCommentFixture.REVIEW_COMMENT;
 import static codekoi.apiserver.utils.fixture.CodeReviewFixture.REVIEW;
-import static codekoi.apiserver.utils.fixture.HardSkillFixture.JPA;
+import static codekoi.apiserver.utils.fixture.SkillFixture.JPA;
 import static codekoi.apiserver.utils.fixture.UserFixture.SUNDO;
 import static org.assertj.core.api.Assertions.*;
 
@@ -71,7 +71,7 @@ class UserQueryTest extends ServiceTest {
         final CodeReview codeReview = REVIEW.toCodeReview(user);
         final CodeReviewComment codeReviewComment = REVIEW_COMMENT.toCodeReviewComment(user, codeReview);
 
-        final HardSkill skill = JPA.toHardSkill();
+        final Skill skill = JPA.toHardSkill();
         hardSkillRepository.save(skill);
 
         user.addUserSkill(skill);

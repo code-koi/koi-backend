@@ -1,7 +1,7 @@
 package codekoi.apiserver.domain.skill;
 
-import codekoi.apiserver.domain.skill.doamin.HardSkill;
+import codekoi.apiserver.domain.skill.doamin.Skill;
 import org.springframework.data.jpa.repository.JpaRepository;
 
-public interface HardSkillRepository extends JpaRepository<HardSkill, Long> {
+public interface HardSkillRepository extends JpaRepository<Skill, Long> {
 }

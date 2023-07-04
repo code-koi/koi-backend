@@ -1,7 +1,7 @@
 package codekoi.apiserver.domain.code.review.domain;
 
 import codekoi.apiserver.domain.model.TimeBaseEntity;
-import codekoi.apiserver.domain.skill.doamin.HardSkill;
+import codekoi.apiserver.domain.skill.doamin.Skill;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.Builder;
@@ -20,16 +20,16 @@ public class CodeReviewSkill extends TimeBaseEntity {
     @Column(name = "code_review_skill")
     private Long id;
 
-    @ManyToOne(fetch = LAZY)
+    @ManyToOne(fetch = LAZY, optional = false)
     @JoinColumn(name = "skill_id")
-    private HardSkill skill;
+    private Skill skill;
 
-    @ManyToOne(fetch = LAZY)
+    @ManyToOne(fetch = LAZY, optional = false)
     @JoinColumn(name = "code_review_id")
     private CodeReview codeReview;
 
     @Builder
-    private CodeReviewSkill(Long id, HardSkill skill, CodeReview codeReview) {
+    private CodeReviewSkill(Long id, Skill skill, CodeReview codeReview) {
         this.id = id;
         this.skill = skill;
         this.codeReview = codeReview;

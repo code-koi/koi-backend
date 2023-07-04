@@ -1,20 +1,27 @@
 package codekoi.apiserver.domain.code.review.service;
 
 
+import codekoi.apiserver.domain.code.comment.domain.CodeReviewComment;
+import codekoi.apiserver.domain.code.comment.repository.CodeReviewCommentRepository;
 import codekoi.apiserver.domain.code.review.domain.CodeReview;
 import codekoi.apiserver.domain.code.review.domain.CodeReviewStatus;
 import codekoi.apiserver.domain.code.review.domain.Favorite;
 import codekoi.apiserver.domain.code.review.dto.CodeReviewDetailDto;
 import codekoi.apiserver.domain.code.review.dto.UserCodeReviewDto;
+import codekoi.apiserver.domain.code.review.dto.UserSkillStatistics;
 import codekoi.apiserver.domain.code.review.repository.CodeFavoriteRepository;
 import codekoi.apiserver.domain.code.review.repository.CodeReviewRepository;
 import codekoi.apiserver.domain.skill.HardSkillRepository;
-import codekoi.apiserver.domain.skill.doamin.HardSkill;
+import codekoi.apiserver.domain.skill.doamin.Skill;
 import codekoi.apiserver.domain.user.domain.User;
 import codekoi.apiserver.domain.user.dto.UserProfileDto;
 import codekoi.apiserver.domain.user.repository.UserRepository;
 import codekoi.apiserver.utils.EntityReflectionTestUtil;
 import codekoi.apiserver.utils.ServiceTest;
+import codekoi.apiserver.utils.fixture.CodeReviewCommentFixture;
+import codekoi.apiserver.utils.fixture.CodeReviewFixture;
+import codekoi.apiserver.utils.fixture.SkillFixture;
+import codekoi.apiserver.utils.fixture.UserFixture;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
 import org.junit.jupiter.api.BeforeEach;
@@ -26,12 +33,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import java.time.LocalDateTime;
 import java.util.List;
 
+import static codekoi.apiserver.utils.fixture.CodeReviewCommentFixture.REVIEW_COMMENT;
 import static codekoi.apiserver.utils.fixture.CodeReviewFixture.REVIEW;
-import static codekoi.apiserver.utils.fixture.HardSkillFixture.JPA;
-import static codekoi.apiserver.utils.fixture.HardSkillFixture.SPRING;
+import static codekoi.apiserver.utils.fixture.SkillFixture.*;
 import static codekoi.apiserver.utils.fixture.UserFixture.HONG;
 import static codekoi.apiserver.utils.fixture.UserFixture.SUNDO;
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.groups.Tuple.tuple;
 
 class CodeReviewQueryTest extends ServiceTest {
 
@@ -43,6 +51,8 @@ class CodeReviewQueryTest extends ServiceTest {
     HardSkillRepository hardSkillRepository;
     @Autowired
     CodeFavoriteRepository favoriteRepository;
+    @Autowired
+    CodeReviewCommentRepository commentRepository;
 
     @Autowired
     CodeReviewQuery codeReviewQuery;
@@ -52,6 +62,9 @@ class CodeReviewQueryTest extends ServiceTest {
 
     private User user;
     private CodeReview codeReview;
+    private Skill skill1;
+    private Skill skill2;
+
 
     @BeforeEach
     public void init() {
@@ -61,8 +74,8 @@ class CodeReviewQueryTest extends ServiceTest {
         codeReview = CodeReview.of(user, REVIEW.title, REVIEW.content);
         EntityReflectionTestUtil.setCreatedAt(codeReview, LocalDateTime.now());
 
-        final HardSkill skill1 = JPA.toHardSkill();
-        final HardSkill skill2 = SPRING.toHardSkill();
+        skill1 = JPA.toHardSkill();
+        skill2 = SPRING.toHardSkill();
         hardSkillRepository.saveAll(List.of(skill1, skill2));
 
         codeReview.addCodeReviewSkill(skill1);
@@ -189,6 +202,78 @@ class CodeReviewQueryTest extends ServiceTest {
         assertThat(reviewUser.getId()).isEqualTo(user.getId());
         assertThat(reviewUser.getProfileImageUrl()).isEqualTo(SUNDO.profileImageUrl);
         assertThat(reviewUser.getNickname()).isEqualTo(SUNDO.nickname);
+    }
+
+    @Nested
+    @DisplayName("유저의 스킬 태그 통계 조회 테스트")
+    class UserSkillStatisticsTest {
+
+        @Test
+        @DisplayName("코드리뷰를 요청하고, 다른 리뷰건에 댓글을 남기면 통계에 둘 다 반영된다.")
+        void ReviewOtherComment() {
+            //given
+            final User hong = HONG.toUser();
+            userRepository.save(hong);
+            final CodeReview otherReview = REVIEW.toCodeReview(hong);
+
+            final Skill skill = SPRING.toHardSkill();
+            hardSkillRepository.save(skill);
+            otherReview.addCodeReviewSkill(skill);
+            codeReviewRepository.save(otherReview);
+
+            final CodeReviewComment comment = REVIEW_COMMENT.toCodeReviewComment(user, otherReview);
+            commentRepository.save(comment);
+
+            clearPersistenceContext();
+
+            //when
+            final List<UserSkillStatistics> statistics = codeReviewQuery.findUserSkillStatistics(user.getId());
+
+            //then
+            assertThat(statistics).hasSize(3);
+        }
+
+        @Test
+        @DisplayName("코드리뷰와 댓글 둘 다 남기면, 하나만 통계에 반영한다.")
+        void sameReviewComment() {
+            //given
+            final CodeReviewComment c1 = REVIEW_COMMENT.toCodeReviewComment(user, codeReview);
+            commentRepository.save(c1);
+
+            clearPersistenceContext();
+
+            //when
+            final List<UserSkillStatistics> statistics = codeReviewQuery.findUserSkillStatistics(user.getId());
+
+            //then
+            assertThat(statistics).hasSize(2);
+            assertThat(statistics)
+                    .extracting("id", "name", "count")
+                    .containsExactlyInAnyOrder(
+                            tuple(skill2.getId(), skill2.getName(), 1),
+                            tuple(skill1.getId(), skill1.getName(), 1)
+                    );
+        }
+
+        @Test
+        @DisplayName("하나의 코드리뷰에 여러개의 댓글을 남기면, 하나의 댓글만 통계에 반영한다.")
+        void oneReviewMultiComment() {
+            //given
+            final User hong = HONG.toUser();
+            userRepository.save(hong);
+
+            final CodeReviewComment c1 = REVIEW_COMMENT.toCodeReviewComment(hong, codeReview);
+            final CodeReviewComment c2 = REVIEW_COMMENT.toCodeReviewComment(hong, codeReview);
+            commentRepository.saveAll(List.of(c1, c2));
+
+            clearPersistenceContext();
+
+            //when
+            final List<UserSkillStatistics> statistics = codeReviewQuery.findUserSkillStatistics(hong.getId());
+
+            //then
+            assertThat(statistics).hasSize(2);
+        }
     }
 
     private void clearPersistenceContext() {

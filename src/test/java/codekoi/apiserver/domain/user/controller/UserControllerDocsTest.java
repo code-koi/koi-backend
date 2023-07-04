@@ -5,14 +5,15 @@ import codekoi.apiserver.domain.code.comment.dto.UserCodeCommentDto;
 import codekoi.apiserver.domain.code.review.domain.CodeReview;
 import codekoi.apiserver.domain.code.review.domain.Favorite;
 import codekoi.apiserver.domain.code.review.dto.UserCodeReviewDto;
+import codekoi.apiserver.domain.code.review.dto.UserSkillStatistics;
 import codekoi.apiserver.domain.koi.domain.KoiType;
-import codekoi.apiserver.domain.skill.doamin.HardSkill;
+import codekoi.apiserver.domain.skill.doamin.Skill;
 import codekoi.apiserver.domain.user.domain.User;
 import codekoi.apiserver.domain.user.dto.UserDetail;
 import codekoi.apiserver.utils.ControllerTest;
 import codekoi.apiserver.utils.EntityReflectionTestUtil;
 import codekoi.apiserver.utils.fixture.CodeReviewFixture;
-import codekoi.apiserver.utils.fixture.HardSkillFixture;
+import codekoi.apiserver.utils.fixture.SkillFixture;
 import codekoi.apiserver.utils.fixture.UserFixture;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
@@ -223,7 +224,7 @@ public class UserControllerDocsTest extends ControllerTest {
             final CodeReview codeReview = REVIEW.toCodeReview(1L, user);
             EntityReflectionTestUtil.setCreatedAt(codeReview, LocalDateTime.now());
 
-            final HardSkill hardSkill = HardSkillFixture.JPA.toHardSkill();
+            final Skill hardSkill = SkillFixture.JPA.toHardSkill();
             codeReview.addCodeReviewSkill(hardSkill);
 
             final Favorite favorite = Favorite.of(codeReview, user);
@@ -232,4 +233,38 @@ public class UserControllerDocsTest extends ControllerTest {
         }
     }
 
+    @Test
+    @DisplayName("유저의 스킬 통계 정보 조회")
+    void userSkillStatistics() throws Exception {
+        //given
+        final Skill skill = SkillFixture.JPA.toHardSkill(1L);
+        final UserSkillStatistics statistics = UserSkillStatistics.of(skill, 10);
+
+        given(codeReviewQuery.findUserSkillStatistics(anyLong()))
+                .willReturn(List.of(statistics));
+
+        //when
+        final ResultActions result = mvc.perform(get("/api/users/{userId}/skills/statistics", 1L));
+
+        //then
+        result
+                .andExpect(status().isOk())
+                .andDo(document("users/get-userId-skills-statistics",
+                        pathParameters(
+                                parameterWithName("userId")
+                                        .description("유저 고유 아이디")
+                        ),
+
+                        responseFields(
+                                fieldWithPath("skills").type(JsonFieldType.ARRAY)
+                                        .description("유저의 스킬 배열. 많이 사용한 순으로 내림차순 정렬"),
+                                fieldWithPath("skills[].id").type(JsonFieldType.NUMBER)
+                                        .description("스킬 아이디"),
+                                fieldWithPath("skills[].name").type(JsonFieldType.STRING)
+                                        .description("스킬 이름"),
+                                fieldWithPath("skills[].count").type(JsonFieldType.NUMBER)
+                                        .description("해당 스킬으로 코드리뷰 요청 및 응답한 횟수")
+                        )
+                ));
+    }
 }

@@ -146,6 +146,14 @@ include::{snippets}/users/get-userId-comments/path-parameters.adoc[]
 include::{snippets}/users/get-userId-comments/response-fields.adoc[]
 include::{snippets}/users/get-userId-comments/response-body.adoc[]
 
+== 유저가 사용한 기술 스택 키워드 통계
+
+=== Request
+include::{snippets}/users/get-userId-skills-statistics/path-parameters.adoc[]
+
+=== Response
+include::{snippets}/users/get-userId-skills-statistics/response-fields.adoc[]
+include::{snippets}/users/get-userId-skills-statistics/response-body.adoc[]
 
 
 = 코드리뷰 [ /code-reviews ]
@@ -179,3 +187,14 @@ include::{snippets}/codeComments/post-commentId-like/path-parameters.adoc[]
 === Request
 include::{snippets}/codeComments/post-commentId-unlike/http-request.adoc[]
 include::{snippets}/codeComments/post-commentId-unlike/path-parameters.adoc[]
+
+
+= 기술스택 [ /skills ]
+
+== 검색 순위 조회
+=== Request
+include::{snippets}/skills/get-rank/http-request.adoc[]
+
+=== Response
+include::{snippets}/skills/get-rank/response-fields.adoc[]
+include::{snippets}/skills/get-rank/response-body.adoc[]

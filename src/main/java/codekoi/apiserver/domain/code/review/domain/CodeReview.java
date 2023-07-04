@@ -1,7 +1,7 @@
 package codekoi.apiserver.domain.code.review.domain;
 
+import codekoi.apiserver.domain.code.comment.domain.CodeReviewComment;
 import codekoi.apiserver.domain.model.TimeBaseEntity;
-import codekoi.apiserver.domain.skill.doamin.HardSkill;
 import codekoi.apiserver.domain.skill.doamin.Skill;
 import codekoi.apiserver.domain.user.domain.User;
 import jakarta.persistence.*;
@@ -37,6 +37,9 @@ public class CodeReview extends TimeBaseEntity {
     @OneToMany(mappedBy = "codeReview", cascade = {CascadeType.REMOVE, CascadeType.PERSIST}, orphanRemoval = true)
     private List<CodeReviewSkill> skills = new ArrayList<>();
 
+    @OneToMany(mappedBy = "codeReview", cascade = {CascadeType.REMOVE, CascadeType.PERSIST}, orphanRemoval = true)
+    private List<CodeReviewComment> comments = new ArrayList<>();
+
     @Builder
     private CodeReview(Long id, User user, String title, String content, CodeReviewStatus status) {
         this.id = id;
@@ -55,7 +58,7 @@ public class CodeReview extends TimeBaseEntity {
                 .build();
     }
 
-    public void addCodeReviewSkill(HardSkill skill) {
+    public void addCodeReviewSkill(Skill skill) {
         final CodeReviewSkill reviewSkill = CodeReviewSkill.builder()
                 .skill(skill)
                 .codeReview(this)
