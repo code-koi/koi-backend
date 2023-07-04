@@ -250,6 +250,11 @@ public class UserControllerDocsTest extends ControllerTest {
         result
                 .andExpect(status().isOk())
                 .andDo(document("users/get-userId-skills-statistics",
+                        pathParameters(
+                                parameterWithName("userId")
+                                        .description("유저 고유 아이디")
+                        ),
+
                         responseFields(
                                 fieldWithPath("skills").type(JsonFieldType.ARRAY)
                                         .description("유저의 스킬 배열. 많이 사용한 순으로 내림차순 정렬"),

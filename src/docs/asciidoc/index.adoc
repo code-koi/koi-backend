@@ -146,6 +146,14 @@ include::{snippets}/users/get-userId-comments/path-parameters.adoc[]
 include::{snippets}/users/get-userId-comments/response-fields.adoc[]
 include::{snippets}/users/get-userId-comments/response-body.adoc[]
 
+== 유저가 사용한 기술 스택 키워드 통계
+
+=== Request
+include::{snippets}/users/get-userId-skills-statistics/path-parameters.adoc[]
+
+=== Response
+include::{snippets}/users/get-userId-skills-statistics/response-fields.adoc[]
+include::{snippets}/users/get-userId-skills-statistics/response-body.adoc[]
 
 
 = 코드리뷰 [ /code-reviews ]
