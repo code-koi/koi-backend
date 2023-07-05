@@ -155,6 +155,15 @@ include::{snippets}/users/get-userId-skills-statistics/path-parameters.adoc[]
 include::{snippets}/users/get-userId-skills-statistics/response-fields.adoc[]
 include::{snippets}/users/get-userId-skills-statistics/response-body.adoc[]
 
+== 유저의 활동 히스토리
+
+=== Request
+include::{snippets}/users/get-userId-logs/path-parameters.adoc[]
+
+=== Response
+include::{snippets}/users/get-userId-logs/response-fields.adoc[]
+include::{snippets}/users/get-userId-logs/response-body.adoc[]
+
 
 = 코드리뷰 [ /code-reviews ]
 == 코드리뷰 상세 정보

@@ -18,6 +18,8 @@ public interface CodeReviewRepository extends JpaRepository<CodeReview, Long>, C
 
     List<CodeReview> findByUser(User user);
 
+    List<CodeReview> findTop10ByUserOrderByCreatedAtDesc(User user);
+
     @EntityGraph(attributePaths = {"user"})
     @Query("select c from CodeReview c where c.id=:id")
     Optional<CodeReview> findByCodeReviewIdWithUser(@Param("id") Long codeReviewId);

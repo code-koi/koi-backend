@@ -4,8 +4,11 @@ import codekoi.apiserver.domain.code.comment.domain.CodeReviewComment;
 import codekoi.apiserver.domain.code.comment.dto.UserCodeCommentDto;
 import codekoi.apiserver.domain.code.review.domain.CodeReview;
 import codekoi.apiserver.domain.code.review.domain.Favorite;
+import codekoi.apiserver.domain.code.review.dto.UserActivityHistory;
 import codekoi.apiserver.domain.code.review.dto.UserCodeReviewDto;
 import codekoi.apiserver.domain.code.review.dto.UserSkillStatistics;
+import codekoi.apiserver.domain.code.review.vo.Activity;
+import codekoi.apiserver.domain.code.review.vo.ActivityHistories;
 import codekoi.apiserver.domain.koi.domain.KoiType;
 import codekoi.apiserver.domain.skill.doamin.Skill;
 import codekoi.apiserver.domain.user.domain.User;
@@ -20,6 +23,7 @@ import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 import org.springframework.restdocs.payload.JsonFieldType;
 import org.springframework.test.web.servlet.ResultActions;
+import org.w3c.dom.ls.LSException;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -264,6 +268,39 @@ public class UserControllerDocsTest extends ControllerTest {
                                         .description("스킬 이름"),
                                 fieldWithPath("skills[].count").type(JsonFieldType.NUMBER)
                                         .description("해당 스킬으로 코드리뷰 요청 및 응답한 횟수")
+                        )
+                ));
+    }
+
+    @Test
+    @DisplayName("유저의 활동 로그 조회")
+    void userActivityLog() throws Exception {
+        //given
+        final Activity activity = new Activity(ActivityHistories.Type.LIKE, 1L, "이 코드 여기서 이상합니다.", LocalDateTime.now());
+        final List<UserActivityHistory> dto = UserActivityHistory.listFrom(List.of(activity));
+
+        given(codeReviewQuery.findUserHistory(anyLong()))
+                .willReturn(dto);
+
+        //when
+        final ResultActions result = mvc.perform(get("/api/users/{userId}/logs", 1L));
+
+        //then
+        result
+                .andExpect(status().isOk())
+                .andDo(document("users/get-userId-logs", pathParameters(
+                                parameterWithName("userId")
+                                        .description("유저 고유 아이디")
+                        ),
+                        responseFields(
+                                fieldWithPath("logs").type(JsonFieldType.ARRAY)
+                                        .description("유저의 로그정보. 최신순 정렬"),
+                                fieldWithPath("logs[].reviewId").type(JsonFieldType.NUMBER)
+                                        .description("해당 행위가 이루어진 reviewId"),
+                                fieldWithPath("logs[].log").type(JsonFieldType.STRING)
+                                        .description("로그"),
+                                fieldWithPath("logs[].createdAt").type(JsonFieldType.STRING)
+                                        .description("시간 정보")
                         )
                 ));
     }
