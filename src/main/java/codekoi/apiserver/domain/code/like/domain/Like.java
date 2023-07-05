@@ -2,6 +2,7 @@ package codekoi.apiserver.domain.code.like.domain;
 
 import codekoi.apiserver.domain.code.comment.domain.CodeReviewComment;
 import codekoi.apiserver.domain.code.like.exception.LikeUserNotMatchedException;
+import codekoi.apiserver.domain.model.TimeBaseEntity;
 import codekoi.apiserver.domain.user.domain.User;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
@@ -15,7 +16,7 @@ import static jakarta.persistence.FetchType.LAZY;
 @Table(name = "likes")
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-public class Like {
+public class Like extends TimeBaseEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

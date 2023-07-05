@@ -2,6 +2,7 @@ package codekoi.apiserver.domain.user.controller;
 
 import codekoi.apiserver.domain.code.comment.dto.UserCodeCommentDto;
 import codekoi.apiserver.domain.code.comment.service.CodeCommentQuery;
+import codekoi.apiserver.domain.code.review.dto.UserActivityHistory;
 import codekoi.apiserver.domain.code.review.dto.UserCodeReviewDto;
 import codekoi.apiserver.domain.code.review.dto.UserSkillStatistics;
 import codekoi.apiserver.domain.code.review.dto.response.UserCommentedReviewListResponse;
@@ -9,6 +10,7 @@ import codekoi.apiserver.domain.code.review.dto.response.UserDetailCodeReviewLis
 import codekoi.apiserver.domain.code.review.service.CodeReviewQuery;
 import codekoi.apiserver.domain.user.dto.UserDetail;
 import codekoi.apiserver.domain.user.dto.UserToken;
+import codekoi.apiserver.domain.user.dto.response.UserHistoryLogResponse;
 import codekoi.apiserver.domain.user.dto.response.UserStatisticsResponse;
 import codekoi.apiserver.domain.user.service.UserQuery;
 import codekoi.apiserver.global.token.Principal;
@@ -56,5 +58,11 @@ public class UserController {
     public UserStatisticsResponse userSkillStatistics(@PathVariable Long userId) {
         final List<UserSkillStatistics> skillStatistics = codeReviewQuery.findUserSkillStatistics(userId);
         return UserStatisticsResponse.from(skillStatistics);
+    }
+
+    @GetMapping("/{userId}/logs")
+    public UserHistoryLogResponse userHistoryLog(@PathVariable Long userId) {
+        final List<UserActivityHistory> userHistory = codeReviewQuery.findUserHistory(userId);
+        return UserHistoryLogResponse.from(userHistory);
     }
 }

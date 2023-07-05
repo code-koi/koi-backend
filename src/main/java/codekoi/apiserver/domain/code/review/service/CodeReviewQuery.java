@@ -2,16 +2,21 @@ package codekoi.apiserver.domain.code.review.service;
 
 import codekoi.apiserver.domain.code.comment.domain.CodeReviewComment;
 import codekoi.apiserver.domain.code.comment.repository.CodeReviewCommentRepository;
+import codekoi.apiserver.domain.code.like.domain.Like;
+import codekoi.apiserver.domain.code.like.repository.LikeRepository;
 import codekoi.apiserver.domain.code.review.domain.CodeReview;
 import codekoi.apiserver.domain.code.review.domain.CodeReviewSkill;
 import codekoi.apiserver.domain.code.review.domain.Favorite;
 import codekoi.apiserver.domain.code.review.dto.CodeReviewDetailDto;
+import codekoi.apiserver.domain.code.review.dto.UserActivityHistory;
 import codekoi.apiserver.domain.code.review.dto.UserCodeReviewDto;
 import codekoi.apiserver.domain.code.review.dto.UserSkillStatistics;
 import codekoi.apiserver.domain.code.review.exception.CodeReviewNotFoundException;
 import codekoi.apiserver.domain.code.review.repository.CodeFavoriteRepository;
 import codekoi.apiserver.domain.code.review.repository.CodeReviewRepository;
 import codekoi.apiserver.domain.code.review.repository.CodeReviewSkillRepository;
+import codekoi.apiserver.domain.code.review.vo.Activity;
+import codekoi.apiserver.domain.code.review.vo.ActivityHistories;
 import codekoi.apiserver.domain.skill.doamin.Skill;
 import codekoi.apiserver.domain.skill.repository.SkillRepository;
 import codekoi.apiserver.domain.user.domain.User;
@@ -36,6 +41,7 @@ public class CodeReviewQuery {
     private final CodeFavoriteRepository favoriteRepository;
     private final SkillRepository skillRepository;
     private final CodeReviewSkillRepository codeReviewSkillRepository;
+    private final LikeRepository likeRepository;
 
     public List<UserCodeReviewDto> findRequestedCodeReviews(Long sessionUserId, Long userId) {
         final User user = userRepository.findByUserId(userId);
@@ -81,6 +87,20 @@ public class CodeReviewQuery {
                 .map(s -> UserSkillStatistics.of(s, countMap.get(s).intValue()))
                 .sorted(Comparator.comparingInt(UserSkillStatistics::getCount).reversed())
                 .collect(Collectors.toList());
+    }
+
+    public List<UserActivityHistory> findUserHistory(Long userId) {
+        final User user = userRepository.findByUserId(userId);
+
+        final List<CodeReview> codeReviews = codeReviewRepository.findTop10ByUserOrderByCreatedAtDesc(user);
+        final List<CodeReviewComment> comments = commentRepository.findTop10ByUserOrderByCreatedAtDesc(user);
+        final List<Like> likes = likeRepository.findTop10ByUserOrderByCreatedAtDesc(user);
+        final List<Favorite> favorites = favoriteRepository.findTop10ByUserOrderByCreatedAtDesc(user);
+
+        final ActivityHistories histories = new ActivityHistories(codeReviews, comments, likes, favorites);
+        final List<Activity> top = histories.getTopN();
+
+        return UserActivityHistory.listFrom(top);
     }
 
     private List<CodeReviewSkill> getCodeReviewSkills(List<CodeReview> reviews, List<CodeReviewComment> comments) {
