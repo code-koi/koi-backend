@@ -11,7 +11,7 @@ import java.util.List;
 import java.util.Optional;
 
 @Repository
-public interface CodeFavoriteRepository extends JpaRepository<Favorite, Long> {
+public interface CodeFavoriteRepository extends JpaRepository<Favorite, Long>, CodeFavoriteRepositoryCustom {
 
     @EntityGraph(attributePaths = {"codeReview"})
     List<Favorite> findTop10ByUserOrderByCreatedAtDesc(User user);
@@ -22,4 +22,6 @@ public interface CodeFavoriteRepository extends JpaRepository<Favorite, Long> {
     Optional<Favorite> findByUser(User user);
 
     List<Favorite> findFavoriteByUserAndCodeReviewIn(User user, List<CodeReview> codeReviews);
+
+
 }
