@@ -7,10 +7,7 @@ import codekoi.apiserver.domain.code.like.repository.LikeRepository;
 import codekoi.apiserver.domain.code.review.domain.CodeReview;
 import codekoi.apiserver.domain.code.review.domain.CodeReviewSkill;
 import codekoi.apiserver.domain.code.review.domain.Favorite;
-import codekoi.apiserver.domain.code.review.dto.CodeReviewDetailDto;
-import codekoi.apiserver.domain.code.review.dto.UserActivityHistory;
-import codekoi.apiserver.domain.code.review.dto.UserCodeReviewDto;
-import codekoi.apiserver.domain.code.review.dto.UserSkillStatistics;
+import codekoi.apiserver.domain.code.review.dto.*;
 import codekoi.apiserver.domain.code.review.exception.CodeReviewNotFoundException;
 import codekoi.apiserver.domain.code.review.repository.CodeFavoriteRepository;
 import codekoi.apiserver.domain.code.review.repository.CodeReviewRepository;
@@ -136,5 +133,12 @@ public class CodeReviewQuery {
                 .flatMap(List::stream)
                 .map(CodeReviewSkill::getSkill)
                 .collect(Collectors.groupingBy(s -> s, Collectors.counting()));
+    }
+
+    public List<HotCodeReview> getHotReviews() {
+        final List<Long> hotReviewIds = favoriteRepository.hotReviewRank();
+        final List<CodeReview> reviews = codeReviewRepository.findAllById(hotReviewIds);
+
+        return HotCodeReview.listFrom(reviews);
     }
 }

@@ -7,6 +7,7 @@ import codekoi.apiserver.domain.code.review.domain.CodeReview;
 import codekoi.apiserver.domain.code.review.domain.CodeReviewStatus;
 import codekoi.apiserver.domain.code.review.domain.Favorite;
 import codekoi.apiserver.domain.code.review.dto.CodeReviewDetailDto;
+import codekoi.apiserver.domain.code.review.dto.HotCodeReview;
 import codekoi.apiserver.domain.code.review.dto.UserCodeReviewDto;
 import codekoi.apiserver.domain.code.review.dto.UserSkillStatistics;
 import codekoi.apiserver.domain.code.review.repository.CodeFavoriteRepository;
@@ -18,16 +19,9 @@ import codekoi.apiserver.domain.user.dto.UserProfileDto;
 import codekoi.apiserver.domain.user.repository.UserRepository;
 import codekoi.apiserver.utils.EntityReflectionTestUtil;
 import codekoi.apiserver.utils.ServiceTest;
-import codekoi.apiserver.utils.fixture.CodeReviewCommentFixture;
-import codekoi.apiserver.utils.fixture.CodeReviewFixture;
-import codekoi.apiserver.utils.fixture.SkillFixture;
-import codekoi.apiserver.utils.fixture.UserFixture;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.DisplayName;
-import org.junit.jupiter.api.Nested;
-import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.*;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import java.time.LocalDateTime;
@@ -35,7 +29,8 @@ import java.util.List;
 
 import static codekoi.apiserver.utils.fixture.CodeReviewCommentFixture.REVIEW_COMMENT;
 import static codekoi.apiserver.utils.fixture.CodeReviewFixture.REVIEW;
-import static codekoi.apiserver.utils.fixture.SkillFixture.*;
+import static codekoi.apiserver.utils.fixture.SkillFixture.JPA;
+import static codekoi.apiserver.utils.fixture.SkillFixture.SPRING;
 import static codekoi.apiserver.utils.fixture.UserFixture.HONG;
 import static codekoi.apiserver.utils.fixture.UserFixture.SUNDO;
 import static org.assertj.core.api.Assertions.assertThat;
@@ -64,7 +59,6 @@ class CodeReviewQueryTest extends ServiceTest {
     private CodeReview codeReview;
     private Skill skill1;
     private Skill skill2;
-
 
     @BeforeEach
     public void init() {
@@ -275,6 +269,14 @@ class CodeReviewQueryTest extends ServiceTest {
             assertThat(statistics).hasSize(2);
         }
     }
+
+    @Test
+    @DisplayName("즐겨찾기 순으로 코드리뷰 요청 목록을 정렬하여 조회한다.")
+    @Disabled
+    void favoriteCodeReviewList() {
+
+    }
+
 
     private void clearPersistenceContext() {
         em.flush();

@@ -3,6 +3,8 @@ package codekoi.apiserver.domain.code.review.controller;
 import codekoi.apiserver.domain.code.comment.dto.CodeCommentDetailDto;
 import codekoi.apiserver.domain.code.comment.service.CodeCommentQuery;
 import codekoi.apiserver.domain.code.review.dto.CodeReviewDetailDto;
+import codekoi.apiserver.domain.code.review.dto.HotCodeReview;
+import codekoi.apiserver.domain.code.review.dto.response.HotCodeReviewListResponse;
 import codekoi.apiserver.domain.code.review.service.CodeReviewQuery;
 import codekoi.apiserver.domain.user.dto.UserToken;
 import codekoi.apiserver.global.token.Principal;
@@ -24,6 +26,11 @@ public class CodeReviewController {
     private final CodeReviewQuery codeReviewQuery;
     private final CodeCommentQuery commentQuery;
 
+    @GetMapping("/hot")
+    public HotCodeReviewListResponse hotReviews() {
+        final List<HotCodeReview> hotReviews = codeReviewQuery.getHotReviews();
+        return HotCodeReviewListResponse.from(hotReviews);
+    }
 
     @GetMapping("/{reviewId}")
     public ResponseEntity<Object> reviewDetail(@Principal UserToken userToken, @PathVariable Long reviewId) {

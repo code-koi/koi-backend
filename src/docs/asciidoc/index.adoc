@@ -177,12 +177,21 @@ include::{snippets}/codeReviews/get-reviewId/response-body.adoc[]
 
 
 == 코드리뷰 상세의 댓글 목록
+=== Request
 include::{snippets}/codeReviews/get-reviewId-comments/http-request.adoc[]
 include::{snippets}/codeReviews/get-reviewId-comments/path-parameters.adoc[]
 
 === Response
 include::{snippets}/codeReviews/get-reviewId-comments/response-fields.adoc[]
 include::{snippets}/codeReviews/get-reviewId-comments/response-body.adoc[]
+
+== 인기있는 코드리뷰 요청 목록
+=== Request
+include::{snippets}/codeReviews/get-hot/http-request.adoc[]
+
+=== Response
+include::{snippets}/codeReviews/get-hot/response-fields.adoc[]
+include::{snippets}/codeReviews/get-hot/response-body.adoc[]
 
 
 = 코드리뷰 댓글 [ /code-comments ]

@@ -4,6 +4,7 @@ import codekoi.apiserver.domain.code.comment.domain.CodeReviewComment;
 import codekoi.apiserver.domain.code.comment.dto.CodeCommentDetailDto;
 import codekoi.apiserver.domain.code.review.domain.CodeReview;
 import codekoi.apiserver.domain.code.review.dto.CodeReviewDetailDto;
+import codekoi.apiserver.domain.code.review.dto.HotCodeReview;
 import codekoi.apiserver.domain.skill.doamin.Skill;
 import codekoi.apiserver.domain.user.domain.User;
 import codekoi.apiserver.utils.ControllerTest;
@@ -150,5 +151,62 @@ public class CodeReviewControllerDocsTest extends ControllerTest {
                                         .description("현재 로그인한 유저가 해당 댓글에 좋아요 했는 지 여부")
                         )
                 ));
+    }
+
+    @Test
+    @DisplayName("인기있는 코드리뷰 요청 목록 조회")
+    void hotCodeReview() throws Exception {
+        //given
+        final User user1 = UserFixture.HONG.toUser(1L);
+        final CodeReview codeReview = CodeReviewFixture.REVIEW.toCodeReview(2L, user1);
+
+        EntityReflectionTestUtil.setCreatedAt(codeReview, LocalDateTime.now());
+
+        final Skill hardSkill = SkillFixture.JPA.toHardSkill();
+        codeReview.addCodeReviewSkill(hardSkill);
+
+        final List<HotCodeReview> dto = HotCodeReview.listFrom(List.of(codeReview));
+
+        given(codeReviewQuery.getHotReviews())
+                .willReturn(dto);
+
+        //when
+        final ResultActions result = mvc.perform(
+                get("/api/code-reviews/hot")
+        );
+
+        //then
+        result
+                .andExpect(status().isOk())
+                .andDo(document("codeReviews/get-hot",
+                        responseFields(
+                                fieldWithPath("reviews").type(JsonFieldType.ARRAY)
+                                        .description("인기있는 코드리뷰 목록"),
+
+                                fieldWithPath("reviews[].id").type(JsonFieldType.NUMBER)
+                                        .description("리뷰 요청 아이디"),
+                                fieldWithPath("reviews[].title").type(JsonFieldType.STRING)
+                                        .description("제목"),
+                                fieldWithPath("reviews[].status").type(JsonFieldType.STRING)
+                                        .description("상태"),
+                                fieldWithPath("reviews[].createdAt").type(JsonFieldType.STRING)
+                                        .description("생성일"),
+
+                                fieldWithPath("reviews[].user").type(JsonFieldType.OBJECT)
+                                        .description("유저 정보"),
+                                fieldWithPath("reviews[].user.profileImageUrl").type(JsonFieldType.STRING)
+                                        .description("프로필 이미지").optional(),
+                                fieldWithPath("reviews[].user.nickname").type(JsonFieldType.STRING)
+                                        .description("닉네임"),
+                                fieldWithPath("reviews[].user.id").type(JsonFieldType.NUMBER)
+                                        .description("유저 고유 아이디"),
+
+                                fieldWithPath("reviews[].skills").type(JsonFieldType.ARRAY)
+                                        .description("스킬 목록")
+                        )
+
+                ));
+
+
     }
 }
