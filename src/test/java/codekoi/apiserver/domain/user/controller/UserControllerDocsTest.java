@@ -10,7 +10,7 @@ import codekoi.apiserver.domain.code.review.dto.UserSkillStatistics;
 import codekoi.apiserver.domain.code.review.vo.Activity;
 import codekoi.apiserver.domain.code.review.vo.ActivityHistories;
 import codekoi.apiserver.domain.koi.domain.KoiType;
-import codekoi.apiserver.domain.skill.doamin.Skill;
+import codekoi.apiserver.domain.skill.domain.Skill;
 import codekoi.apiserver.domain.user.domain.User;
 import codekoi.apiserver.domain.user.dto.UserDetail;
 import codekoi.apiserver.utils.ControllerTest;
@@ -23,7 +23,6 @@ import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 import org.springframework.restdocs.payload.JsonFieldType;
 import org.springframework.test.web.servlet.ResultActions;
-import org.w3c.dom.ls.LSException;
 
 import java.time.LocalDateTime;
 import java.util.List;

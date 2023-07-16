@@ -1,6 +1,6 @@
 package codekoi.apiserver.utils.fixture;
 
-import codekoi.apiserver.domain.skill.doamin.Skill;
+import codekoi.apiserver.domain.skill.domain.Skill;
 
 public enum SkillFixture {
     SPRING("스프링", 10),

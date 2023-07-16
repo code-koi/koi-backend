@@ -5,7 +5,7 @@ import codekoi.apiserver.domain.code.comment.repository.CodeReviewCommentReposit
 import codekoi.apiserver.domain.code.review.domain.CodeReview;
 import codekoi.apiserver.domain.code.review.repository.CodeReviewRepository;
 import codekoi.apiserver.domain.skill.HardSkillRepository;
-import codekoi.apiserver.domain.skill.doamin.Skill;
+import codekoi.apiserver.domain.skill.domain.Skill;
 import codekoi.apiserver.domain.user.domain.User;
 import codekoi.apiserver.domain.user.dto.UserDetail;
 import codekoi.apiserver.domain.user.dto.UserToken;

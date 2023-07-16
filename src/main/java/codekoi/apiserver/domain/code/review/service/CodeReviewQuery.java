@@ -14,7 +14,7 @@ import codekoi.apiserver.domain.code.review.repository.CodeReviewRepository;
 import codekoi.apiserver.domain.code.review.repository.CodeReviewSkillRepository;
 import codekoi.apiserver.domain.code.review.vo.Activity;
 import codekoi.apiserver.domain.code.review.vo.ActivityHistories;
-import codekoi.apiserver.domain.skill.doamin.Skill;
+import codekoi.apiserver.domain.skill.domain.Skill;
 import codekoi.apiserver.domain.skill.repository.SkillRepository;
 import codekoi.apiserver.domain.user.domain.User;
 import codekoi.apiserver.domain.user.repository.UserRepository;
