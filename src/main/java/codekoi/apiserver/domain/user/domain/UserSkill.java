@@ -1,7 +1,7 @@
 package codekoi.apiserver.domain.user.domain;
 
 import codekoi.apiserver.domain.model.TimeBaseEntity;
-import codekoi.apiserver.domain.skill.doamin.Skill;
+import codekoi.apiserver.domain.skill.domain.Skill;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.Builder;

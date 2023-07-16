@@ -2,7 +2,7 @@ package codekoi.apiserver.domain.code.review.domain;
 
 import codekoi.apiserver.domain.code.comment.domain.CodeReviewComment;
 import codekoi.apiserver.domain.model.TimeBaseEntity;
-import codekoi.apiserver.domain.skill.doamin.Skill;
+import codekoi.apiserver.domain.skill.domain.Skill;
 import codekoi.apiserver.domain.user.domain.User;
 import jakarta.persistence.*;
 import lombok.AccessLevel;

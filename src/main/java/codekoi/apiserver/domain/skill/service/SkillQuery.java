@@ -1,6 +1,6 @@
 package codekoi.apiserver.domain.skill.service;
 
-import codekoi.apiserver.domain.skill.doamin.Skill;
+import codekoi.apiserver.domain.skill.domain.Skill;
 import codekoi.apiserver.domain.skill.dto.SkillInfo;
 import codekoi.apiserver.domain.skill.repository.SkillRepository;
 import lombok.RequiredArgsConstructor;

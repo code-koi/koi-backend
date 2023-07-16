@@ -5,7 +5,7 @@ import codekoi.apiserver.domain.code.comment.dto.CodeCommentDetailDto;
 import codekoi.apiserver.domain.code.review.domain.CodeReview;
 import codekoi.apiserver.domain.code.review.dto.CodeReviewDetailDto;
 import codekoi.apiserver.domain.code.review.dto.HotCodeReview;
-import codekoi.apiserver.domain.skill.doamin.Skill;
+import codekoi.apiserver.domain.skill.domain.Skill;
 import codekoi.apiserver.domain.user.domain.User;
 import codekoi.apiserver.utils.ControllerTest;
 import codekoi.apiserver.utils.EntityReflectionTestUtil;
