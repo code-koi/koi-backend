@@ -33,7 +33,7 @@ public class LikeReviewComment implements LikeReviewCommentUseCase {
 
         final ReviewComment comment = reviewCommentCoreRepository.getOneById(commentId);
 
-        comment.addLikeCount();
+        comment.addLikeOne();
 
         final Like like = Like.of(user, comment);
         likeCoreRepository.save(like);

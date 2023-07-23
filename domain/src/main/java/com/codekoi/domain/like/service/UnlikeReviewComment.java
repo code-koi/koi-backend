@@ -27,7 +27,7 @@ public class UnlikeReviewComment implements UnlikeReviewCommentUseCase {
         final Like like = likeCoreRepository.findByUserIdAndCommentId(userId, commentId)
                 .orElseThrow(NotLikedCommentException::new);
 
-        reviewComment.minusLikeCount();
+        reviewComment.minusLikeOne();
         likeCoreRepository.delete(like);
     }
 }
