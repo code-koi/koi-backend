@@ -1,1 +1,12 @@
-rootProject.name = 'api-server'
+rootProject.name = 'koi-backend'
+
+include 'app-koi-api'
+include 'domain'
+
+include 'commons'
+include 'commons:common-model'
+findProject(':commons:common-model')?.name = 'common-model'
+include 'commons:common-util'
+findProject(':commons:common-util')?.name = 'common-util'
+
+include 'core-web'

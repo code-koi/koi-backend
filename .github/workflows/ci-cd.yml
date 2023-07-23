@@ -1,3 +1,6 @@
+# todo: 추후 2개 이상의 app 모듈이 있다면
+# 각각의 app을 따로따로 배포하는 방식 고안해야함.
+
 name: code-koi api-server CI/CD
 
 on:
@@ -22,7 +25,7 @@ jobs:
 
       ## gradle build
       - name: Build with Gradle
-        run: ./gradlew bootJar
+        run: ./gradlew app-koi-api:bootJar
 
       ## docker build & push to production
 #      - name: Docker build & push to prod
@@ -71,6 +74,6 @@ jobs:
           AWS_ACCESS_KEY_ID : ${{ secrets.AWS_ACCESS_KEY_ID }}
           AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
         run: |
-          ls -asl ./build/docs/asciidoc 
-          cp ./build/docs/asciidoc/index.html ./index.html
+          ls -asl ./app-api-koi/build/docs/asciidoc 
+          cp ./app-api-koi/build/docs/asciidoc ./index.html
           aws s3 cp index.html s3://code-koi/index.html

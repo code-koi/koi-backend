@@ -1,0 +1,38 @@
+server:
+  port: 8080
+  servlet:
+    encoding:
+      charset: UTF-8
+      force-response: true
+
+logging:
+  level:
+    org.zalando.logbook: TRACE
+
+spring:
+  jpa:
+    properties:
+      hibernate:
+        show_sql: true
+        default_batch_fetch_size: 1000
+    hibernate:
+      ddl-auto: none
+    open-in-view: false
+
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://localhost:3306/koi_local?serverTimezone=UTC&characterEncoding=UTF-8
+    username: root
+    password:
+
+
+security:
+  jwt:
+    expire-length:
+      access-token: 300000 # 5분
+      refresh-token: 604800000 # 1주일
+    #
+    secret-key: bGVzc29udGVycmlibGV3b25kZXJvbmRvaW5nb2NjdXJzdGF0ZW1lbnR3cml0aW5nd2g=
+    refresh-secret-key: cHVibZXjc21aZWxxaXRls2Vudflyb25tZX50aGFwcH1tb250aG1ha25zaG91dHBhcnQ=
+
+
