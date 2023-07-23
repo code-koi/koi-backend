@@ -75,5 +75,5 @@ jobs:
           AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
         run: |
           ls -asl ./app-koi-api/build/docs/asciidoc 
-          cp ./app-koi-api/build/docs/asciidoc ./index.html
+          cp ./app-koi-api/build/docs/asciidoc/index.html ./index.html
           aws s3 cp index.html s3://code-koi/index.html
