@@ -47,13 +47,11 @@ public class ReviewComment extends TimeBaseEntity {
         this.likes = likes;
     }
 
-    //todo: 이름 변경 likeOne
-    public void addLikeCount() {
+    public void addLikeOne() {
         this.likeCount += 1;
     }
 
-    //todo: 이름 변경 unlikeOne
-    public void minusLikeCount() {
+    public void minusLikeOne() {
         this.likeCount -= 1;
     }
 
