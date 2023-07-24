@@ -1,7 +1,6 @@
 package com.codekoi.apiserver.like.repository;
 
 import com.codekoi.domain.like.entity.Like;
-import com.codekoi.domain.like.exception.LikeNotFoundException;
 import org.springframework.data.jpa.repository.EntityGraph;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
@@ -19,7 +18,4 @@ public interface LikeRepository extends JpaRepository<Like, Long> {
 
     List<Like> findByCommentIdIn(List<Long> commentIds);
 
-    default Like getOneById(Long likeId) {
-        return this.findById(likeId).orElseThrow(LikeNotFoundException::new);
-    }
 }

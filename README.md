@@ -13,6 +13,7 @@
   * clients (미구현)
     * koi-redis-client
 
+---
 ### Application module
 > 클라이언트에게 API를 제공하거나, webhook을 받는다.
 * ex) koi-api-app, admin-app
@@ -21,6 +22,7 @@
 * Service와 Repository는 domain의 엔티티를 참조할 수 있다.
     * 다만, Controller에서는 엔티티를 참조하면 안된다. DTO를 통해 데이터를 전달한다.
 
+---
 ### Domain module
 > 각 도메인의 핵심 로직을 관리한다.
 * app 모듈과 무관하게 독립적인 로직을 가진다.
@@ -30,10 +32,12 @@
 * 도메인 로직은 @Entity에서 구현한다.
 * service는 유스케이스마다 클래스를 분리하여 구현한다.
 
+---
 ### In-system module
 > app / domain 모듈을 의존하지 않는 시스템 서포트 기능을 관리한다.
 * ex) core-web(JWT, filter 기능) / 외부 시스템과 통신 / event publisher
 
+---
 ### Common module
 > 전체 모듈에서 사용되는 공통 로직을 관리한다.
 * ex) common-model, common-util
@@ -41,6 +45,7 @@
   * Spring/DB 관련 의존성은 사용하지 않는다.
 * 가능한 common 모듈을 사용하지 않도록 하여 모듈의 크기를 최소화한다.
 
+---
 ### Independently module
 > redis, sqs 기능과 같은 시스템과 무관하게 사용가능한 모듈
 * ex) koi-redis-client

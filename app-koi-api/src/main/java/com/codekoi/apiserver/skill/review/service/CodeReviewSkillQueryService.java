@@ -4,12 +4,12 @@ import com.codekoi.apiserver.comment.repository.ReviewCommentRepository;
 import com.codekoi.apiserver.review.repository.CodeReviewRepository;
 import com.codekoi.apiserver.skill.review.dto.UserSkillStatistics;
 import com.codekoi.apiserver.skill.review.repository.CodeReviewSkillRepository;
-import com.codekoi.apiserver.user.repository.UserRepository;
 import com.codekoi.domain.comment.entity.ReviewComment;
 import com.codekoi.domain.review.entity.CodeReview;
 import com.codekoi.domain.skill.review.entity.CodeReviewSkill;
 import com.codekoi.domain.skill.skill.entity.Skill;
 import com.codekoi.domain.user.entity.User;
+import com.codekoi.domain.user.repository.UserCoreRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -26,13 +26,14 @@ import java.util.stream.Stream;
 @RequiredArgsConstructor
 public class CodeReviewSkillQueryService {
 
-    private final UserRepository userRepository;
     private final CodeReviewRepository codeReviewRepository;
     private final ReviewCommentRepository reviewCommentRepository;
     private final CodeReviewSkillRepository codeReviewSkillRepository;
 
+    private final UserCoreRepository userCoreRepository;
+
     public List<UserSkillStatistics> findUserSkillStatistics(Long userId) {
-        final User user = userRepository.getOneById(userId);
+        final User user = userCoreRepository.getOneById(userId);
 
         final List<CodeReview> reviews = codeReviewRepository.findByUserId(user.getId());
         final List<ReviewComment> comments = reviewCommentRepository.findByUserId(user.getId());
