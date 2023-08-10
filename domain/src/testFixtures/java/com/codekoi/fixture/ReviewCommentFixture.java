@@ -1,9 +1,9 @@
 package com.codekoi.fixture;
 
 
-import com.codekoi.domain.comment.entity.ReviewComment;
-import com.codekoi.domain.review.entity.CodeReview;
-import com.codekoi.domain.user.entity.User;
+import com.codekoi.domain.comment.ReviewComment;
+import com.codekoi.domain.review.CodeReview;
+import com.codekoi.domain.user.User;
 
 public enum ReviewCommentFixture {
     REVIEW_COMMENT("이 코드에서 생성자가 조금 이상합니다. 다시 확인해주세요.")

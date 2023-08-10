@@ -4,7 +4,7 @@ package com.codekoi.apiserver.skill.skill.controller;
 import com.codekoi.apiserver.skill.skill.dto.SkillInfo;
 import com.codekoi.apiserver.skill.skill.service.SkillQueryService;
 import com.codekoi.apiserver.utils.ControllerTest;
-import com.codekoi.domain.skill.skill.entity.Skill;
+import com.codekoi.domain.skill.skill.Skill;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;

@@ -1,6 +1,6 @@
 package com.codekoi.domain.authtoken.service;
 
-import com.codekoi.domain.authtoken.repository.AuthTokenCoreRepository;
+import com.codekoi.domain.authtoken.AuthTokenRepository;
 import com.codekoi.domain.authtoken.usecase.DeleteAuthTokenUseCase;
 import org.junit.jupiter.api.DisplayNameGeneration;
 import org.junit.jupiter.api.DisplayNameGenerator;
@@ -19,7 +19,7 @@ import static org.mockito.Mockito.verify;
 class DeleteAuthTokenTest {
 
     @Mock
-    private AuthTokenCoreRepository authTokenCoreRepository;
+    private AuthTokenRepository authTokenRepository;
 
     @InjectMocks
     private DeleteAuthToken deleteAuthToken;
@@ -34,6 +34,6 @@ class DeleteAuthTokenTest {
         deleteAuthToken.command(command);
 
         //then
-        verify(authTokenCoreRepository, times(1)).deleteByRefreshToken(refreshToken);
+        verify(authTokenRepository, times(1)).deleteByRefreshToken(refreshToken);
     }
 }

@@ -1,10 +1,10 @@
 package com.codekoi.apiserver.review.vo;
 
 
-import com.codekoi.domain.comment.entity.ReviewComment;
-import com.codekoi.domain.favorite.entity.Favorite;
-import com.codekoi.domain.like.entity.Like;
-import com.codekoi.domain.review.entity.CodeReview;
+import com.codekoi.domain.comment.ReviewComment;
+import com.codekoi.domain.favorite.Favorite;
+import com.codekoi.domain.like.Like;
+import com.codekoi.domain.review.CodeReview;
 
 import java.util.ArrayList;
 import java.util.Comparator;

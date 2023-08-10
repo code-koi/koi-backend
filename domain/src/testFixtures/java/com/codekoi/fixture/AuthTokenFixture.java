@@ -1,8 +1,8 @@
 package com.codekoi.fixture;
 
 
-import com.codekoi.domain.authtoken.entity.AuthToken;
-import com.codekoi.domain.user.entity.User;
+import com.codekoi.domain.authtoken.AuthToken;
+import com.codekoi.domain.user.User;
 
 import java.time.LocalDateTime;
 

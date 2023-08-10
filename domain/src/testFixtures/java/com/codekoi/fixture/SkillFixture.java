@@ -1,7 +1,7 @@
 package com.codekoi.fixture;
 
 
-import com.codekoi.domain.skill.skill.entity.Skill;
+import com.codekoi.domain.skill.skill.Skill;
 
 public enum SkillFixture {
     SPRING("스프링", 10),

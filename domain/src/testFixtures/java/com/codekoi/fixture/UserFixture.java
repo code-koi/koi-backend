@@ -1,7 +1,7 @@
 package com.codekoi.fixture;
 
 
-import com.codekoi.domain.user.entity.User;
+import com.codekoi.domain.user.User;
 
 public enum UserFixture {
     SUNDO("만나서 반갑습니다!", "김선도", "sdcodebase@gmail.com", 2, "test.com/sundo.png"),

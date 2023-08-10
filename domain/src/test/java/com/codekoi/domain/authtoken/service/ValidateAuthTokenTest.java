@@ -1,9 +1,9 @@
 package com.codekoi.domain.authtoken.service;
 
 import com.codekoi.domain.authtoken.exception.RefreshTokenNotAppliedException;
-import com.codekoi.domain.authtoken.repository.AuthTokenCoreRepository;
+import com.codekoi.domain.authtoken.AuthTokenRepository;
 import com.codekoi.domain.authtoken.usecase.ValidateAuthTokenUseCase;
-import com.codekoi.domain.user.entity.User;
+import com.codekoi.domain.user.User;
 import org.junit.jupiter.api.DisplayNameGeneration;
 import org.junit.jupiter.api.DisplayNameGenerator;
 import org.junit.jupiter.api.Test;
@@ -26,7 +26,7 @@ import static org.mockito.BDDMockito.given;
 class ValidateAuthTokenTest {
 
     @Mock
-    AuthTokenCoreRepository authTokenCoreRepository;
+    AuthTokenRepository authTokenRepository;
 
     @InjectMocks
     ValidateAuthToken validateAuthToken;
@@ -35,7 +35,7 @@ class ValidateAuthTokenTest {
     void 토큰정보의_유저와_요청한_유저가_매칭되지_않아_예외가_발생한다() {
         //given
         final User user = SUNDO.toUser(1L);
-        given(authTokenCoreRepository.findByRefreshToken(any()))
+        given(authTokenRepository.findByRefreshToken(any()))
                 .willReturn(Optional.empty());
 
         String refreshToken = "123";
@@ -52,7 +52,7 @@ class ValidateAuthTokenTest {
     void 토큰_인증에_성공한다() {
         //given
         final User user = SUNDO.toUser(1L);
-        given(authTokenCoreRepository.findByRefreshToken(any()))
+        given(authTokenRepository.findByRefreshToken(any()))
                 .willReturn(Optional.of(VALID_TOKEN.toAuthToken(user)));
 
         String refreshToken = "123";

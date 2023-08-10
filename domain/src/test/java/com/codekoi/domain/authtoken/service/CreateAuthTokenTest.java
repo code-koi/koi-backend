@@ -1,11 +1,11 @@
 package com.codekoi.domain.authtoken.service;
 
 
-import com.codekoi.domain.authtoken.entity.AuthToken;
-import com.codekoi.domain.authtoken.repository.AuthTokenCoreRepository;
+import com.codekoi.domain.authtoken.AuthToken;
+import com.codekoi.domain.authtoken.AuthTokenRepository;
 import com.codekoi.domain.authtoken.usecase.CreateAuthTokenUseCase;
-import com.codekoi.domain.user.entity.User;
-import com.codekoi.domain.user.repository.UserCoreRepository;
+import com.codekoi.domain.user.User;
+import com.codekoi.domain.user.UserRepository;
 import org.junit.jupiter.api.DisplayNameGeneration;
 import org.junit.jupiter.api.DisplayNameGenerator;
 import org.junit.jupiter.api.Test;
@@ -27,10 +27,10 @@ import static org.mockito.Mockito.verify;
 class CreateAuthTokenTest {
 
     @Mock
-    private UserCoreRepository userCoreRepository;
+    private UserRepository userRepository;
 
     @Mock
-    private AuthTokenCoreRepository authTokenCoreRepository;
+    private AuthTokenRepository authTokenRepository;
 
     @InjectMocks
     private CreateAuthToken CreateAuthToken;
@@ -43,7 +43,7 @@ class CreateAuthTokenTest {
     void 토큰_생성에_성공한다() {
         //given
         final User user = HONG.toUser(1L);
-        given(userCoreRepository.getOneById(any()))
+        given(userRepository.getOneById(any()))
                 .willReturn(user);
 
         final CreateAuthTokenUseCase.Command command = new CreateAuthTokenUseCase.Command(1L, "123");
@@ -52,7 +52,7 @@ class CreateAuthTokenTest {
         final Long id = CreateAuthToken.command(command);
 
         //then
-        verify(authTokenCoreRepository).save(authTokenCaptor.capture());
+        verify(authTokenRepository).save(authTokenCaptor.capture());
 
         final AuthToken authToken = authTokenCaptor.getValue();
         assertThat(authToken.getUser()).isEqualTo(user);
