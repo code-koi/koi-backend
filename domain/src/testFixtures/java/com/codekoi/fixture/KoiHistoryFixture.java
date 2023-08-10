@@ -1,7 +1,7 @@
-package com.codekoi.apiserver.utils.fixture;
+package com.codekoi.fixture;
 
 
-import com.codekoi.model.koi.KoiType;
+import com.codekoi.domain.koi.entity.KoiType;
 
 public enum KoiHistoryFixture {
     FISHBOWL(KoiType.FISHBOWL, "0원짜리 코이를 남깁니다."),

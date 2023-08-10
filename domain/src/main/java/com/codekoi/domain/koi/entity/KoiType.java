@@ -1,4 +1,4 @@
-package com.codekoi.model.koi;
+package com.codekoi.domain.koi.entity;
 
 public enum KoiType {
     FISHBOWL("어항", 0),

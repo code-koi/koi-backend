@@ -2,7 +2,7 @@ package com.codekoi.apiserver.review.dto;
 
 import com.codekoi.apiserver.user.dto.UserProfileDto;
 import com.codekoi.domain.review.entity.CodeReview;
-import com.codekoi.model.review.CodeReviewStatus;
+import com.codekoi.domain.review.entity.CodeReviewStatus;
 import com.codekoi.time.annotation.BeforeTimeJsonSerializer;
 import lombok.Getter;
 import lombok.NoArgsConstructor;

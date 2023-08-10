@@ -5,7 +5,6 @@ import com.codekoi.domain.skill.review.entity.CodeReviewSkill;
 import com.codekoi.domain.skill.skill.entity.Skill;
 import com.codekoi.domain.user.entity.User;
 import com.codekoi.model.TimeBaseEntity;
-import com.codekoi.model.review.CodeReviewStatus;
 import jakarta.persistence.*;
 import lombok.Builder;
 

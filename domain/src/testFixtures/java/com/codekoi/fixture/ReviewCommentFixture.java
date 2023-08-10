@@ -1,4 +1,4 @@
-package com.codekoi.apiserver.utils.fixture;
+package com.codekoi.fixture;
 
 
 import com.codekoi.domain.comment.entity.ReviewComment;

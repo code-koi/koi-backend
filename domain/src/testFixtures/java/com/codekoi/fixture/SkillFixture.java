@@ -1,4 +1,4 @@
-package com.codekoi.apiserver.utils.fixture;
+package com.codekoi.fixture;
 
 
 import com.codekoi.domain.skill.skill.entity.Skill;

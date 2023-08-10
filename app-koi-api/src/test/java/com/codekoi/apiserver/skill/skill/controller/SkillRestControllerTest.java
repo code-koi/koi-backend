@@ -14,7 +14,7 @@ import org.springframework.test.web.servlet.ResultActions;
 
 import java.util.List;
 
-import static com.codekoi.apiserver.utils.fixture.SkillFixture.JPA;
+import static com.codekoi.fixture.SkillFixture.JPA;
 import static org.mockito.BDDMockito.given;
 import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.document;
 import static org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders.get;

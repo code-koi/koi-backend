@@ -2,7 +2,6 @@ package com.codekoi.domain.koi.entity;
 
 import com.codekoi.domain.comment.entity.ReviewComment;
 import com.codekoi.domain.user.entity.User;
-import com.codekoi.model.koi.KoiType;
 import jakarta.persistence.*;
 import lombok.Builder;
 
