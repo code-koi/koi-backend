@@ -21,7 +21,7 @@ public enum AuthTokenFixture {
         this.expiredAt = expiredAt;
     }
 
-    public AuthToken toUserToken(User user) {
+    public AuthToken toAuthToken(User user) {
         return AuthToken.builder()
                 .user(user)
                 .expiredAt(expiredAt)

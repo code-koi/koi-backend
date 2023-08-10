@@ -1,4 +1,6 @@
 app-koi-api/src/main/resources/static/docs/*
+/domain/src/main/generated/*
+
 
 src/main/resources/application-local.yml
 src/main/resources/application-test.yml
