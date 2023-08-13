@@ -65,7 +65,7 @@ class ReviewCommentQueryServiceTest {
         given(userRepository.getOneById(any()))
                 .willReturn(user);
 
-        final CodeReview codeReview = CodeReviewFixture.REVIEW.toCodeReview(2L, user);
+        final CodeReview codeReview = CodeReviewFixture.REVIEW1.toCodeReview(2L, user);
         final ReviewComment reviewComment = REVIEW_COMMENT.toCodeReviewComment(3L, user, codeReview);
 
         given(reviewCommentQueryRepository.findByUserId(any()))
@@ -101,7 +101,7 @@ class ReviewCommentQueryServiceTest {
     void 리뷰_요청의_댓글_목록_조회하기() {
         //given
         final User user = SUNDO.toUser(1L);
-        final CodeReview codeReview = CodeReviewFixture.REVIEW.toCodeReview(2L, user);
+        final CodeReview codeReview = CodeReviewFixture.REVIEW1.toCodeReview(2L, user);
         given(codeReviewRepository.getOneById(any()))
                 .willReturn(codeReview);
 

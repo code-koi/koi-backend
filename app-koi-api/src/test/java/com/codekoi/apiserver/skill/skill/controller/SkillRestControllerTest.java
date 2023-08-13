@@ -34,7 +34,7 @@ class SkillRestControllerTest extends ControllerTest {
     @DisplayName("가장 많이 사용된 스킬 건수 목록 조회")
     void topSkillRank() throws Exception {
         //given
-        final Skill skill = JPA.toHardSkill(1L);
+        final Skill skill = JPA.toSkill(1L);
         final List<SkillInfo> skills = SkillInfo.listFrom(List.of(skill));
 
         given(skillQueryService.getSkillRank())

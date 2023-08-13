@@ -17,14 +17,14 @@ public enum SkillFixture {
         this.searchCount = searchCount;
     }
 
-    public Skill toHardSkill() {
+    public Skill toSkill() {
         return Skill.builder()
                 .name(name)
                 .searchCount(searchCount)
                 .build();
     }
 
-    public Skill toHardSkill(Long id) {
+    public Skill toSkill(Long id) {
         return Skill.builder()
                 .id(id)
                 .name(name)
