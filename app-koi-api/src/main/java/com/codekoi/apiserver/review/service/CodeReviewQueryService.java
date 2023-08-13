@@ -59,7 +59,7 @@ public class CodeReviewQueryService {
     }
 
     public CodeReviewDetailDto findCodeReviewDetail(Long sessionUserId, Long codeReviewId) {
-        final CodeReview codeReview = codeReviewQueryRepository.getOneById(codeReviewId);
+        final CodeReview codeReview = codeReviewRepository.getOneById(codeReviewId);
 
         final User reviewRequestUser = codeReview.getUser();
         final Optional<Favorite> optionalFavorite = favoriteQueryRepository.findByUserId(reviewRequestUser.getId());

@@ -9,6 +9,7 @@ import lombok.Builder;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 @Entity
 @Table(name = "review_comment")
@@ -31,11 +32,11 @@ public class ReviewComment extends TimeBaseEntity {
 
     private int likeCount;
 
-    protected ReviewComment() {
-    }
-
     @OneToMany(mappedBy = "comment", cascade = CascadeType.REMOVE, orphanRemoval = true)
     private List<Like> likes = new ArrayList<>();
+
+    protected ReviewComment() {
+    }
 
     @Builder
     private ReviewComment(Long id, CodeReview codeReview, User user, String content, int likeCount, List<Like> likes) {
@@ -44,7 +45,7 @@ public class ReviewComment extends TimeBaseEntity {
         this.user = user;
         this.content = content;
         this.likeCount = likeCount;
-        this.likes = likes;
+        this.likes = Objects.requireNonNullElse(likes, new ArrayList<>());
     }
 
     public void addLikeOne() {
@@ -77,5 +78,16 @@ public class ReviewComment extends TimeBaseEntity {
 
     public List<Like> getLikes() {
         return likes;
+    }
+
+    @Override
+    public String toString() {
+        return "ReviewComment{" +
+                "id=" + id +
+                ", codeReview=" + codeReview.getId() +
+                ", user=" + user.getId() +
+                ", content='" + content + '\'' +
+                ", likeCount=" + likeCount +
+                '}';
     }
 }

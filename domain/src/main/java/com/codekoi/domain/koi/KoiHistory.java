@@ -79,4 +79,16 @@ public class KoiHistory {
     public String getMessage() {
         return message;
     }
+
+    @Override
+    public String toString() {
+        return "KoiHistory{" +
+                "id=" + id +
+                ", target=" + target.getId() +
+                ", source=" + source.getId() +
+                ", koiType=" + koiType +
+                ", codeReviewComment=" + codeReviewComment.getId() +
+                ", message='" + message + '\'' +
+                '}';
+    }
 }

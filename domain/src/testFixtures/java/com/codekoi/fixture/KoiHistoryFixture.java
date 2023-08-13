@@ -1,7 +1,10 @@
 package com.codekoi.fixture;
 
 
+import com.codekoi.domain.comment.ReviewComment;
+import com.codekoi.domain.koi.KoiHistory;
 import com.codekoi.domain.koi.KoiType;
+import com.codekoi.domain.user.User;
 
 public enum KoiHistoryFixture {
     FISHBOWL(KoiType.FISHBOWL, "0원짜리 코이를 남깁니다."),
@@ -17,5 +20,15 @@ public enum KoiHistoryFixture {
     KoiHistoryFixture(KoiType koiType, String message) {
         this.koiType = koiType;
         this.message = message;
+    }
+
+    public KoiHistory toKoiHistory(Long id, User target, User source, ReviewComment reviewComment) {
+        return KoiHistory.builder()
+                .id(id)
+                .target(target)
+                .source(source)
+                .koiType(KoiType.FISHBOWL)
+                .codeReviewComment(reviewComment)
+                .build();
     }
 }
