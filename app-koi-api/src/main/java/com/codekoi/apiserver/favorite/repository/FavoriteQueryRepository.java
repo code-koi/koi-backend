@@ -9,7 +9,7 @@ import java.util.List;
 import java.util.Optional;
 
 @Repository
-public interface FavoriteQueryQueryRepository extends JpaRepository<Favorite, Long>, FavoriteQueryRepositoryCustom {
+public interface FavoriteQueryRepository extends JpaRepository<Favorite, Long>, FavoriteQueryRepositoryCustom {
 
     @EntityGraph(attributePaths = {"codeReview"})
     List<Favorite> findTop10ByUserIdOrderByCreatedAtDesc(Long userId);

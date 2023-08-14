@@ -1,7 +1,7 @@
 package com.codekoi.apiserver.review.service;
 
 import com.codekoi.apiserver.comment.repository.ReviewCommentQueryRepository;
-import com.codekoi.apiserver.favorite.repository.FavoriteQueryQueryRepository;
+import com.codekoi.apiserver.favorite.repository.FavoriteQueryRepository;
 import com.codekoi.apiserver.like.repository.LikeQueryRepository;
 import com.codekoi.apiserver.review.dto.CodeReviewDetailDto;
 import com.codekoi.apiserver.review.dto.HotCodeReview;
@@ -29,7 +29,7 @@ import java.util.Optional;
 @RequiredArgsConstructor
 public class CodeReviewQueryService {
 
-    private final FavoriteQueryQueryRepository favoriteQueryRepository;
+    private final FavoriteQueryRepository favoriteQueryRepository;
     private final CodeReviewQueryRepository codeReviewQueryRepository;
     private final ReviewCommentQueryRepository reviewCommentQueryRepository;
     private final LikeQueryRepository likeQueryRepository;

@@ -1,16 +1,8 @@
 package com.codekoi.apiserver.review.service;
 
 
-import static com.codekoi.fixture.CodeReviewFixture.REVIEW1;
-import static com.codekoi.fixture.SkillFixture.SPRING;
-import static com.codekoi.fixture.UserFixture.SUNDO;
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.mockito.ArgumentMatchers.anyList;
-import static org.mockito.ArgumentMatchers.anyLong;
-import static org.mockito.BDDMockito.given;
-
 import com.codekoi.apiserver.comment.repository.ReviewCommentQueryRepository;
-import com.codekoi.apiserver.favorite.repository.FavoriteQueryQueryRepository;
+import com.codekoi.apiserver.favorite.repository.FavoriteQueryRepository;
 import com.codekoi.apiserver.like.repository.LikeQueryRepository;
 import com.codekoi.apiserver.review.dto.UserCodeReviewDto;
 import com.codekoi.apiserver.review.repository.CodeReviewQueryRepository;
@@ -22,21 +14,27 @@ import com.codekoi.domain.review.CodeReviewRepository;
 import com.codekoi.domain.skill.skill.Skill;
 import com.codekoi.domain.user.User;
 import com.codekoi.domain.user.UserRepository;
-import com.codekoi.fixture.CodeReviewFixture;
-import com.codekoi.fixture.SkillFixture;
-import com.codekoi.fixture.UserFixture;
-import java.util.List;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 
+import java.util.List;
+
+import static com.codekoi.fixture.CodeReviewFixture.REVIEW1;
+import static com.codekoi.fixture.SkillFixture.SPRING;
+import static com.codekoi.fixture.UserFixture.SUNDO;
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.mockito.ArgumentMatchers.anyList;
+import static org.mockito.ArgumentMatchers.anyLong;
+import static org.mockito.BDDMockito.given;
+
 class CodeReviewQueryServiceTest extends ServiceTest {
 
 
     @Mock
-    private FavoriteQueryQueryRepository favoriteQueryRepository;
+    private FavoriteQueryRepository favoriteQueryRepository;
     @Mock
     private CodeReviewQueryRepository codeReviewQueryRepository;
     @Mock

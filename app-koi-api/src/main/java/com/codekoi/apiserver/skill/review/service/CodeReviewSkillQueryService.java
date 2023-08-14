@@ -57,6 +57,7 @@ public class CodeReviewSkillQueryService {
                         comments.stream()
                                 .map(ReviewComment::getCodeReview)
                 ).map(CodeReview::getId)
+                .distinct()
                 .toList();
 
         return codeReviewSkillQueryRepository.findByCodeReviewIdIn(codeReviewIds);

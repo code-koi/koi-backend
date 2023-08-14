@@ -12,6 +12,7 @@ public class FavoriteQueryRepositoryImpl implements FavoriteQueryRepositoryCusto
     private final JPAQueryFactory queryFactory;
 
     private final QFavorite favorite = QFavorite.favorite;
+    
     @Override
     public List<Long> hotReviewRank() {
         return queryFactory
