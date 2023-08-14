@@ -15,7 +15,6 @@ import com.codekoi.domain.user.User;
 import com.codekoi.domain.user.UserRepository;
 import com.codekoi.fixture.CodeReviewFixture;
 import com.codekoi.fixture.UserFixture;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayNameGeneration;
 import org.junit.jupiter.api.DisplayNameGenerator;
 import org.junit.jupiter.api.Test;
@@ -53,10 +52,6 @@ class ReviewCommentQueryServiceTest {
     @InjectMocks
     private ReviewCommentQueryService reviewCommentQueryService;
 
-    @BeforeEach
-    public void init() {
-
-    }
 
     @Test
     void 유저의_댓글_목록_조회() {
