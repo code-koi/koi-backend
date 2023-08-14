@@ -1,6 +1,5 @@
 package com.codekoi.domain.user;
 
-import com.codekoi.domain.user.User;
 import com.codekoi.domain.user.exception.UserNotFoundException;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;

@@ -1,7 +1,7 @@
 package com.codekoi.domain.authtoken.service;
 
-import com.codekoi.domain.authtoken.exception.RefreshTokenNotAppliedException;
 import com.codekoi.domain.authtoken.AuthTokenRepository;
+import com.codekoi.domain.authtoken.exception.RefreshTokenNotAppliedException;
 import com.codekoi.domain.authtoken.usecase.ValidateAuthTokenUseCase;
 import com.codekoi.domain.user.User;
 import org.junit.jupiter.api.DisplayNameGeneration;

@@ -1,8 +1,8 @@
 package com.codekoi.domain.user.service;
 
 import com.codekoi.domain.user.User;
-import com.codekoi.domain.user.exception.UserNotFoundException;
 import com.codekoi.domain.user.UserRepository;
+import com.codekoi.domain.user.exception.UserNotFoundException;
 import com.codekoi.domain.user.usecase.QueryUserByEmailUseCase;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
