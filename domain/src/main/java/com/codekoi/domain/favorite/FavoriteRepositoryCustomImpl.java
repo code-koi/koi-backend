@@ -1,18 +1,18 @@
-package com.codekoi.apiserver.favorite.repository;
+package com.codekoi.domain.favorite;
 
-import com.codekoi.domain.favorite.QFavorite;
+
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import lombok.RequiredArgsConstructor;
 
 import java.util.List;
 
 @RequiredArgsConstructor
-public class FavoriteQueryRepositoryImpl implements FavoriteQueryRepositoryCustom {
+public class FavoriteRepositoryCustomImpl implements FavoriteRepositoryCustom {
 
     private final JPAQueryFactory queryFactory;
 
     private final QFavorite favorite = QFavorite.favorite;
-    
+
     @Override
     public List<Long> hotReviewRank() {
         return queryFactory

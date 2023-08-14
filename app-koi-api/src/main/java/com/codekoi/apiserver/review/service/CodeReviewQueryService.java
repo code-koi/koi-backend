@@ -1,18 +1,17 @@
 package com.codekoi.apiserver.review.service;
 
-import com.codekoi.apiserver.comment.repository.ReviewCommentQueryRepository;
-import com.codekoi.apiserver.favorite.repository.FavoriteQueryRepository;
-import com.codekoi.apiserver.like.repository.LikeQueryRepository;
 import com.codekoi.apiserver.review.dto.CodeReviewDetailDto;
 import com.codekoi.apiserver.review.dto.HotCodeReview;
 import com.codekoi.apiserver.review.dto.UserActivityHistory;
 import com.codekoi.apiserver.review.dto.UserCodeReviewDto;
-import com.codekoi.apiserver.review.repository.CodeReviewQueryRepository;
 import com.codekoi.apiserver.review.vo.Activity;
 import com.codekoi.apiserver.review.vo.ActivityHistories;
 import com.codekoi.domain.comment.ReviewComment;
+import com.codekoi.domain.comment.ReviewCommentRepository;
 import com.codekoi.domain.favorite.Favorite;
+import com.codekoi.domain.favorite.FavoriteRepository;
 import com.codekoi.domain.like.Like;
+import com.codekoi.domain.like.LikeRepository;
 import com.codekoi.domain.review.CodeReview;
 import com.codekoi.domain.review.CodeReviewRepository;
 import com.codekoi.domain.user.User;
@@ -29,31 +28,29 @@ import java.util.Optional;
 @RequiredArgsConstructor
 public class CodeReviewQueryService {
 
-    private final FavoriteQueryRepository favoriteQueryRepository;
-    private final CodeReviewQueryRepository codeReviewQueryRepository;
-    private final ReviewCommentQueryRepository reviewCommentQueryRepository;
-    private final LikeQueryRepository likeQueryRepository;
-
+    private final FavoriteRepository favoriteRepository;
     private final CodeReviewRepository codeReviewRepository;
-    private final UserRepository userRepository;
+    private final ReviewCommentRepository reviewCommentRepository;
+    private final LikeRepository likeRepository;
 
+    private final UserRepository userRepository;
 
     public List<UserCodeReviewDto> findRequestedCodeReviews(Long sessionUserId, Long userId) {
         final User user = userRepository.getOneById(userId);
-        final List<CodeReview> reviews = codeReviewQueryRepository.findByUserId(userId);
+        final List<CodeReview> reviews = codeReviewRepository.findByUserId(userId);
 
         final List<Long> reviewIds = reviews.stream()
                 .map(CodeReview::getId)
                 .toList();
 
-        final List<Favorite> favorites = favoriteQueryRepository.findByUserIdAndCodeReviewIdIn(userId, reviewIds);
+        final List<Favorite> favorites = favoriteRepository.findByUserIdAndCodeReviewIdIn(userId, reviewIds);
 
         return UserCodeReviewDto.listOf(reviews, favorites, sessionUserId.equals(userId));
     }
 
     public List<UserCodeReviewDto> findFavoriteCodeReviews(Long sessionUserId, Long userId) {
         final User user = userRepository.getOneById(userId);
-        final List<Favorite> favorites = favoriteQueryRepository.findAllByUserId(user.getId());
+        final List<Favorite> favorites = favoriteRepository.findAllByUserId(user.getId());
 
         return UserCodeReviewDto.listOf(favorites, sessionUserId.equals(userId));
     }
@@ -62,7 +59,7 @@ public class CodeReviewQueryService {
         final CodeReview codeReview = codeReviewRepository.getOneById(codeReviewId);
 
         final User reviewRequestUser = codeReview.getUser();
-        final Optional<Favorite> optionalFavorite = favoriteQueryRepository.findByUserId(reviewRequestUser.getId());
+        final Optional<Favorite> optionalFavorite = favoriteRepository.findByUserId(reviewRequestUser.getId());
 
         return CodeReviewDetailDto.of(codeReview, optionalFavorite.isPresent(),
                 sessionUserId.equals(reviewRequestUser.getId()));
@@ -71,10 +68,10 @@ public class CodeReviewQueryService {
     public List<UserActivityHistory> findUserHistory(Long userId) {
         final User user = userRepository.getOneById(userId);
 
-        final List<CodeReview> codeReviews = codeReviewQueryRepository.findTop10ByUserIdOrderByCreatedAtDesc(userId);
-        final List<ReviewComment> comments = reviewCommentQueryRepository.findTop10ByUserIdOrderByCreatedAtDesc(userId);
-        final List<Like> likes = likeQueryRepository.findTop10ByUserIdOrderByCreatedAtDesc(userId);
-        final List<Favorite> favorites = favoriteQueryRepository.findTop10ByUserIdOrderByCreatedAtDesc(userId);
+        final List<CodeReview> codeReviews = codeReviewRepository.findTop10ByUserIdOrderByCreatedAtDesc(userId);
+        final List<ReviewComment> comments = reviewCommentRepository.findTop10ByUserIdOrderByCreatedAtDesc(userId);
+        final List<Like> likes = likeRepository.findTop10ByUserIdOrderByCreatedAtDesc(userId);
+        final List<Favorite> favorites = favoriteRepository.findTop10ByUserIdOrderByCreatedAtDesc(userId);
 
         final ActivityHistories histories = new ActivityHistories(codeReviews, comments, likes, favorites);
         final List<Activity> top = histories.getTopN();
@@ -83,8 +80,8 @@ public class CodeReviewQueryService {
     }
 
     public List<HotCodeReview> getHotReviews() {
-        final List<Long> hotReviewIds = favoriteQueryRepository.hotReviewRank();
-        final List<CodeReview> reviews = codeReviewQueryRepository.findAllById(hotReviewIds);
+        final List<Long> hotReviewIds = favoriteRepository.hotReviewRank();
+        final List<CodeReview> reviews = codeReviewRepository.findAllById(hotReviewIds);
 
         return HotCodeReview.listFrom(reviews);
     }

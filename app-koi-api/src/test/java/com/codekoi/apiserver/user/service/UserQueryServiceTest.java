@@ -1,7 +1,7 @@
 package com.codekoi.apiserver.user.service;
 
-import com.codekoi.apiserver.comment.repository.ReviewCommentQueryRepository;
 import com.codekoi.apiserver.user.dto.UserDetail;
+import com.codekoi.domain.comment.ReviewCommentRepository;
 import com.codekoi.domain.user.User;
 import com.codekoi.domain.user.UserRepository;
 import org.junit.jupiter.api.DisplayNameGeneration;
@@ -23,7 +23,7 @@ import static org.mockito.BDDMockito.given;
 class UserQueryServiceTest {
 
     @Mock
-    private ReviewCommentQueryRepository reviewCommentQueryRepository;
+    private ReviewCommentRepository reviewCommentRepository;
 
     @Mock
     private UserRepository userRepository;
@@ -38,7 +38,7 @@ class UserQueryServiceTest {
         given(userRepository.getOneById(any()))
                 .willReturn(user);
 
-        given(reviewCommentQueryRepository.countByUserId(any()))
+        given(reviewCommentRepository.countByUserId(any()))
                 .willReturn(1);
 
 

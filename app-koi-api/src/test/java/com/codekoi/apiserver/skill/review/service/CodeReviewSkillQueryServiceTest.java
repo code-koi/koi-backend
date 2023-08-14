@@ -1,13 +1,13 @@
 package com.codekoi.apiserver.skill.review.service;
 
-import com.codekoi.apiserver.comment.repository.ReviewCommentQueryRepository;
-import com.codekoi.apiserver.review.repository.CodeReviewQueryRepository;
 import com.codekoi.apiserver.skill.review.dto.UserSkillStatistics;
-import com.codekoi.apiserver.skill.review.repository.CodeReviewSkillQueryRepository;
 import com.codekoi.apiserver.utils.ServiceTest;
 import com.codekoi.domain.comment.ReviewComment;
+import com.codekoi.domain.comment.ReviewCommentRepository;
 import com.codekoi.domain.review.CodeReview;
+import com.codekoi.domain.review.CodeReviewRepository;
 import com.codekoi.domain.skill.review.CodeReviewSkill;
+import com.codekoi.domain.skill.review.CodeReviewSkillRepository;
 import com.codekoi.domain.skill.skill.Skill;
 import com.codekoi.domain.user.User;
 import com.codekoi.domain.user.UserRepository;
@@ -35,11 +35,11 @@ import static org.mockito.BDDMockito.given;
 class CodeReviewSkillQueryServiceTest extends ServiceTest {
 
     @Mock
-    private CodeReviewQueryRepository codeReviewQueryRepository;
+    private CodeReviewRepository codeReviewRepository;
     @Mock
-    private ReviewCommentQueryRepository reviewCommentQueryRepository;
+    private ReviewCommentRepository reviewCommentRepository;
     @Mock
-    private CodeReviewSkillQueryRepository codeReviewSkillQueryRepository;
+    private CodeReviewSkillRepository codeReviewSkillRepository;
     @Mock
     private UserRepository userRepository;
 
@@ -57,7 +57,7 @@ class CodeReviewSkillQueryServiceTest extends ServiceTest {
                     .willReturn(user);
 
             final CodeReview codeReview = REVIEW1.toCodeReview(2L, user);
-            given(codeReviewQueryRepository.findByUserId(anyLong()))
+            given(codeReviewRepository.findByUserId(anyLong()))
                     .willReturn(List.of(codeReview));
 
             final Skill skill1 = SPRING.toSkill(1L);
@@ -68,12 +68,12 @@ class CodeReviewSkillQueryServiceTest extends ServiceTest {
             final Skill skill2 = JPA.toSkill(2L);
             otherReview.addCodeReviewSkill(skill2);
             final ReviewComment reviewComment = REVIEW_COMMENT.toCodeReviewComment(4L, user, otherReview);
-            given(reviewCommentQueryRepository.findByUserId(anyLong()))
+            given(reviewCommentRepository.findByUserId(anyLong()))
                     .willReturn(List.of(reviewComment));
 
             final CodeReviewSkill reviewSkill1 = codeReview.getSkills().get(0);
             final CodeReviewSkill reviewSkill2 = otherReview.getSkills().get(0);
-            given(codeReviewSkillQueryRepository.findByCodeReviewIdIn(any()))
+            given(codeReviewSkillRepository.findByCodeReviewIdIn(any()))
                     .willReturn(List.of(reviewSkill1, reviewSkill2));
 
             //when
@@ -96,7 +96,7 @@ class CodeReviewSkillQueryServiceTest extends ServiceTest {
                     .willReturn(user);
 
             final CodeReview codeReview = REVIEW1.toCodeReview(2L, user);
-            given(codeReviewQueryRepository.findByUserId(anyLong()))
+            given(codeReviewRepository.findByUserId(anyLong()))
                     .willReturn(List.of(codeReview));
 
             final Skill skill1 = SPRING.toSkill(1L);
@@ -107,11 +107,11 @@ class CodeReviewSkillQueryServiceTest extends ServiceTest {
             final Skill skill2 = JPA.toSkill(2L);
             otherReview.addCodeReviewSkill(skill2);
             final ReviewComment reviewComment = REVIEW_COMMENT.toCodeReviewComment(4L, user, codeReview);
-            given(reviewCommentQueryRepository.findByUserId(anyLong()))
+            given(reviewCommentRepository.findByUserId(anyLong()))
                     .willReturn(List.of(reviewComment));
 
             final CodeReviewSkill reviewSkill1 = codeReview.getSkills().get(0);
-            given(codeReviewSkillQueryRepository.findByCodeReviewIdIn(any()))
+            given(codeReviewSkillRepository.findByCodeReviewIdIn(any()))
                     .willReturn(List.of(reviewSkill1));
 
             final List<UserSkillStatistics> statistics = codeReviewSkillQueryService.findUserSkillStatistics(user.getId());

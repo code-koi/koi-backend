@@ -1,7 +1,7 @@
 package com.codekoi.apiserver.user.service;
 
-import com.codekoi.apiserver.comment.repository.ReviewCommentQueryRepository;
 import com.codekoi.apiserver.user.dto.UserDetail;
+import com.codekoi.domain.comment.ReviewCommentRepository;
 import com.codekoi.domain.user.User;
 import com.codekoi.domain.user.UserRepository;
 import com.codekoi.domain.user.usecase.QueryUserByEmailUseCase;
@@ -14,7 +14,7 @@ import org.springframework.transaction.annotation.Transactional;
 @RequiredArgsConstructor
 public class UserQueryService {
 
-    private final ReviewCommentQueryRepository reviewCommentQueryRepository;
+    private final ReviewCommentRepository reviewCommentRepository;
 
     private final QueryUserByEmailUseCase queryUserByEmailUseCase;
     private final UserRepository userRepository;
@@ -26,7 +26,7 @@ public class UserQueryService {
 
     public UserDetail getUserDetail(Long sessionUserId, Long userId) {
         final User user = userRepository.getOneById(userId);
-        final int reviewCount = reviewCommentQueryRepository.countByUserId(userId);
+        final int reviewCount = reviewCommentRepository.countByUserId(userId);
 
         return UserDetail.of(user, reviewCount, sessionUserId);
     }

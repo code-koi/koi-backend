@@ -1,12 +1,12 @@
 package com.codekoi.apiserver.skill.review.service;
 
-import com.codekoi.apiserver.comment.repository.ReviewCommentQueryRepository;
-import com.codekoi.apiserver.review.repository.CodeReviewQueryRepository;
 import com.codekoi.apiserver.skill.review.dto.UserSkillStatistics;
-import com.codekoi.apiserver.skill.review.repository.CodeReviewSkillQueryRepository;
 import com.codekoi.domain.comment.ReviewComment;
+import com.codekoi.domain.comment.ReviewCommentRepository;
 import com.codekoi.domain.review.CodeReview;
+import com.codekoi.domain.review.CodeReviewRepository;
 import com.codekoi.domain.skill.review.CodeReviewSkill;
+import com.codekoi.domain.skill.review.CodeReviewSkillRepository;
 import com.codekoi.domain.skill.skill.Skill;
 import com.codekoi.domain.user.User;
 import com.codekoi.domain.user.UserRepository;
@@ -26,17 +26,17 @@ import java.util.stream.Stream;
 @RequiredArgsConstructor
 public class CodeReviewSkillQueryService {
 
-    private final CodeReviewQueryRepository codeReviewQueryRepository;
-    private final ReviewCommentQueryRepository reviewCommentQueryRepository;
-    private final CodeReviewSkillQueryRepository codeReviewSkillQueryRepository;
+    private final CodeReviewRepository codeReviewRepository;
+    private final ReviewCommentRepository reviewCommentRepository;
+    private final CodeReviewSkillRepository codeReviewSkillRepository;
 
     private final UserRepository userRepository;
 
     public List<UserSkillStatistics> findUserSkillStatistics(Long userId) {
         final User user = userRepository.getOneById(userId);
 
-        final List<CodeReview> reviews = codeReviewQueryRepository.findByUserId(user.getId());
-        final List<ReviewComment> comments = reviewCommentQueryRepository.findByUserId(user.getId());
+        final List<CodeReview> reviews = codeReviewRepository.findByUserId(user.getId());
+        final List<ReviewComment> comments = reviewCommentRepository.findByUserId(user.getId());
 
         final List<CodeReviewSkill> codeReviewSkills = getCodeReviewSkills(reviews, comments);
         final Map<Skill, Long> countMap = getCountMap(reviews, comments, codeReviewSkills);
@@ -60,7 +60,7 @@ public class CodeReviewSkillQueryService {
                 .distinct()
                 .toList();
 
-        return codeReviewSkillQueryRepository.findByCodeReviewIdIn(codeReviewIds);
+        return codeReviewSkillRepository.findByCodeReviewIdIn(codeReviewIds);
     }
 
 

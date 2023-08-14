@@ -1,15 +1,14 @@
 package com.codekoi.apiserver.review.service;
 
 
-import com.codekoi.apiserver.comment.repository.ReviewCommentQueryRepository;
-import com.codekoi.apiserver.favorite.repository.FavoriteQueryRepository;
-import com.codekoi.apiserver.like.repository.LikeQueryRepository;
 import com.codekoi.apiserver.review.dto.CodeReviewDetailDto;
 import com.codekoi.apiserver.review.dto.UserCodeReviewDto;
-import com.codekoi.apiserver.review.repository.CodeReviewQueryRepository;
 import com.codekoi.apiserver.user.dto.UserProfileDto;
 import com.codekoi.apiserver.utils.ServiceTest;
+import com.codekoi.domain.comment.ReviewCommentRepository;
 import com.codekoi.domain.favorite.Favorite;
+import com.codekoi.domain.favorite.FavoriteRepository;
+import com.codekoi.domain.like.LikeRepository;
 import com.codekoi.domain.review.CodeReview;
 import com.codekoi.domain.review.CodeReviewRepository;
 import com.codekoi.domain.skill.skill.Skill;
@@ -36,13 +35,11 @@ class CodeReviewQueryServiceTest extends ServiceTest {
 
 
     @Mock
-    private FavoriteQueryRepository favoriteQueryRepository;
+    private FavoriteRepository favoriteRepository;
     @Mock
-    private CodeReviewQueryRepository codeReviewQueryRepository;
+    private ReviewCommentRepository reviewCommentRepository;
     @Mock
-    private ReviewCommentQueryRepository reviewCommentQueryRepository;
-    @Mock
-    private LikeQueryRepository likeQueryRepository;
+    private LikeRepository likeRepository;
     @Mock
     private CodeReviewRepository codeReviewRepository;
     @Mock
@@ -75,10 +72,10 @@ class CodeReviewQueryServiceTest extends ServiceTest {
         @Test
         void 세션_유저의_상세페이지를_조회하는_경우__즐겨찾기한_상태를_같이_보여준다() {
             //given
-            given(codeReviewQueryRepository.findByUserId(anyLong()))
+            given(codeReviewRepository.findByUserId(anyLong()))
                     .willReturn(List.of(codeReview));
 
-            given(favoriteQueryRepository.findByUserIdAndCodeReviewIdIn(anyLong(), anyList()))
+            given(favoriteRepository.findByUserIdAndCodeReviewIdIn(anyLong(), anyList()))
                     .willReturn(List.of(favorite));
 
             //when
@@ -106,10 +103,10 @@ class CodeReviewQueryServiceTest extends ServiceTest {
             Long sessionUserId = 9999L;
 
 
-            given(codeReviewQueryRepository.findByUserId(anyLong()))
+            given(codeReviewRepository.findByUserId(anyLong()))
                     .willReturn(List.of(codeReview));
 
-            given(favoriteQueryRepository.findByUserIdAndCodeReviewIdIn(anyLong(), anyList()))
+            given(favoriteRepository.findByUserIdAndCodeReviewIdIn(anyLong(), anyList()))
                     .willReturn(List.of(favorite));
 
             //when
@@ -139,7 +136,7 @@ class CodeReviewQueryServiceTest extends ServiceTest {
         given(userRepository.getOneById(anyLong()))
                 .willReturn(user);
 
-        given(favoriteQueryRepository.findAllByUserId(anyLong()))
+        given(favoriteRepository.findAllByUserId(anyLong()))
                 .willReturn(List.of(favorite));
 
         Long sessionUserId = user.getId();
@@ -169,7 +166,7 @@ class CodeReviewQueryServiceTest extends ServiceTest {
         given(codeReviewRepository.getOneById(anyLong()))
                 .willReturn(codeReview);
 
-        given(favoriteQueryRepository.findByUserId(anyLong()))
+        given(favoriteRepository.findByUserId(anyLong()))
                 .willReturn(Optional.of(favorite));
 
         Long sessionUserId = 999L;

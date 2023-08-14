@@ -2,13 +2,13 @@ package com.codekoi.apiserver.comment.service;
 
 import com.codekoi.apiserver.comment.dto.CommentReviewDetailDto;
 import com.codekoi.apiserver.comment.dto.UserCodeCommentDto;
-import com.codekoi.apiserver.comment.repository.ReviewCommentQueryRepository;
-import com.codekoi.apiserver.koi.repository.KoiHistoryQueryRepository;
-import com.codekoi.apiserver.like.repository.LikeQueryRepository;
 import com.codekoi.apiserver.user.dto.UserProfileDto;
 import com.codekoi.domain.comment.ReviewComment;
+import com.codekoi.domain.comment.ReviewCommentRepository;
 import com.codekoi.domain.koi.KoiHistory;
+import com.codekoi.domain.koi.KoiHistoryRepository;
 import com.codekoi.domain.like.Like;
+import com.codekoi.domain.like.LikeRepository;
 import com.codekoi.domain.review.CodeReview;
 import com.codekoi.domain.review.CodeReviewRepository;
 import com.codekoi.domain.user.User;
@@ -41,11 +41,11 @@ class ReviewCommentQueryServiceTest {
     private UserRepository userRepository;
 
     @Mock
-    private ReviewCommentQueryRepository reviewCommentQueryRepository;
+    private ReviewCommentRepository reviewCommentRepository;
     @Mock
-    private LikeQueryRepository likeQueryRepository;
+    private LikeRepository likeRepository;
     @Mock
-    private KoiHistoryQueryRepository koiHistoryQueryRepository;
+    private KoiHistoryRepository koiHistoryRepository;
     @Mock
     private CodeReviewRepository codeReviewRepository;
 
@@ -63,16 +63,16 @@ class ReviewCommentQueryServiceTest {
         final CodeReview codeReview = CodeReviewFixture.REVIEW1.toCodeReview(2L, user);
         final ReviewComment reviewComment = REVIEW_COMMENT.toCodeReviewComment(3L, user, codeReview);
 
-        given(reviewCommentQueryRepository.findByUserId(any()))
+        given(reviewCommentRepository.findByUserId(any()))
                 .willReturn(List.of(reviewComment));
 
         final User source = UserFixture.HONG.toUser(4L);
         final KoiHistory koiHistory = SEA.toKoiHistory(4L, user, source, reviewComment);
-        given(koiHistoryQueryRepository.findUserCommentKoiHistory(any()))
+        given(koiHistoryRepository.findUserCommentKoiHistory(any()))
                 .willReturn(List.of(koiHistory));
 
         final Like like = Like.of(source, reviewComment);
-        given(likeQueryRepository.findByCommentIdIn(any()))
+        given(likeRepository.findByCommentIdIn(any()))
                 .willReturn(List.of(like));
 
         //when
@@ -101,15 +101,15 @@ class ReviewCommentQueryServiceTest {
                 .willReturn(codeReview);
 
         final ReviewComment reviewComment = REVIEW_COMMENT.toCodeReviewComment(3L, user, codeReview);
-        given(reviewCommentQueryRepository.findByCodeReviewId(any()))
+        given(reviewCommentRepository.findByCodeReviewId(any()))
                 .willReturn(List.of(reviewComment));
 
         final Like like = Like.of(user, reviewComment);
-        given(likeQueryRepository.findByCommentIdIn(any()))
+        given(likeRepository.findByCommentIdIn(any()))
                 .willReturn(List.of(like));
 
         final KoiHistory koiHistory = SEA.toKoiHistory(1L, user, UserFixture.HONG.toUser(), reviewComment);
-        given(koiHistoryQueryRepository.findUserCommentKoiHistory(any()))
+        given(koiHistoryRepository.findUserCommentKoiHistory(any()))
                 .willReturn(List.of(koiHistory));
 
         //when
