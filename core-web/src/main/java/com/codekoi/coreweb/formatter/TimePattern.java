@@ -1,4 +1,4 @@
-package com.codekoi.time.formatter;
+package com.codekoi.coreweb.formatter;
 
 public enum TimePattern {
     BASIC_FORMAT(TimePattern.BASIC_FORMAT_STRING);

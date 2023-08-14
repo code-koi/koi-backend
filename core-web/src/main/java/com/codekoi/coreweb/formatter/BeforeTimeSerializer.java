@@ -1,4 +1,4 @@
-package com.codekoi.time.formatter;
+package com.codekoi.coreweb.formatter;
 
 import com.fasterxml.jackson.core.JsonGenerator;
 import com.fasterxml.jackson.databind.SerializerProvider;

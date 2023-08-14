@@ -1,4 +1,4 @@
-package com.codekoi.time.formatter;
+package com.codekoi.coreweb.formatter;
 
 import java.sql.Timestamp;
 import java.time.LocalDateTime;

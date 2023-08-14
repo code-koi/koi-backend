@@ -111,9 +111,8 @@ class CodeReviewSkillQueryServiceTest extends ServiceTest {
                     .willReturn(List.of(reviewComment));
 
             final CodeReviewSkill reviewSkill1 = codeReview.getSkills().get(0);
-            final CodeReviewSkill reviewSkill2 = otherReview.getSkills().get(0);
             given(codeReviewSkillQueryRepository.findByCodeReviewIdIn(any()))
-                    .willReturn(List.of(reviewSkill1, reviewSkill2));
+                    .willReturn(List.of(reviewSkill1));
 
             final List<UserSkillStatistics> statistics = codeReviewSkillQueryService.findUserSkillStatistics(user.getId());
 

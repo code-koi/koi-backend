@@ -1,6 +1,6 @@
 package com.codekoi.apiserver.favorite.repository;
 
-import com.codekoi.domain.favorite.entity.QFavorite;
+import com.codekoi.domain.favorite.QFavorite;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import lombok.RequiredArgsConstructor;
 

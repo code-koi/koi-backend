@@ -1,7 +1,6 @@
-package com.codekoi.time.annotation;
+package com.codekoi.coreweb.formatter;
 
 
-import com.codekoi.time.formatter.BeforeTimeSerializer;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 
 import java.lang.annotation.ElementType;

@@ -1,11 +1,11 @@
 package com.codekoi.apiserver.comment.dto;
 
 import com.codekoi.apiserver.user.dto.UserProfileDto;
+import com.codekoi.coreweb.formatter.BeforeTimeJsonSerializer;
 import com.codekoi.domain.comment.ReviewComment;
 import com.codekoi.domain.koi.KoiHistory;
 import com.codekoi.domain.koi.KoiType;
 import com.codekoi.domain.like.Like;
-import com.codekoi.time.annotation.BeforeTimeJsonSerializer;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
