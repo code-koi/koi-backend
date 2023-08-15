@@ -11,6 +11,6 @@ import java.util.List;
 public interface KoiHistoryRepository extends JpaRepository<KoiHistory, Long> {
 
     @Query("select kh from KoiHistory kh where kh.codeReviewComment.id in :id")
-    List<KoiHistory> findUserCommentKoiHistory(@Param("id") List<Long> commentIds);
+    List<KoiHistory> findKoiHistoryInCommentIds(@Param("id") List<Long> commentIds);
 
 }

@@ -2,6 +2,6 @@ package com.codekoi.domain.favorite;
 
 import java.util.List;
 
-public interface FavoriteRepositoryCustom {
+interface FavoriteRepositoryCustom {
     List<Long> hotReviewRank();
 }

@@ -7,7 +7,7 @@ import org.springframework.stereotype.Repository;
 import java.util.List;
 
 @Repository
-public interface ReviewCommentRepository extends JpaRepository<ReviewComment, Long> {
+public interface ReviewCommentRepository extends JpaRepository<ReviewComment, Long>, ReviewCommentRepositoryCustom {
 
     int countByUserId(Long userId);
 

@@ -1,6 +1,7 @@
 package com.codekoi.apiserver.comment.service;
 
 import com.codekoi.apiserver.comment.dto.CommentReviewDetailDto;
+import com.codekoi.apiserver.comment.dto.HotReviewComment;
 import com.codekoi.apiserver.comment.dto.UserCodeCommentDto;
 import com.codekoi.domain.comment.ReviewComment;
 import com.codekoi.domain.comment.ReviewCommentRepository;
@@ -35,7 +36,7 @@ public class ReviewCommentQueryService {
         final User user = userRepository.getOneById(userId);
         final List<ReviewComment> comments = reviewCommentRepository.findByUserId(user.getId());
 
-        final List<KoiHistory> koiHistories = koiHistoryRepository.findUserCommentKoiHistory(
+        final List<KoiHistory> koiHistories = koiHistoryRepository.findKoiHistoryInCommentIds(
                 comments.stream()
                         .map(ReviewComment::getId)
                         .collect(Collectors.toList())
@@ -54,9 +55,19 @@ public class ReviewCommentQueryService {
         final List<Long> commentIds = extractCommentIds(comments);
         final List<Like> likes = likeRepository.findByCommentIdIn(commentIds);
 
-        final List<KoiHistory> koiHistories = koiHistoryRepository.findUserCommentKoiHistory(commentIds);
+        final List<KoiHistory> koiHistories = koiHistoryRepository.findKoiHistoryInCommentIds(commentIds);
 
         return CommentReviewDetailDto.listOf(comments, koiHistories, sessionUserId, likes);
+    }
+
+    public List<HotReviewComment> getHotComments(Long sessionUserId) {
+        final List<ReviewComment> comments = reviewCommentRepository.hotCommentRank();
+        final List<Long> commentIds = extractCommentIds(comments);
+
+        final List<KoiHistory> koiHistories = koiHistoryRepository.findKoiHistoryInCommentIds(commentIds);
+        final List<Like> likes = likeRepository.findByUserIdAndCommentIdIn(sessionUserId, commentIds);
+
+        return HotReviewComment.listFrom(comments, koiHistories, likes);
     }
 
     private static List<Long> extractCommentIds(List<ReviewComment> comments) {

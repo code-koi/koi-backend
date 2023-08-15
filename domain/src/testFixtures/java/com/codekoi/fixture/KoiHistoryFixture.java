@@ -27,7 +27,7 @@ public enum KoiHistoryFixture {
                 .id(id)
                 .target(target)
                 .source(source)
-                .koiType(KoiType.FISHBOWL)
+                .koiType(koiType)
                 .codeReviewComment(reviewComment)
                 .build();
     }
