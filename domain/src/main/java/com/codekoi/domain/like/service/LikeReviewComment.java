@@ -17,7 +17,7 @@ import java.util.Optional;
 @Service
 @Transactional
 @RequiredArgsConstructor
-public class LikeReviewComment implements LikeReviewCommentUseCase {
+class LikeReviewComment implements LikeReviewCommentUseCase {
 
     private final UserRepository userRepository;
     private final LikeRepository likeRepository;

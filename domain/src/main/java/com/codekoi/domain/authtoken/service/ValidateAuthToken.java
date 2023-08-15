@@ -12,7 +12,7 @@ import org.springframework.transaction.annotation.Transactional;
 @Service
 @Transactional(readOnly = true)
 @RequiredArgsConstructor
-public class ValidateAuthToken implements ValidateAuthTokenUseCase {
+class ValidateAuthToken implements ValidateAuthTokenUseCase {
 
     private final AuthTokenRepository authTokenRepository;
 
