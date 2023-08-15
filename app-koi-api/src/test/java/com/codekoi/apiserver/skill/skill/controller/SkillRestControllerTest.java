@@ -4,7 +4,6 @@ package com.codekoi.apiserver.skill.skill.controller;
 import com.codekoi.apiserver.skill.skill.dto.SkillInfo;
 import com.codekoi.apiserver.skill.skill.service.SkillQueryService;
 import com.codekoi.apiserver.utils.ControllerTest;
-import com.codekoi.domain.skill.skill.Skill;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
@@ -14,7 +13,6 @@ import org.springframework.test.web.servlet.ResultActions;
 
 import java.util.List;
 
-import static com.codekoi.fixture.SkillFixture.JPA;
 import static org.mockito.BDDMockito.given;
 import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.document;
 import static org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders.get;
@@ -34,11 +32,10 @@ class SkillRestControllerTest extends ControllerTest {
     @DisplayName("가장 많이 사용된 스킬 건수 목록 조회")
     void topSkillRank() throws Exception {
         //given
-        final Skill skill = JPA.toSkill(1L);
-        final List<SkillInfo> skills = SkillInfo.listFrom(List.of(skill));
+        final SkillInfo skill = new SkillInfo("JPA", 2L);
 
         given(skillQueryService.getSkillRank())
-                .willReturn(skills);
+                .willReturn(List.of(skill));
 
         //when
         final ResultActions result = mvc.perform(get("/api/skills/rank"));

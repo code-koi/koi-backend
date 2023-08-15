@@ -25,5 +25,4 @@ public class CommentRestController {
         final List<HotReviewComment> hotComments = reviewCommentQueryService.getHotComments(sessionUser.getUserId());
         return new HotCommentsResponse(hotComments);
     }
-
 }

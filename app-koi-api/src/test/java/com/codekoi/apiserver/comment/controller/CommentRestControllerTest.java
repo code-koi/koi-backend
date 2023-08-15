@@ -2,10 +2,8 @@ package com.codekoi.apiserver.comment.controller;
 
 import com.codekoi.apiserver.comment.dto.HotReviewComment;
 import com.codekoi.apiserver.comment.service.ReviewCommentQueryService;
-import com.codekoi.apiserver.user.dto.UserProfileDto;
 import com.codekoi.apiserver.utils.ControllerTest;
 import com.codekoi.domain.koi.KoiType;
-import com.codekoi.fixture.UserFixture;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
@@ -15,6 +13,7 @@ import org.springframework.test.web.servlet.ResultActions;
 
 import java.util.List;
 
+import static com.codekoi.apiserver.utils.fixture.UserProfileDtoFixture.PROFILE1;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.BDDMockito.given;
 import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.document;
@@ -34,8 +33,8 @@ class CommentRestControllerTest extends ControllerTest {
     @DisplayName("핫한 코드리뷰 댓글 목록 조회")
     void hotComment() throws Exception {
         //given
-        final HotReviewComment comment = new HotReviewComment(1L, UserProfileDto.from(UserFixture.HONG.toUser(1L)),
-                "content", KoiType.FISHBOWL, true, 1);
+        final HotReviewComment comment = new HotReviewComment(1L, PROFILE1.toUserProfileDto(), "content",
+                KoiType.FISHBOWL, true, 1);
 
         given(reviewCommentQueryService.getHotComments(any()))
                 .willReturn(List.of(comment));
