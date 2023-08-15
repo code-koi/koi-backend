@@ -1,11 +1,11 @@
 package com.codekoi.apiserver.review.dto;
 
 import com.codekoi.apiserver.user.dto.UserProfileDto;
-import com.codekoi.domain.favorite.entity.Favorite;
-import com.codekoi.domain.review.entity.CodeReview;
-import com.codekoi.domain.skill.review.entity.CodeReviewSkill;
-import com.codekoi.model.review.CodeReviewStatus;
-import com.codekoi.time.annotation.BeforeTimeJsonSerializer;
+import com.codekoi.coreweb.formatter.BeforeTimeJsonSerializer;
+import com.codekoi.domain.favorite.Favorite;
+import com.codekoi.domain.review.CodeReview;
+import com.codekoi.domain.review.CodeReviewStatus;
+import com.codekoi.domain.skill.review.CodeReviewSkill;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 

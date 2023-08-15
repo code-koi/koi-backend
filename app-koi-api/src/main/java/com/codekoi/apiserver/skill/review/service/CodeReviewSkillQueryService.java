@@ -1,15 +1,15 @@
 package com.codekoi.apiserver.skill.review.service;
 
-import com.codekoi.apiserver.comment.repository.ReviewCommentRepository;
-import com.codekoi.apiserver.review.repository.CodeReviewRepository;
 import com.codekoi.apiserver.skill.review.dto.UserSkillStatistics;
-import com.codekoi.apiserver.skill.review.repository.CodeReviewSkillRepository;
-import com.codekoi.domain.comment.entity.ReviewComment;
-import com.codekoi.domain.review.entity.CodeReview;
-import com.codekoi.domain.skill.review.entity.CodeReviewSkill;
-import com.codekoi.domain.skill.skill.entity.Skill;
-import com.codekoi.domain.user.entity.User;
-import com.codekoi.domain.user.repository.UserCoreRepository;
+import com.codekoi.domain.comment.ReviewComment;
+import com.codekoi.domain.comment.ReviewCommentRepository;
+import com.codekoi.domain.review.CodeReview;
+import com.codekoi.domain.review.CodeReviewRepository;
+import com.codekoi.domain.skill.review.CodeReviewSkill;
+import com.codekoi.domain.skill.review.CodeReviewSkillRepository;
+import com.codekoi.domain.skill.skill.Skill;
+import com.codekoi.domain.user.User;
+import com.codekoi.domain.user.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -30,10 +30,10 @@ public class CodeReviewSkillQueryService {
     private final ReviewCommentRepository reviewCommentRepository;
     private final CodeReviewSkillRepository codeReviewSkillRepository;
 
-    private final UserCoreRepository userCoreRepository;
+    private final UserRepository userRepository;
 
     public List<UserSkillStatistics> findUserSkillStatistics(Long userId) {
-        final User user = userCoreRepository.getOneById(userId);
+        final User user = userRepository.getOneById(userId);
 
         final List<CodeReview> reviews = codeReviewRepository.findByUserId(user.getId());
         final List<ReviewComment> comments = reviewCommentRepository.findByUserId(user.getId());
@@ -57,6 +57,7 @@ public class CodeReviewSkillQueryService {
                         comments.stream()
                                 .map(ReviewComment::getCodeReview)
                 ).map(CodeReview::getId)
+                .distinct()
                 .toList();
 
         return codeReviewSkillRepository.findByCodeReviewIdIn(codeReviewIds);

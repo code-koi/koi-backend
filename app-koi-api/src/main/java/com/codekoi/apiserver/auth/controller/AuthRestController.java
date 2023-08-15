@@ -13,7 +13,7 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseCookie;
 import org.springframework.web.bind.annotation.*;
 
-import static com.codekoi.domain.authtoken.entity.AuthToken.REFRESH_TOKEN_VALID_DURATION;
+import static com.codekoi.domain.authtoken.AuthToken.REFRESH_TOKEN_VALID_DURATION;
 
 @RestController
 @RequestMapping("/api")

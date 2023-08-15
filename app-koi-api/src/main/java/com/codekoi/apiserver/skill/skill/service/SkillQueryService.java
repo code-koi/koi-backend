@@ -1,8 +1,8 @@
 package com.codekoi.apiserver.skill.skill.service;
 
 import com.codekoi.apiserver.skill.skill.dto.SkillInfo;
-import com.codekoi.apiserver.skill.skill.repository.SkillRepository;
-import com.codekoi.domain.skill.skill.entity.Skill;
+import com.codekoi.domain.skill.skill.Skill;
+import com.codekoi.domain.skill.skill.SkillRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;

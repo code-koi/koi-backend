@@ -1,8 +1,8 @@
 package com.codekoi.domain.user.service;
 
-import com.codekoi.domain.user.entity.User;
+import com.codekoi.domain.user.User;
+import com.codekoi.domain.user.UserRepository;
 import com.codekoi.domain.user.exception.UserNotFoundException;
-import com.codekoi.domain.user.repository.UserCoreRepository;
 import com.codekoi.domain.user.usecase.QueryUserByEmailUseCase;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -13,12 +13,12 @@ import org.springframework.transaction.annotation.Transactional;
 @RequiredArgsConstructor
 public class QueryUserByEmail implements QueryUserByEmailUseCase {
 
-    private final UserCoreRepository userCoreRepository;
+    private final UserRepository userRepository;
 
     @Override
     public User query(Query query) {
         final String email = query.email();
-        return userCoreRepository.findByEmail(email)
+        return userRepository.findByEmail(email)
                 .orElseThrow(() -> {
                     throw new UserNotFoundException(email);
                 });

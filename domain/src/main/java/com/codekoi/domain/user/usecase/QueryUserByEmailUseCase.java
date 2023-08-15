@@ -1,6 +1,6 @@
 package com.codekoi.domain.user.usecase;
 
-import com.codekoi.domain.user.entity.User;
+import com.codekoi.domain.user.User;
 
 public interface QueryUserByEmailUseCase {
 

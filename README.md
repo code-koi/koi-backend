@@ -10,7 +10,7 @@
     * common-model
   * core-web
   * domain
-  * clients (미구현)
+  * clients
     * koi-redis-client
 
 ---
@@ -20,17 +20,22 @@
 * 핵심이 아니며, 해당 플랫폼에서만 제공할 것으로 예상되면 app의 Repository/Service에서 구현한다.
     * 개발 진행 중, 핵심이 되는 새로운 로직이 필요하다면 domain 모듈에서 구현한다.
 * Service와 Repository는 domain의 엔티티를 참조할 수 있다.
-    * 다만, Controller에서는 엔티티를 참조하면 안된다. DTO를 통해 데이터를 전달한다.
+  * 다만, Controller에서는 엔티티를 참조하면 안된다. DTO를 통해 데이터를 전달한다.
+* custom projection을 사용한다면 app 모듈의 QueryRepository에서 구현한다.
 
 ---
 ### Domain module
 > 각 도메인의 핵심 로직을 관리한다.
+
 * app 모듈과 무관하게 독립적인 로직을 가진다.
   * 만일 핵심이 아니며 해당 app 모듈에서만 사용된다면 그 모듈에서 구현한다.
   * 특정 API의 spec에 의존하는 쿼리가 있으면 안된다. 이러한 경우, app 모듈에서 구현한다.
-* Repository는 *CoreRepository로 명명하여 app 모듈의 Repository와 이름을 구별한다.
+* 도메인 모듈은 핵심 로직을 가지며, 도메인에 있는 유스케이스가 변경된다는 것은 다른 모듈도 변경되어야한다는 것을 의미한다.
+  * 다른 ***모든*** 모듈이 변경되는 로직을 관리한다.
+  * 만일, 도메인 모듈의 변경이 특정 app 모듈의 변경에 영향을 주지 않아야한다면 다른 모듈로 분리를 고민한다.
 * 도메인 로직은 @Entity에서 구현한다.
 * service는 유스케이스마다 클래스를 분리하여 구현한다.
+* Spring Data Jpa의 쿼리메소드를 이용하는 쿼리는 도메인에서 관리한다.
 
 ---
 ### In-system module

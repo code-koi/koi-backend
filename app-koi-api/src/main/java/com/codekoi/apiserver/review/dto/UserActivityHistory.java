@@ -2,7 +2,7 @@ package com.codekoi.apiserver.review.dto;
 
 import com.codekoi.apiserver.review.vo.Activity;
 import com.codekoi.apiserver.review.vo.ActivityHistories;
-import com.codekoi.time.annotation.BeforeTimeJsonSerializer;
+import com.codekoi.coreweb.formatter.BeforeTimeJsonSerializer;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 

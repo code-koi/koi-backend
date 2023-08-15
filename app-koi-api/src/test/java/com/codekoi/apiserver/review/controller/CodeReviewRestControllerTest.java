@@ -7,13 +7,12 @@ import com.codekoi.apiserver.review.dto.HotCodeReview;
 import com.codekoi.apiserver.review.service.CodeReviewQueryService;
 import com.codekoi.apiserver.utils.ControllerTest;
 import com.codekoi.apiserver.utils.EntityReflectionTestUtil;
-import com.codekoi.apiserver.utils.fixture.CodeReviewFixture;
-import com.codekoi.apiserver.utils.fixture.SkillFixture;
-import com.codekoi.apiserver.utils.fixture.UserFixture;
-import com.codekoi.domain.comment.entity.ReviewComment;
-import com.codekoi.domain.review.entity.CodeReview;
-import com.codekoi.domain.skill.skill.entity.Skill;
-import com.codekoi.domain.user.entity.User;
+import com.codekoi.domain.comment.ReviewComment;
+import com.codekoi.domain.review.CodeReview;
+import com.codekoi.domain.skill.skill.Skill;
+import com.codekoi.domain.user.User;
+import com.codekoi.fixture.CodeReviewFixture;
+import com.codekoi.fixture.UserFixture;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
@@ -24,9 +23,10 @@ import org.springframework.test.web.servlet.ResultActions;
 import java.time.LocalDateTime;
 import java.util.List;
 
-import static com.codekoi.apiserver.utils.fixture.CodeReviewFixture.REVIEW;
-import static com.codekoi.apiserver.utils.fixture.ReviewCommentFixture.REVIEW_COMMENT;
-import static com.codekoi.apiserver.utils.fixture.UserFixture.SUNDO;
+import static com.codekoi.fixture.CodeReviewFixture.REVIEW1;
+import static com.codekoi.fixture.ReviewCommentFixture.REVIEW_COMMENT;
+import static com.codekoi.fixture.SkillFixture.JPA;
+import static com.codekoi.fixture.UserFixture.SUNDO;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.BDDMockito.given;
 import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.document;
@@ -54,10 +54,10 @@ class CodeReviewRestControllerTest extends ControllerTest {
         //given
         final User user = SUNDO.toUser(1L);
 
-        final CodeReview codeReview = REVIEW.toCodeReview(1L, user);
+        final CodeReview codeReview = REVIEW1.toCodeReview(1L, user);
         EntityReflectionTestUtil.setCreatedAt(codeReview, LocalDateTime.now());
 
-        final Skill hardSkill = SkillFixture.JPA.toHardSkill();
+        final Skill hardSkill = JPA.toSkill();
         codeReview.addCodeReviewSkill(hardSkill);
 
         final CodeReviewDetailDto dto = CodeReviewDetailDto.of(codeReview, true, true);
@@ -110,7 +110,7 @@ class CodeReviewRestControllerTest extends ControllerTest {
     void commentsOnReview() throws Exception {
         //given
         final User user1 = UserFixture.HONG.toUser(1L);
-        final CodeReview codeReview = CodeReviewFixture.REVIEW.toCodeReview(1L, user1);
+        final CodeReview codeReview = CodeReviewFixture.REVIEW1.toCodeReview(1L, user1);
 
         final User user2 = SUNDO.toUser(2L);
         final ReviewComment reviewComment = REVIEW_COMMENT.toCodeReviewComment(3L, user2, codeReview);
@@ -171,11 +171,11 @@ class CodeReviewRestControllerTest extends ControllerTest {
     void hotCodeReview() throws Exception {
         //given
         final User user1 = UserFixture.HONG.toUser(1L);
-        final CodeReview codeReview = CodeReviewFixture.REVIEW.toCodeReview(2L, user1);
+        final CodeReview codeReview = CodeReviewFixture.REVIEW1.toCodeReview(2L, user1);
 
         EntityReflectionTestUtil.setCreatedAt(codeReview, LocalDateTime.now());
 
-        final Skill hardSkill = SkillFixture.JPA.toHardSkill();
+        final Skill hardSkill = JPA.toSkill();
         codeReview.addCodeReviewSkill(hardSkill);
 
         final List<HotCodeReview> dto = HotCodeReview.listFrom(List.of(codeReview));

@@ -19,6 +19,7 @@ dependencies {
     implementation project(':core-web')
     implementation project(':commons:common-model')
     implementation project(':commons:common-util')
+    testImplementation(testFixtures(project(":domain")))
 
     //spring
     implementation 'org.springframework.boot:spring-boot-starter-data-jpa'

@@ -1,7 +1,7 @@
 package com.codekoi.apiserver.user.dto;
 
 
-import com.codekoi.domain.user.entity.User;
+import com.codekoi.domain.user.User;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.Getter;
 
