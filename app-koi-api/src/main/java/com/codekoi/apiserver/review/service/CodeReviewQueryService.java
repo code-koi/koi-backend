@@ -59,7 +59,7 @@ public class CodeReviewQueryService {
         final CodeReview codeReview = codeReviewRepository.getOneById(codeReviewId);
 
         final User reviewRequestUser = codeReview.getUser();
-        final Optional<Favorite> optionalFavorite = favoriteRepository.findByUserId(reviewRequestUser.getId());
+        final Optional<Favorite> optionalFavorite = favoriteRepository.findByUserIdAndCodeReviewId(reviewRequestUser.getId(), codeReviewId);
 
         return CodeReviewDetailDto.of(codeReview, optionalFavorite.isPresent(),
                 sessionUserId.equals(reviewRequestUser.getId()));

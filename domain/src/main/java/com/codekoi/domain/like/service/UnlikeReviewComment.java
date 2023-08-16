@@ -13,7 +13,7 @@ import org.springframework.transaction.annotation.Transactional;
 @Service
 @Transactional
 @RequiredArgsConstructor
-public class UnlikeReviewComment implements UnlikeReviewCommentUseCase {
+class UnlikeReviewComment implements UnlikeReviewCommentUseCase {
 
     private final ReviewCommentRepository reviewCommentRepository;
     private final LikeRepository likeRepository;

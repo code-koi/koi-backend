@@ -166,7 +166,7 @@ class CodeReviewQueryServiceTest extends ServiceTest {
         given(codeReviewRepository.getOneById(anyLong()))
                 .willReturn(codeReview);
 
-        given(favoriteRepository.findByUserId(anyLong()))
+        given(favoriteRepository.findByUserIdAndCodeReviewId(anyLong(), anyLong()))
                 .willReturn(Optional.of(favorite));
 
         Long sessionUserId = 999L;

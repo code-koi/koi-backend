@@ -12,15 +12,10 @@ import com.codekoi.apiserver.skill.review.service.CodeReviewSkillQueryService;
 import com.codekoi.apiserver.user.dto.UserDetail;
 import com.codekoi.apiserver.user.service.UserQueryService;
 import com.codekoi.apiserver.utils.ControllerTest;
-import com.codekoi.apiserver.utils.EntityReflectionTestUtil;
-import com.codekoi.domain.comment.ReviewComment;
-import com.codekoi.domain.favorite.Favorite;
 import com.codekoi.domain.koi.KoiType;
-import com.codekoi.domain.review.CodeReview;
+import com.codekoi.domain.review.CodeReviewStatus;
 import com.codekoi.domain.skill.skill.Skill;
-import com.codekoi.domain.user.User;
 import com.codekoi.fixture.SkillFixture;
-import com.codekoi.fixture.UserFixture;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
@@ -32,8 +27,7 @@ import org.springframework.test.web.servlet.ResultActions;
 import java.time.LocalDateTime;
 import java.util.List;
 
-import static com.codekoi.fixture.CodeReviewFixture.REVIEW1;
-import static com.codekoi.fixture.ReviewCommentFixture.REVIEW_COMMENT;
+import static com.codekoi.apiserver.utils.fixture.UserProfileDtoFixture.PROFILE1;
 import static com.codekoi.fixture.UserFixture.SUNDO;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyLong;
@@ -113,14 +107,8 @@ class UserRestControllerTest extends ControllerTest {
     @DisplayName("코드리뷰 응답 댓글 목록 조회")
     void codeReviewCommentList() throws Exception {
         //given
-        final User user1 = UserFixture.HONG.toUser(1L);
-        final CodeReview codeReview = REVIEW1.toCodeReview(2L, user1);
-
-        final User user2 = SUNDO.toUser(2L);
-        final ReviewComment reviewComment = REVIEW_COMMENT.toCodeReviewComment(3L, user2, codeReview);
-        EntityReflectionTestUtil.setCreatedAt(reviewComment, LocalDateTime.now());
-
-        final UserCodeCommentDto dto = UserCodeCommentDto.of(user2, reviewComment, KoiType.FISHBOWL, 2L);
+        final UserCodeCommentDto dto = new UserCodeCommentDto(PROFILE1.toUserProfileDto(), 2L, LocalDateTime.now(), "글 내용",
+                KoiType.FISHBOWL, 2L);
         given(reviewCommentQueryService.getUserComments(anyLong()))
                 .willReturn(List.of(dto));
 
@@ -242,17 +230,10 @@ class UserRestControllerTest extends ControllerTest {
         }
 
         private List<UserCodeReviewDto> setUp() {
-            final User user = SUNDO.toUser(1L);
+            final UserCodeReviewDto dto = new UserCodeReviewDto(PROFILE1.toUserProfileDto(), LocalDateTime.now(), "글 내용",
+                    List.of("JPA"), CodeReviewStatus.PENDING, 2L, true);
 
-            final CodeReview codeReview = REVIEW1.toCodeReview(1L, user);
-            EntityReflectionTestUtil.setCreatedAt(codeReview, LocalDateTime.now());
-
-            final Skill hardSkill = SkillFixture.JPA.toSkill();
-            codeReview.addCodeReviewSkill(hardSkill);
-
-            final Favorite favorite = Favorite.of(codeReview, user);
-
-            return UserCodeReviewDto.listOf(List.of(codeReview), List.of(favorite), true);
+            return List.of(dto);
         }
     }
 

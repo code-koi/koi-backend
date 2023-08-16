@@ -11,7 +11,7 @@ import org.springframework.transaction.annotation.Transactional;
 @Service
 @Transactional(readOnly = true)
 @RequiredArgsConstructor
-public class QueryUserByEmail implements QueryUserByEmailUseCase {
+class QueryUserByEmail implements QueryUserByEmailUseCase {
 
     private final UserRepository userRepository;
 

@@ -9,7 +9,7 @@ import org.springframework.transaction.annotation.Transactional;
 @Service
 @Transactional
 @RequiredArgsConstructor
-public class DeleteAuthToken implements DeleteAuthTokenUseCase {
+class DeleteAuthToken implements DeleteAuthTokenUseCase {
 
     private final AuthTokenRepository authTokenRepository;
 
