@@ -14,8 +14,9 @@ class ReviewCommentRepositoryCustomImpl implements ReviewCommentRepositoryCustom
 
 
     @Override
+    //todo: api모듈로 이동 + Projection
     public List<ReviewComment> hotCommentRank() {
-        return queryFactory.select(comment)
+        return queryFactory.selectFrom(comment)
                 .where(comment.canceledAt.isNull())
                 .orderBy(comment.likeCount.desc())
                 .orderBy(comment.createdAt.desc())
