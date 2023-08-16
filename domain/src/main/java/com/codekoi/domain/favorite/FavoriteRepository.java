@@ -16,7 +16,7 @@ public interface FavoriteRepository extends JpaRepository<Favorite, Long>, Favor
     @EntityGraph(attributePaths = {"codeReview", "codeReview.user"})
     List<Favorite> findAllByUserId(Long userId);
 
-    Optional<Favorite> findByUserId(Long userId);
+    Optional<Favorite> findByUserIdAndCodeReviewId(Long userId, Long codeReviewId);
 
     List<Favorite> findByUserIdAndCodeReviewIdIn(Long userId, List<Long> codeReviewIds);
 
