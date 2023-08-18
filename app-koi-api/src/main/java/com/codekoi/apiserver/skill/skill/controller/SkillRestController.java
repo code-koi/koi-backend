@@ -17,6 +17,12 @@ public class SkillRestController {
 
     private final SkillQueryService skillQueryService;
 
+    @GetMapping
+    public TopSkillRankResponse getAllSkill() {
+        final List<SkillInfo> skill = skillQueryService.getAllSkill();
+        return new TopSkillRankResponse(skill);
+    }
+
     @GetMapping("/rank")
     public TopSkillRankResponse getTopSkillRank() {
         final List<SkillInfo> skillRank = skillQueryService.getSkillRank();
