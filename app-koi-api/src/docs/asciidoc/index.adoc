@@ -222,6 +222,17 @@ include::{snippets}/comments/get-hots/response-body.adoc[]
 
 = 기술스택 [ /skills ]
 
+== 스킬 전체 조회 ( 인기순 )
+
+=== Request
+
+include::{snippets}/skills/get/http-request.adoc[]
+
+=== Response
+
+include::{snippets}/skills/get/response-fields.adoc[]
+include::{snippets}/skills/get/response-body.adoc[]
+
 == 검색 순위 조회
 
 === Request
