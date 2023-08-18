@@ -42,4 +42,16 @@ public class HotCodeReview {
                         UserProfileDto.from(r.getUser()), r.getSkillNames()
                 )).collect(Collectors.toList());
     }
+
+    @Override
+    public String toString() {
+        return "HotCodeReview{" +
+                "id=" + id +
+                ", title='" + title + '\'' +
+                ", status=" + status +
+                ", createdAt=" + createdAt +
+                ", user=" + user +
+                ", skills=" + skills +
+                '}';
+    }
 }
