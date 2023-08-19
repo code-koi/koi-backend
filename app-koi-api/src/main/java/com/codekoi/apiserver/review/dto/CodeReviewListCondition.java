@@ -1,24 +1,22 @@
 package com.codekoi.apiserver.review.dto;
 
+import com.codekoi.domain.review.CodeReviewStatus;
 import lombok.Getter;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @Getter
 public class CodeReviewListCondition {
 
-    private Boolean pending;
-    private Boolean resolved;
-    private List<String> tag = new ArrayList<>();
-    private String keyword;
-    private Long lastReviewId;
+    private CodeReviewStatus status;
+    private List<String> tag;
+    private String title;
+    private Long nextId;
 
-    public CodeReviewListCondition(Boolean pending, Boolean resolved, List<String> tag, Long lastReviewId, String keyword) {
-        this.pending = pending;
-        this.resolved = resolved;
+    public CodeReviewListCondition(CodeReviewStatus status, List<String> tag, String title, Long nextId) {
+        this.status = status;
         this.tag = tag;
-        this.lastReviewId = lastReviewId;
-        this.keyword = keyword;
+        this.title = title;
+        this.nextId = nextId;
     }
 }

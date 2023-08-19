@@ -5,16 +5,15 @@ import com.codekoi.apiserver.comment.service.ReviewCommentQueryService;
 import com.codekoi.apiserver.review.controller.response.CodeReviewDetailResponse;
 import com.codekoi.apiserver.review.controller.response.HotCodeReviewListResponse;
 import com.codekoi.apiserver.review.controller.response.ReviewCommentListResponse;
+import com.codekoi.apiserver.review.dto.BasicCodeReview;
 import com.codekoi.apiserver.review.dto.CodeReviewDetailDto;
-import com.codekoi.apiserver.review.dto.HotCodeReview;
+import com.codekoi.apiserver.review.dto.CodeReviewListCondition;
 import com.codekoi.apiserver.review.service.CodeReviewQueryService;
 import com.codekoi.coreweb.jwt.AuthInfo;
 import com.codekoi.coreweb.jwt.Principal;
+import com.codekoi.pagination.NoOffSetPagination;
 import lombok.RequiredArgsConstructor;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -26,9 +25,14 @@ public class CodeReviewRestController {
     private final CodeReviewQueryService codeReviewQueryService;
     private final ReviewCommentQueryService reviewCommentQueryService;
 
+    @GetMapping
+    public NoOffSetPagination<BasicCodeReview, Long> reviewList(@ModelAttribute CodeReviewListCondition condition) {
+        return codeReviewQueryService.getReviewList(condition);
+    }
+
     @GetMapping("/hot")
     public HotCodeReviewListResponse hotReviews() {
-        final List<HotCodeReview> hotReviews = codeReviewQueryService.getHotReviews();
+        final List<BasicCodeReview> hotReviews = codeReviewQueryService.getHotReviews();
         return new HotCodeReviewListResponse(hotReviews);
     }
 

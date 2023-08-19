@@ -45,4 +45,13 @@ public class CodeReviewSkill {
     public CodeReview getCodeReview() {
         return codeReview;
     }
+
+    @Override
+    public String toString() {
+        return "CodeReviewSkill{" +
+                "id=" + id +
+                ", skill=" + skill.getId() +
+                ", codeReview=" + codeReview.getId() +
+                '}';
+    }
 }

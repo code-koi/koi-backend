@@ -18,9 +18,8 @@ class QueryUserByEmail implements QueryUserByEmailUseCase {
     @Override
     public User query(Query query) {
         final String email = query.email();
-        return userRepository.findByEmail(email)
-                .orElseThrow(() -> {
-                    throw new UserNotFoundException(email);
-                });
+        return userRepository.findByEmail(email).orElseThrow(() -> {
+            throw new UserNotFoundException(email);
+        });
     }
 }

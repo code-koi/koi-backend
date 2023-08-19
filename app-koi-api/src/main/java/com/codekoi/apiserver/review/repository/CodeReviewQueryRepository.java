@@ -6,8 +6,6 @@ import com.codekoi.domain.review.CodeReviewStatus;
 import com.codekoi.domain.review.QCodeReview;
 import com.codekoi.domain.skill.review.QCodeReviewSkill;
 import com.codekoi.domain.skill.skill.QSkill;
-import com.codekoi.domain.user.QUser;
-import com.querydsl.core.types.Predicate;
 import com.querydsl.core.types.dsl.BooleanExpression;
 import com.querydsl.jpa.JPAExpressions;
 import com.querydsl.jpa.impl.JPAQueryFactory;
@@ -26,81 +24,59 @@ public class CodeReviewQueryRepository {
     private final QCodeReview codeReview = QCodeReview.codeReview;
     private final QCodeReviewSkill codeReviewSkill = QCodeReviewSkill.codeReviewSkill;
     private final QSkill skill = QSkill.skill;
-    private final QUser user = QUser.user;
 
-    public List<CodeReview> getReviewList(CodeReviewListCondition condition) {
-        int MAX_SIZE = 40;
-
-        // refactor:  Dto Projection 변경?
+    public List<CodeReview> getReviewList(CodeReviewListCondition condition, int pageSize) {
         return queryFactory.selectFrom(codeReview)
-                .where(getWhere(condition))
+                .where(statusEq(condition.getStatus()),
+                        reviewIdLt(condition.getNextId()),
+                        titleContains(condition.getTitle()),
+                        tagContains(condition.getTag()))
                 .orderBy(codeReview.createdAt.desc())
-                .limit(MAX_SIZE + 1)
+                .limit(pageSize + 1)
                 .fetch();
     }
 
-    private Predicate[] getWhere(CodeReviewListCondition condition) {
-        final List<String> tags = condition.getTag()
-                .stream()
+    private BooleanExpression tagContains(List<String> tags) {
+        tags = tags.stream()
                 .filter(StringUtils::hasText)
                 .toList();
 
         if (tags.isEmpty()) {
-            return new Predicate[]{
-                    pendingEq(condition.getPending()),
-                    resolvedEq(condition.getResolved()),
-                    reviewIdLt(condition.getLastReviewId()),
-                    keywordContain(condition.getKeyword())
-            };
+            return null;
         }
 
-        return new Predicate[]{
-                pendingEq(condition.getPending()),
-                resolvedEq(condition.getResolved()),
-                reviewIdLt(condition.getLastReviewId()),
-                keywordContain(condition.getKeyword()),
-
-                codeReview.id.in(
-                        JPAExpressions.select(codeReviewSkill.codeReview.id)
-                                .from(codeReviewSkill)
-                                .where(codeReviewSkill.skill.id.in(
-                                                JPAExpressions.select(skill.id)
-                                                        .from(skill)
-                                                        .where(skill.name.in(tags))
-                                        )
+        return codeReview.id.in(
+                JPAExpressions.select(codeReviewSkill.codeReview.id)
+                        .from(codeReviewSkill)
+                        .where(codeReviewSkill.skill.id.in(
+                                        JPAExpressions.select(skill.id)
+                                                .from(skill)
+                                                .where(skill.name.in(tags))
                                 )
-                )
-        };
+                        )
+        );
     }
 
-    private BooleanExpression keywordContain(String keyword) {
-        if (!StringUtils.hasText(keyword)) {
+    private BooleanExpression titleContains(String title) {
+        if (!StringUtils.hasText(title)) {
             return null;
         }
-        return codeReview.content.contains(keyword);
+        return codeReview.title.contains(title);
     }
 
-    private BooleanExpression reviewIdLt(Long lastReviewId) {
-        if (lastReviewId == null) {
-            return null;
-        }
-
-        return codeReview.id.lt(lastReviewId);
-    }
-
-    private BooleanExpression pendingEq(Boolean pending) {
-        if (pending == null) {
+    private BooleanExpression reviewIdLt(Long nextReviewId) {
+        if (nextReviewId == null) {
             return null;
         }
 
-        return codeReview.status.eq(CodeReviewStatus.PENDING);
+        return codeReview.id.lt(nextReviewId);
     }
 
-    private BooleanExpression resolvedEq(Boolean resolved) {
-        if (resolved == null) {
+    private BooleanExpression statusEq(CodeReviewStatus status) {
+        if (status == null) {
             return null;
         }
 
-        return codeReview.status.eq(CodeReviewStatus.RESOLVED);
+        return codeReview.status.eq(status);
     }
 }

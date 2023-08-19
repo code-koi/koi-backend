@@ -13,7 +13,7 @@ import java.util.stream.Collectors;
 
 @Getter
 @NoArgsConstructor
-public class HotCodeReview {
+public class BasicCodeReview {
     private Long id;
     private String title;
 
@@ -26,7 +26,7 @@ public class HotCodeReview {
 
     private List<String> skills;
 
-    public HotCodeReview(Long id, String title, CodeReviewStatus status, LocalDateTime createdAt, UserProfileDto user, List<String> skills) {
+    public BasicCodeReview(Long id, String title, CodeReviewStatus status, LocalDateTime createdAt, UserProfileDto user, List<String> skills) {
         this.id = id;
         this.title = title;
         this.status = status;
@@ -35,23 +35,11 @@ public class HotCodeReview {
         this.skills = skills;
     }
 
-    public static List<HotCodeReview> listFrom(List<CodeReview> reviews) {
+    public static List<BasicCodeReview> listFrom(List<CodeReview> reviews) {
         return reviews.stream()
-                .map(r -> new HotCodeReview(
+                .map(r -> new BasicCodeReview(
                         r.getId(), r.getTitle(), r.getStatus(), r.getCreatedAt(),
                         UserProfileDto.from(r.getUser()), r.getSkillNames()
                 )).collect(Collectors.toList());
-    }
-
-    @Override
-    public String toString() {
-        return "HotCodeReview{" +
-                "id=" + id +
-                ", title='" + title + '\'' +
-                ", status=" + status +
-                ", createdAt=" + createdAt +
-                ", user=" + user +
-                ", skills=" + skills +
-                '}';
     }
 }
