@@ -10,22 +10,22 @@ public class NoOffSetPagination<T, K> {
 
     private List<T> list;
     private boolean hasNext = false;
-    private K nextId;
+    private K lastId;
 
-    public NoOffSetPagination(List<T> list, boolean hasNext, K nextId) {
+    public NoOffSetPagination(List<T> list, boolean hasNext, K lastId) {
         this.list = list;
         this.hasNext = hasNext;
-        this.nextId = nextId;
+        this.lastId = lastId;
     }
 
     public NoOffSetPagination(List<T> list, int pageSize, Function<T, K> idGetter) {
         if (list.size() > pageSize) {
-            final T nextElement = list.get(list.size() - 1);
-            this.nextId = idGetter.apply(nextElement);
-
-            list.remove(nextElement);
+            list.remove(pageSize);
             this.hasNext = true;
         }
         this.list = list;
+
+        final T lastElement = list.get(list.size() - 1);
+        this.lastId = idGetter.apply(lastElement);
     }
 }

@@ -55,7 +55,7 @@ class CodeReviewRestControllerTest extends ControllerTest {
                 get("/api/code-reviews")
                         .param("status", CodeReviewStatus.PENDING.toString())
                         .param("tag", "Spring")
-                        .param("nextId", "11")
+                        .param("lastId", "11")
                         .param("title", "트랜젝션")
         );
 
@@ -68,8 +68,8 @@ class CodeReviewRestControllerTest extends ControllerTest {
                                                 .description("코드리뷰 상태, PENDING, RESOLVED 중 하나").optional(),
                                         parameterWithName("tag")
                                                 .description("기술 태그").optional(),
-                                        parameterWithName("nextId")
-                                                .description("다음 페이지의 reviewId. 처음에는 없고 서버가 주는 값 그대로 전달").optional(),
+                                        parameterWithName("lastId")
+                                                .description("현재 페이지의 마지막 reviewId. 처음에는 없고 서버가 주는 값 그대로 전달").optional(),
                                         parameterWithName("title")
                                                 .description("제목 키워드").optional()
                                 ),
@@ -100,8 +100,8 @@ class CodeReviewRestControllerTest extends ControllerTest {
 
                                         fieldWithPath("hasNext").type(JsonFieldType.BOOLEAN)
                                                 .description("다음 페이지 있는지 여부"),
-                                        fieldWithPath("nextId").type(JsonFieldType.NUMBER)
-                                                .description("다음 페이지 ID. 첫 요청시 보내지 않음")
+                                        fieldWithPath("lastId").type(JsonFieldType.NUMBER)
+                                                .description("현 페이지의 마지막 리뷰 ID. 첫 요청시 보내지 않음")
                                 )
                         )
                 );

@@ -11,12 +11,12 @@ public class CodeReviewListCondition {
     private CodeReviewStatus status;
     private List<String> tag;
     private String title;
-    private Long nextId;
+    private Long lastId;
 
-    public CodeReviewListCondition(CodeReviewStatus status, List<String> tag, String title, Long nextId) {
+    public CodeReviewListCondition(CodeReviewStatus status, List<String> tag, String title, Long lastId) {
         this.status = status;
         this.tag = tag;
         this.title = title;
-        this.nextId = nextId;
+        this.lastId = lastId;
     }
 }

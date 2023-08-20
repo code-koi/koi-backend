@@ -27,8 +27,8 @@ public class CodeReviewQueryRepository {
 
     public List<CodeReview> getReviewList(CodeReviewListCondition condition, int pageSize) {
         return queryFactory.selectFrom(codeReview)
-                .where(statusEq(condition.getStatus()),
-                        reviewIdLt(condition.getNextId()),
+                .where(reviewIdGt(condition.getLastId()),
+                        statusEq(condition.getStatus()),
                         titleContains(condition.getTitle()),
                         tagContains(condition.getTag()))
                 .orderBy(codeReview.createdAt.desc())
@@ -61,15 +61,16 @@ public class CodeReviewQueryRepository {
         if (!StringUtils.hasText(title)) {
             return null;
         }
+
         return codeReview.title.contains(title);
     }
 
-    private BooleanExpression reviewIdLt(Long nextReviewId) {
-        if (nextReviewId == null) {
+    private BooleanExpression reviewIdGt(Long lastReviewId) {
+        if (lastReviewId == null) {
             return null;
         }
 
-        return codeReview.id.lt(nextReviewId);
+        return codeReview.id.gt(lastReviewId);
     }
 
     private BooleanExpression statusEq(CodeReviewStatus status) {
