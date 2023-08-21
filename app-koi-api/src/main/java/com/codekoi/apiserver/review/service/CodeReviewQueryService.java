@@ -1,9 +1,7 @@
 package com.codekoi.apiserver.review.service;
 
-import com.codekoi.apiserver.review.dto.CodeReviewDetailDto;
-import com.codekoi.apiserver.review.dto.HotCodeReview;
-import com.codekoi.apiserver.review.dto.UserActivityHistory;
-import com.codekoi.apiserver.review.dto.UserCodeReviewDto;
+import com.codekoi.apiserver.review.dto.*;
+import com.codekoi.apiserver.review.repository.CodeReviewQueryRepository;
 import com.codekoi.apiserver.review.vo.Activity;
 import com.codekoi.apiserver.review.vo.ActivityHistories;
 import com.codekoi.domain.comment.ReviewComment;
@@ -16,6 +14,7 @@ import com.codekoi.domain.review.CodeReview;
 import com.codekoi.domain.review.CodeReviewRepository;
 import com.codekoi.domain.user.User;
 import com.codekoi.domain.user.UserRepository;
+import com.codekoi.pagination.NoOffSetPagination;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -32,8 +31,17 @@ public class CodeReviewQueryService {
     private final CodeReviewRepository codeReviewRepository;
     private final ReviewCommentRepository reviewCommentRepository;
     private final LikeRepository likeRepository;
-
     private final UserRepository userRepository;
+
+    private final CodeReviewQueryRepository codeReviewQueryRepository;
+
+    public NoOffSetPagination<BasicCodeReview, Long> getReviewList(CodeReviewListCondition condition) {
+        int pageSize = 24;
+        final List<CodeReview> reviews = codeReviewQueryRepository.getReviewList(condition, pageSize);
+
+        final List<BasicCodeReview> reviewDtoList = BasicCodeReview.listFrom(reviews);
+        return new NoOffSetPagination<>(reviewDtoList, pageSize, BasicCodeReview::getId);
+    }
 
     public List<UserCodeReviewDto> findRequestedCodeReviews(Long sessionUserId, Long userId) {
         final User user = userRepository.getOneById(userId);
@@ -79,10 +87,10 @@ public class CodeReviewQueryService {
         return UserActivityHistory.listFrom(top);
     }
 
-    public List<HotCodeReview> getHotReviews() {
+    public List<BasicCodeReview> getHotReviews() {
         final List<Long> hotReviewIds = favoriteRepository.hotReviewRank();
         final List<CodeReview> reviews = codeReviewRepository.findAllById(hotReviewIds);
 
-        return HotCodeReview.listFrom(reviews);
+        return BasicCodeReview.listFrom(reviews);
     }
 }

@@ -1,8 +1,11 @@
 package com.codekoi.apiserver.review.service;
 
 
+import com.codekoi.apiserver.review.dto.BasicCodeReview;
 import com.codekoi.apiserver.review.dto.CodeReviewDetailDto;
+import com.codekoi.apiserver.review.dto.CodeReviewListCondition;
 import com.codekoi.apiserver.review.dto.UserCodeReviewDto;
+import com.codekoi.apiserver.review.repository.CodeReviewQueryRepository;
 import com.codekoi.apiserver.user.dto.UserProfileDto;
 import com.codekoi.apiserver.utils.ServiceTest;
 import com.codekoi.domain.comment.ReviewCommentRepository;
@@ -11,9 +14,11 @@ import com.codekoi.domain.favorite.FavoriteRepository;
 import com.codekoi.domain.like.LikeRepository;
 import com.codekoi.domain.review.CodeReview;
 import com.codekoi.domain.review.CodeReviewRepository;
+import com.codekoi.domain.review.CodeReviewStatus;
 import com.codekoi.domain.skill.skill.Skill;
 import com.codekoi.domain.user.User;
 import com.codekoi.domain.user.UserRepository;
+import com.codekoi.pagination.NoOffSetPagination;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
@@ -27,8 +32,7 @@ import static com.codekoi.fixture.CodeReviewFixture.REVIEW1;
 import static com.codekoi.fixture.SkillFixture.SPRING;
 import static com.codekoi.fixture.UserFixture.SUNDO;
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.mockito.ArgumentMatchers.anyList;
-import static org.mockito.ArgumentMatchers.anyLong;
+import static org.mockito.ArgumentMatchers.*;
 import static org.mockito.BDDMockito.given;
 
 class CodeReviewQueryServiceTest extends ServiceTest {
@@ -44,6 +48,8 @@ class CodeReviewQueryServiceTest extends ServiceTest {
     private CodeReviewRepository codeReviewRepository;
     @Mock
     private UserRepository userRepository;
+    @Mock
+    private CodeReviewQueryRepository codeReviewQueryRepository;
 
     @InjectMocks
     private CodeReviewQueryService codeReviewQueryService;
@@ -51,7 +57,7 @@ class CodeReviewQueryServiceTest extends ServiceTest {
     private User user;
 
     private Skill skill;
-    private CodeReview codeReview;
+    private CodeReview codeReview1;
 
     private Favorite favorite;
 
@@ -60,10 +66,32 @@ class CodeReviewQueryServiceTest extends ServiceTest {
         user = SUNDO.toUser(1L);
 
         skill = SPRING.toSkill(2L);
-        codeReview = REVIEW1.toCodeReview(3L, user);
-        codeReview.addCodeReviewSkill(skill);
+        codeReview1 = REVIEW1.toCodeReview(3L, user);
+        codeReview1.addCodeReviewSkill(skill);
 
-        favorite = Favorite.of(codeReview, user);
+        favorite = Favorite.of(codeReview1, user);
+    }
+
+    @Test
+    void 리뷰_목록_조회하기() {
+        //given
+        final CodeReviewListCondition condition = new CodeReviewListCondition(CodeReviewStatus.PENDING, List.of("JPA"), "제목", 11L);
+        given(codeReviewQueryRepository.getReviewList(any(), anyInt()))
+                .willReturn(List.of(codeReview1));
+
+        //when
+        final NoOffSetPagination<BasicCodeReview, Long> page = codeReviewQueryService.getReviewList(condition);
+
+        //then
+        assertThat(page.getList()).hasSize(1);
+        final BasicCodeReview dto = page.getList().get(0);
+        assertThat(dto.getTitle()).isEqualTo(REVIEW1.title);
+        assertThat(dto.getId()).isEqualTo(3L);
+        assertThat(dto.getStatus()).isEqualTo(REVIEW1.status);
+        assertThat(dto.getUser()).isEqualTo(UserProfileDto.from(user));
+
+        assertThat(page.isHasNext()).isFalse();
+        assertThat(page.getLastId()).isEqualTo(codeReview1.getId());
     }
 
     @Nested
@@ -73,7 +101,7 @@ class CodeReviewQueryServiceTest extends ServiceTest {
         void 세션_유저의_상세페이지를_조회하는_경우__즐겨찾기한_상태를_같이_보여준다() {
             //given
             given(codeReviewRepository.findByUserId(anyLong()))
-                    .willReturn(List.of(codeReview));
+                    .willReturn(List.of(codeReview1));
 
             given(favoriteRepository.findByUserIdAndCodeReviewIdIn(anyLong(), anyList()))
                     .willReturn(List.of(favorite));
@@ -88,7 +116,7 @@ class CodeReviewQueryServiceTest extends ServiceTest {
             assertThat(review.getTitle()).isEqualTo(REVIEW1.title);
             assertThat(review.getSkills()).containsExactly(SPRING.name);
             assertThat(review.getStatus()).isEqualTo(REVIEW1.status);
-            assertThat(review.getReviewId()).isEqualTo(codeReview.getId());
+            assertThat(review.getReviewId()).isEqualTo(codeReview1.getId());
             assertThat(review.getIsFavorite()).isTrue();
 
             final UserProfileDto reviewUser = review.getUser();
@@ -104,7 +132,7 @@ class CodeReviewQueryServiceTest extends ServiceTest {
 
 
             given(codeReviewRepository.findByUserId(anyLong()))
-                    .willReturn(List.of(codeReview));
+                    .willReturn(List.of(codeReview1));
 
             given(favoriteRepository.findByUserIdAndCodeReviewIdIn(anyLong(), anyList()))
                     .willReturn(List.of(favorite));
@@ -117,10 +145,10 @@ class CodeReviewQueryServiceTest extends ServiceTest {
             assertThat(reviews).hasSize(1);
 
             final UserCodeReviewDto review = reviews.get(0);
-            assertThat(review.getTitle()).isEqualTo(codeReview.getTitle());
+            assertThat(review.getTitle()).isEqualTo(codeReview1.getTitle());
             assertThat(review.getSkills()).containsExactly(skill.getName());
-            assertThat(review.getStatus()).isEqualTo(codeReview.getStatus());
-            assertThat(review.getReviewId()).isEqualTo(codeReview.getId());
+            assertThat(review.getStatus()).isEqualTo(codeReview1.getStatus());
+            assertThat(review.getReviewId()).isEqualTo(codeReview1.getId());
             assertThat(review.getIsFavorite()).isFalse();
 
             final UserProfileDto reviewUser = review.getUser();
@@ -151,7 +179,7 @@ class CodeReviewQueryServiceTest extends ServiceTest {
         assertThat(review.getTitle()).isEqualTo(REVIEW1.title);
         assertThat(review.getSkills()).containsExactly(SPRING.name);
         assertThat(review.getStatus()).isEqualTo(REVIEW1.status);
-        assertThat(review.getReviewId()).isEqualTo(codeReview.getId());
+        assertThat(review.getReviewId()).isEqualTo(codeReview1.getId());
         assertThat(review.getIsFavorite()).isTrue();
 
         final UserProfileDto reviewUser = review.getUser();
@@ -164,7 +192,7 @@ class CodeReviewQueryServiceTest extends ServiceTest {
     void 코드_리뷰_상세_테스트() {
         //given
         given(codeReviewRepository.getOneById(anyLong()))
-                .willReturn(codeReview);
+                .willReturn(codeReview1);
 
         given(favoriteRepository.findByUserIdAndCodeReviewId(anyLong(), anyLong()))
                 .willReturn(Optional.of(favorite));
@@ -172,7 +200,7 @@ class CodeReviewQueryServiceTest extends ServiceTest {
         Long sessionUserId = 999L;
 
         //when
-        final CodeReviewDetailDto review = codeReviewQueryService.findCodeReviewDetail(sessionUserId, codeReview.getId());
+        final CodeReviewDetailDto review = codeReviewQueryService.findCodeReviewDetail(sessionUserId, codeReview1.getId());
 
         //then
         assertThat(review.getTitle()).isEqualTo(REVIEW1.title);

@@ -54,4 +54,13 @@ public class Skill {
     public Integer getSearchCount() {
         return searchCount;
     }
+
+    @Override
+    public String toString() {
+        return "Skill{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", searchCount=" + searchCount +
+                '}';
+    }
 }

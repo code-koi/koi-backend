@@ -1,8 +1,8 @@
 # Code-Koi Backend
 
-## modules
+## Modules
 
-### 모듈 구조
+### Module architecture
 * koi-backend
   * app-koi-api
   * commons
@@ -25,15 +25,15 @@
 ### Domain module
 > 각 도메인의 핵심 로직을 관리한다.
 
-* app 모듈과 무관하게 독립적인 로직을 가진다.
+* app 모듈과 무관하게 비즈니스 핵심적이며 독립적인 로직을 가진다.
   * 만일 핵심이 아니며 해당 app 모듈에서만 사용된다면 그 모듈에서 구현한다.
   * 특정 API의 spec에 의존하는 쿼리가 있으면 안된다. 이러한 경우, app 모듈에서 구현한다.
-* 도메인 모듈은 핵심 로직을 가지며, 도메인에 있는 유스케이스가 변경된다는 것은 다른 모듈도 변경되어야한다는 것을 의미한다.
-  * 만일, 도메인 모듈의 변경이 특정 app 모듈의 변경에 영향을 주지 않아야한다면 다른 모듈로 분리를 고민한다.
+  * 도메인 모듈의 변경이 특정 app 모듈의 변경에 영향을 주지 않아야한다면, 다른 모듈로 분리를 고민한다.
 * 도메인 로직은 @Entity에서 구현한다.
-* service는 유스케이스마다 클래스를 분리하여 구현한다.
+* 트랜젝션 단위의 서비스는 유스케이스마다 클래스를 분리하여 구현한다.
 * Spring Data Jpa의 엔티티를 리턴하는 경우 domain에서 구현한다.
-  * Custom Dto Projection의 경우, app 모듈에서 개발한다.
+  * 특정 app에 강하게 의존한다고 생각하면 app에서 구현가능하다.
+    * ex) Custom dto를 리턴하는 경우
 
 ---
 ### In-system module
@@ -49,11 +49,29 @@
 * 가능한 common 모듈을 사용하지 않도록 하여 모듈의 크기를 최소화한다.
 
 ---
+
 ### Independently module
+
 > redis, sqs 기능과 같은 시스템과 무관하게 사용가능한 모듈
+
 * ex) koi-redis-client
-* 해당 모듈 자체로 독립적인 역할을 한다.
+* 해당 모듈 자체로 독립적인 역할을 수행할 수 있다.
 
 ---
 ![모듈 이미지](docs/module-tier.png)
 [이미지 참고](https://techblog.woowahan.com/2637/)
+
+## Convention
+
+### 1. @OneToOne의 ***양방향***은 가급적 사용하지 않는다.
+
+* 엔티티에 @OneToOne(mappedBy = "...")가 있거나 추가된다면 해당 포인트에서 반드시 N+1 문제 발생
+* 양방향을 사용한다면, 목록 조회 시 N+1 문제가 발생한다.
+  * 이를 해결하려면, Querydsl Projection을 주로 이용한다.
+    * JPA의 지연로딩을 사용하지 못한다.
+  * 정리하자면, 결국 트레이드 오프의 문제
+    * @OneToOne 양방향 사용 시,
+      * @OneToOne(mappedBy)의 양방향을 통한 객체 탐색 가능
+      * 양방향이 추후 추가될 수 있어 모든 목록 조회쿼리는 Projection으로 처리해야함
+    * 단방향 사용은 반대로 적용된다(양방향 탐색 X but, 자유로운 목록 조회)
+* @OneToOne 양방향을 사용하지 않는걸 선택한다.

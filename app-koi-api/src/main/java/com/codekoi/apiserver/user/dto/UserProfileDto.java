@@ -5,6 +5,8 @@ import com.codekoi.domain.user.User;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.Getter;
 
+import java.util.Objects;
+
 //todo: 도메인 모듈로 이동하기
 @Getter
 public class UserProfileDto {
@@ -22,5 +24,26 @@ public class UserProfileDto {
 
     public static UserProfileDto from(User user) {
         return new UserProfileDto(user.getProfileImageUrl(), user.getNickname(), user.getId());
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        final UserProfileDto that = (UserProfileDto) o;
+
+        if (!Objects.equals(profileImageUrl, that.profileImageUrl))
+            return false;
+        if (!nickname.equals(that.nickname)) return false;
+        return id.equals(that.id);
+    }
+
+    @Override
+    public int hashCode() {
+        int result = profileImageUrl != null ? profileImageUrl.hashCode() : 0;
+        result = 31 * result + nickname.hashCode();
+        result = 31 * result + id.hashCode();
+        return result;
     }
 }

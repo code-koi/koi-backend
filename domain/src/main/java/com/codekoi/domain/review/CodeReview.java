@@ -104,4 +104,15 @@ public class CodeReview extends TimeBaseEntity {
     public List<ReviewComment> getComments() {
         return comments;
     }
+
+    @Override
+    public String toString() {
+        return "CodeReview{" +
+                "id=" + id +
+                ", userId=" + user.getId() +
+                ", title='" + title + '\'' +
+                ", content='" + content + '\'' +
+                ", status=" + status +
+                '}';
+    }
 }
