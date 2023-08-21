@@ -62,17 +62,17 @@ class CodeReviewRestControllerTest extends ControllerTest {
         //then
         result
                 .andExpect(status().isOk())
-                .andDo(document("codeReview/get",
-                                queryParameters(
-                                        parameterWithName("status")
-                                                .description("코드리뷰 상태, PENDING, RESOLVED 중 하나").optional(),
-                                        parameterWithName("tag")
-                                                .description("기술 태그").optional(),
-                                        parameterWithName("lastId")
-                                                .description("현재 페이지의 마지막 reviewId. 처음에는 없고 서버가 주는 값 그대로 전달").optional(),
-                                        parameterWithName("title")
-                                                .description("제목 키워드").optional()
-                                ),
+                .andDo(document("codeReviews/get",
+                        queryParameters(
+                                parameterWithName("status")
+                                        .description("코드리뷰 상태, PENDING, RESOLVED 중 하나").optional(),
+                                parameterWithName("tag")
+                                        .description("기술 태그").optional(),
+                                parameterWithName("lastId")
+                                        .description("현재 페이지의 마지막 reviewId. 처음에는 없고 서버가 주는 값 그대로 전달").optional(),
+                                parameterWithName("title")
+                                        .description("제목 키워드").optional()
+                        ),
                                 responseFields(
                                         fieldWithPath("list").type(JsonFieldType.ARRAY)
                                                 .description("코드리뷰 목록"),
