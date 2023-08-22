@@ -12,7 +12,6 @@ import com.codekoi.domain.koi.KoiType;
 import com.codekoi.domain.review.CodeReviewStatus;
 import com.codekoi.domain.skill.skill.Skill;
 import com.codekoi.fixture.SkillFixture;
-import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 import org.springframework.restdocs.payload.JsonFieldType;
@@ -37,8 +36,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 class UserRestControllerTest extends ControllerTest {
 
     @Test
-    @DisplayName("유저 상세조회")
-    void userDetail() throws Exception {
+    void 유저_상세조회() throws Exception {
         //given
         final UserDetail.Skill skill = new UserDetail.Skill(1L, "JPA");
         final UserDetail dto = new UserDetail(true, SUNDO.nickname, SUNDO.email, SUNDO.profileImageUrl, SUNDO.years, SUNDO.introduce,
@@ -85,8 +83,7 @@ class UserRestControllerTest extends ControllerTest {
     }
 
     @Test
-    @DisplayName("코드리뷰 응답 댓글 목록 조회")
-    void codeReviewCommentList() throws Exception {
+    void 코드리뷰_응답_댓글_목록_조회() throws Exception {
         //given
         final UserCodeCommentDto dto = new UserCodeCommentDto(PROFILE1.toUserProfileDto(), 2L, LocalDateTime.now(), "글 내용",
                 KoiType.FISHBOWL, 2L);
@@ -136,11 +133,9 @@ class UserRestControllerTest extends ControllerTest {
     }
 
     @Nested
-    @DisplayName("요청한 코드 리뷰 및 즐겨찾기 목록 조회")
-    class UserCodeReviewList {
+    class 요청한_코드_리뷰_및_즐겨찾기_목록_조회 {
         @Test
-        @DisplayName("요청한 코드리뷰 목록 조회")
-        void userCodeReviewList() throws Exception {
+        void 요청한_코드리뷰_목록_조회() throws Exception {
             //given
             final List<UserCodeReviewDto> dto = setUp();
 
@@ -157,8 +152,7 @@ class UserRestControllerTest extends ControllerTest {
         }
 
         @Test
-        @DisplayName("유저가 즐겨찾기한 코드리뷰 목록 조회")
-        void userFavoriteCodeReviews() throws Exception {
+        void 유저가_즐겨찾기한_코드리뷰_목록_조회() throws Exception {
             //given
             final List<UserCodeReviewDto> dto = setUp();
 
@@ -219,8 +213,7 @@ class UserRestControllerTest extends ControllerTest {
     }
 
     @Test
-    @DisplayName("유저의 스킬 통계 정보 조회")
-    void userSkillStatistics() throws Exception {
+    void 유저의_스킬_통계_정보_조회() throws Exception {
         //given
         final Skill skill = SkillFixture.JPA.toSkill(1L);
         final UserSkillStatistics statistics = UserSkillStatistics.of(skill, 10);
@@ -254,8 +247,7 @@ class UserRestControllerTest extends ControllerTest {
     }
 
     @Test
-    @DisplayName("유저의 활동 로그 조회")
-    void userActivityLog() throws Exception {
+    void 유저의_활동_로그_조회() throws Exception {
         //given
         final Activity activity = new Activity(ActivityHistories.Type.LIKE, 1L, "이 코드 여기서 이상합니다.", LocalDateTime.now());
         final List<UserActivityHistory> dto = UserActivityHistory.listFrom(List.of(activity));

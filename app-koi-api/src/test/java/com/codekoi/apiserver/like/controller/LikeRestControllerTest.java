@@ -1,7 +1,6 @@
 package com.codekoi.apiserver.like.controller;
 
 import com.codekoi.apiserver.utils.ControllerTest;
-import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.test.web.servlet.ResultActions;
 
@@ -17,8 +16,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 class LikeRestControllerTest extends ControllerTest {
 
     @Test
-    @DisplayName("코드리뷰 답변에 좋아요")
-    void like() throws Exception {
+    void 코드리뷰_답변에_좋아요() throws Exception {
 
         //when
         final ResultActions result = mvc.perform(
@@ -39,8 +37,7 @@ class LikeRestControllerTest extends ControllerTest {
     }
 
     @Test
-    @DisplayName("코드리뷰 답변에 좋아요 취소")
-    void unlike() throws Exception {
+    void 코드리뷰_답변에_좋아요_취소() throws Exception {
 
         //when
         final ResultActions result = mvc.perform(

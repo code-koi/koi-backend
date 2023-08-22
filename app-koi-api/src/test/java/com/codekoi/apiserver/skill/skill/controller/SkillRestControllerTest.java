@@ -3,7 +3,6 @@ package com.codekoi.apiserver.skill.skill.controller;
 
 import com.codekoi.apiserver.skill.skill.dto.SkillInfo;
 import com.codekoi.apiserver.utils.ControllerTest;
-import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 import org.springframework.restdocs.mockmvc.RestDocumentationResultHandler;
@@ -23,12 +22,10 @@ class SkillRestControllerTest extends ControllerTest {
 
 
     @Nested
-    @DisplayName("스킬 목록 조회 테스트")
-    class SkillList {
+    class 스킬_목록_조회_테스트 {
 
         @Test
-        @DisplayName("스킬 목록 조회 (인기순)")
-        void allSkill() throws Exception {
+        void 인기순_조회() throws Exception {
             //given
             final SkillInfo skill = new SkillInfo("JPA", 2L);
 
@@ -44,8 +41,7 @@ class SkillRestControllerTest extends ControllerTest {
         }
 
         @Test
-        @DisplayName("가장 많이 사용된 스킬 건수 목록 조회")
-        void topSkillRank() throws Exception {
+        void 가장_많이_사용된_스킬_건수_목록_조회() throws Exception {
             //given
             final SkillInfo skill = new SkillInfo("JPA", 2L);
 

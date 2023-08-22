@@ -3,7 +3,6 @@ package com.codekoi.apiserver.comment.controller;
 import com.codekoi.apiserver.comment.dto.HotReviewComment;
 import com.codekoi.apiserver.utils.ControllerTest;
 import com.codekoi.domain.koi.KoiType;
-import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.restdocs.payload.JsonFieldType;
 import org.springframework.test.web.servlet.ResultActions;
@@ -23,8 +22,7 @@ class CommentRestControllerTest extends ControllerTest {
 
 
     @Test
-    @DisplayName("핫한 코드리뷰 댓글 목록 조회")
-    void hotComment() throws Exception {
+    void 핫한_코드리뷰_댓글_목록_조회() throws Exception {
         //given
         final HotReviewComment comment = new HotReviewComment(1L, PROFILE1.toUserProfileDto(), "content",
                 KoiType.FISHBOWL, true, 1);

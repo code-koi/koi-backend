@@ -7,7 +7,8 @@ import com.codekoi.coreweb.jwt.JwtTokenProvider;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import jakarta.servlet.http.Cookie;
 import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.DisplayNameGeneration;
+import org.junit.jupiter.api.DisplayNameGenerator;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.junit.jupiter.MockitoExtension;
@@ -42,6 +43,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 @WebMvcTest(controllers = AuthRestController.class)
 @ExtendWith({RestDocumentationExtension.class, MockitoExtension.class})
+@DisplayNameGeneration(DisplayNameGenerator.ReplaceUnderscores.class)
 class AuthRestControllerTest {
 
     private String accessToken = "eyJhbGciOiJIUzI1NiJ9.eyJpZCI6MSwiaWF0IjoxNjgwMDA5MjYzLCJleHAiOjE2ODYxODE5NTYzfQ.P5gzo1eNYtoog5ZtNpuqpWLqQDu2zRH1Rcdt-u_QUtQ";
@@ -72,9 +74,8 @@ class AuthRestControllerTest {
                         .build();
     }
 
-    @DisplayName("로그인 시 accessToken과 refreshToken을 발급한다")
     @Test
-    void successLogin() throws Exception {
+    void 로그인_시_accessToken과_refreshToken을_발급한다() throws Exception {
         //given
         given(userQueryService.getUserIdByEmail(anyString()))
                 .willReturn(1L);
@@ -100,9 +101,8 @@ class AuthRestControllerTest {
 
     }
 
-    @DisplayName("refreshToken을 이용해서 accessToken을 발급한다.")
     @Test
-    void createNewAccessTokenByRefreshToken() throws Exception {
+    void refreshToken을_이용해서_accessToken을_발급한다() throws Exception {
         //given
         given(jwtTokenProvider.parseExpirableAccessToken(any()))
                 .willReturn(new AuthInfo(1L));
@@ -126,9 +126,8 @@ class AuthRestControllerTest {
                 .andExpect(cookie().exists("refreshToken"));
     }
 
-    @DisplayName("로그아웃 시, refreshToken 삭제")
     @Test
-    void deleteRefreshToken() throws Exception {
+    void 로그아웃_시__refreshToken_삭제() throws Exception {
         //given
         final Cookie refreshTokenCookie = new Cookie("refreshToken", refreshToken);
 
