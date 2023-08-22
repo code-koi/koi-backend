@@ -1,13 +1,14 @@
 package com.codekoi.apiserver.comment.dto;
 
 import com.codekoi.apiserver.user.dto.UserProfileDto;
-import com.codekoi.coreweb.formatter.BeforeTimeJsonSerializer;
+import com.codekoi.coreweb.formatter.BeforeTimeSerializer;
 import com.codekoi.domain.comment.ReviewComment;
 import com.codekoi.domain.koi.KoiHistory;
 import com.codekoi.domain.koi.KoiType;
 import com.codekoi.domain.like.Like;
 import com.codekoi.domain.user.User;
 import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -24,7 +25,7 @@ public class UserCodeCommentDto {
 
     private Long reviewId;
 
-    @BeforeTimeJsonSerializer
+    @JsonSerialize(using = BeforeTimeSerializer.class)
     private LocalDateTime createdAt;
 
     private String content;

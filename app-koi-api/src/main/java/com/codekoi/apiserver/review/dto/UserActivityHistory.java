@@ -2,7 +2,8 @@ package com.codekoi.apiserver.review.dto;
 
 import com.codekoi.apiserver.review.vo.Activity;
 import com.codekoi.apiserver.review.vo.ActivityHistories;
-import com.codekoi.coreweb.formatter.BeforeTimeJsonSerializer;
+import com.codekoi.coreweb.formatter.BeforeTimeSerializer;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -16,7 +17,7 @@ public class UserActivityHistory {
     private Long reviewId;
     private String log;
 
-    @BeforeTimeJsonSerializer
+    @JsonSerialize(using = BeforeTimeSerializer.class)
     private LocalDateTime createdAt;
 
     public UserActivityHistory(Long reviewId, String log, LocalDateTime createdAt) {

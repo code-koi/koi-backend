@@ -1,11 +1,12 @@
 package com.codekoi.apiserver.review.dto;
 
 import com.codekoi.apiserver.user.dto.UserProfileDto;
-import com.codekoi.coreweb.formatter.BeforeTimeJsonSerializer;
+import com.codekoi.coreweb.formatter.BeforeTimeSerializer;
 import com.codekoi.domain.favorite.Favorite;
 import com.codekoi.domain.review.CodeReview;
 import com.codekoi.domain.review.CodeReviewStatus;
 import com.codekoi.domain.skill.review.CodeReviewSkill;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -21,7 +22,7 @@ public class UserCodeReviewDto {
 
     private UserProfileDto user;
 
-    @BeforeTimeJsonSerializer
+    @JsonSerialize(using = BeforeTimeSerializer.class)
     private LocalDateTime createdAt;
 
     private String title;
