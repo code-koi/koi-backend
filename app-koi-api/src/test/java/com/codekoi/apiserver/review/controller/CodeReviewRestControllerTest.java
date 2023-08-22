@@ -1,18 +1,13 @@
 package com.codekoi.apiserver.review.controller;
 
 import com.codekoi.apiserver.comment.dto.CommentReviewDetailDto;
-import com.codekoi.apiserver.comment.service.ReviewCommentQueryService;
 import com.codekoi.apiserver.review.dto.BasicCodeReview;
 import com.codekoi.apiserver.review.dto.CodeReviewDetailDto;
-import com.codekoi.apiserver.review.service.CodeReviewQueryService;
 import com.codekoi.apiserver.utils.ControllerTest;
 import com.codekoi.domain.koi.KoiType;
 import com.codekoi.domain.review.CodeReviewStatus;
 import com.codekoi.pagination.NoOffSetPagination;
-import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
-import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.restdocs.payload.JsonFieldType;
 import org.springframework.test.web.servlet.ResultActions;
 
@@ -30,19 +25,10 @@ import static org.springframework.restdocs.request.RequestDocumentation.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 
-@WebMvcTest(controllers = CodeReviewRestController.class)
 class CodeReviewRestControllerTest extends ControllerTest {
 
-    @MockBean
-    CodeReviewQueryService codeReviewQueryService;
-
-    @MockBean
-    ReviewCommentQueryService reviewCommentQueryService;
-
-
     @Test
-    @DisplayName("코드리뷰 목록 조회")
-    void reviewList() throws Exception {
+    void 코드리뷰_목록_조회() throws Exception {
         //given
         final BasicCodeReview dto = new BasicCodeReview(1L, "제목", CodeReviewStatus.PENDING,
                 LocalDateTime.now(), PROFILE1.toUserProfileDto(), List.of("Java"));
@@ -108,8 +94,7 @@ class CodeReviewRestControllerTest extends ControllerTest {
     }
 
     @Test
-    @DisplayName("코드리뷰 상세의 리뷰 관련 정보 조회")
-    void reviewDetail() throws Exception {
+    void 코드리뷰_상세의_리뷰_관련_정보_조회() throws Exception {
         //given
         final CodeReviewDetailDto dto = new CodeReviewDetailDto(PROFILE1.toUserProfileDto(), LocalDateTime.now(), "title", List.of("JPA"),
                 CodeReviewStatus.PENDING, true, true);
@@ -159,8 +144,7 @@ class CodeReviewRestControllerTest extends ControllerTest {
     }
 
     @Test
-    @DisplayName("코드리뷰 요청에 대한 댓글 목록 조회")
-    void commentsOnReview() throws Exception {
+    void 코드리뷰_요청에_대한_댓글_목록_조회() throws Exception {
         //given
         final CommentReviewDetailDto dto = new CommentReviewDetailDto(PROFILE1.toUserProfileDto(), 2L, LocalDateTime.now(), "코드리뷰 요청합니다",
                 KoiType.FISHBOWL, true, 1L, true);
@@ -214,8 +198,7 @@ class CodeReviewRestControllerTest extends ControllerTest {
     }
 
     @Test
-    @DisplayName("인기있는 코드리뷰 요청 목록 조회")
-    void hotCodeReview() throws Exception {
+    void 인기있는_코드리뷰_요청_목록_조회() throws Exception {
         //given
         final BasicCodeReview dto = new BasicCodeReview(1L, "제목", CodeReviewStatus.PENDING, LocalDateTime.now(),
                 PROFILE1.toUserProfileDto(), List.of("JPA"));

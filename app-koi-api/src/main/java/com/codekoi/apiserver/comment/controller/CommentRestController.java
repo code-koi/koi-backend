@@ -19,7 +19,6 @@ public class CommentRestController {
 
     private final ReviewCommentQueryService reviewCommentQueryService;
 
-
     @GetMapping("/hot")
     public HotCommentsResponse getHotComments(@Principal AuthInfo sessionUser) {
         final List<HotReviewComment> hotComments = reviewCommentQueryService.getHotComments(sessionUser.getUserId());

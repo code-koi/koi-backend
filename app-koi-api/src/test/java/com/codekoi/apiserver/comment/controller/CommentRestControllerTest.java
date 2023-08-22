@@ -1,13 +1,9 @@
 package com.codekoi.apiserver.comment.controller;
 
 import com.codekoi.apiserver.comment.dto.HotReviewComment;
-import com.codekoi.apiserver.comment.service.ReviewCommentQueryService;
 import com.codekoi.apiserver.utils.ControllerTest;
 import com.codekoi.domain.koi.KoiType;
-import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
-import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.restdocs.payload.JsonFieldType;
 import org.springframework.test.web.servlet.ResultActions;
 
@@ -22,16 +18,11 @@ import static org.springframework.restdocs.payload.PayloadDocumentation.fieldWit
 import static org.springframework.restdocs.payload.PayloadDocumentation.responseFields;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-@WebMvcTest(controllers = CommentRestController.class)
 class CommentRestControllerTest extends ControllerTest {
-
-    @MockBean
-    private ReviewCommentQueryService reviewCommentQueryService;
 
 
     @Test
-    @DisplayName("핫한 코드리뷰 댓글 목록 조회")
-    void hotComment() throws Exception {
+    void 핫한_코드리뷰_댓글_목록_조회() throws Exception {
         //given
         final HotReviewComment comment = new HotReviewComment(1L, PROFILE1.toUserProfileDto(), "content",
                 KoiType.FISHBOWL, true, 1);

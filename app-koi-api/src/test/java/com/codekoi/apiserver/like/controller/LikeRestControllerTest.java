@@ -1,12 +1,7 @@
 package com.codekoi.apiserver.like.controller;
 
 import com.codekoi.apiserver.utils.ControllerTest;
-import com.codekoi.domain.like.usecase.LikeReviewCommentUseCase;
-import com.codekoi.domain.like.usecase.UnlikeReviewCommentUseCase;
-import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
-import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.web.servlet.ResultActions;
 
 import static org.springframework.http.HttpHeaders.AUTHORIZATION;
@@ -18,18 +13,10 @@ import static org.springframework.restdocs.request.RequestDocumentation.paramete
 import static org.springframework.restdocs.request.RequestDocumentation.pathParameters;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-@WebMvcTest(controllers = LikeRestController.class)
 class LikeRestControllerTest extends ControllerTest {
 
-    @MockBean
-    LikeReviewCommentUseCase likeReviewCommentUseCase;
-
-    @MockBean
-    UnlikeReviewCommentUseCase unlikeReviewCommentUseCase;
-
     @Test
-    @DisplayName("코드리뷰 답변에 좋아요")
-    void like() throws Exception {
+    void 코드리뷰_답변에_좋아요() throws Exception {
 
         //when
         final ResultActions result = mvc.perform(
@@ -50,8 +37,7 @@ class LikeRestControllerTest extends ControllerTest {
     }
 
     @Test
-    @DisplayName("코드리뷰 답변에 좋아요 취소")
-    void unlike() throws Exception {
+    void 코드리뷰_답변에_좋아요_취소() throws Exception {
 
         //when
         final ResultActions result = mvc.perform(

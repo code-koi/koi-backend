@@ -1,11 +1,9 @@
 package com.codekoi.apiserver.auth.controller;
 
+import com.codekoi.apiserver.auth.service.AuthService;
 import com.codekoi.apiserver.user.service.UserQueryService;
 import com.codekoi.coreweb.jwt.AuthInfo;
 import com.codekoi.coreweb.jwt.JwtTokenProvider;
-import com.codekoi.domain.authtoken.usecase.CreateAuthTokenUseCase;
-import com.codekoi.domain.authtoken.usecase.DeleteAuthTokenUseCase;
-import com.codekoi.domain.authtoken.usecase.ValidateAuthTokenUseCase;
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
@@ -23,9 +21,7 @@ public class AuthRestController {
     private final UserQueryService userQueryService;
     private final JwtTokenProvider jwtTokenProvider;
 
-    private final CreateAuthTokenUseCase createAuthTokenUseCase;
-    private final DeleteAuthTokenUseCase deleteAuthTokenUseCase;
-    private final ValidateAuthTokenUseCase validateAuthTokenUseCase;
+    private final AuthService authService;
 
 
     //todo: oauth로 추후 전환하기.
@@ -36,7 +32,7 @@ public class AuthRestController {
         createAccessTokenToResponse(response, authInfo);
 
         final String refreshToken = jwtTokenProvider.createRefreshToken();
-        createAuthTokenUseCase.command(new CreateAuthTokenUseCase.Command(authInfo.getUserId(), refreshToken));
+        authService.createAuthToken(authInfo.getUserId(), refreshToken);
         setRefreshTokenInResponse(refreshToken, REFRESH_TOKEN_VALID_DURATION, response);
     }
 
@@ -49,7 +45,8 @@ public class AuthRestController {
 
         final AuthInfo authInfo = jwtTokenProvider.parseExpirableAccessToken(cookie.getValue());
         final Long userId = authInfo.getUserId();
-        validateAuthTokenUseCase.query(new ValidateAuthTokenUseCase.Query(userId, refreshToken));
+
+        authService.validateAuthToken(userId, refreshToken);
 
         createAccessTokenToResponse(response, authInfo);
         setRefreshTokenInResponse(refreshToken, REFRESH_TOKEN_VALID_DURATION, response);
@@ -59,7 +56,7 @@ public class AuthRestController {
     public void logout(@CookieValue(value = "refreshToken") Cookie cookie,
                        HttpServletResponse response) {
         final String refreshToken = cookie.getValue();
-        deleteAuthTokenUseCase.command(new DeleteAuthTokenUseCase.Command(refreshToken));
+        authService.deleteAuthToken(refreshToken);
 
         setRefreshTokenInResponse("", 0, response);
     }
