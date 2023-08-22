@@ -1,16 +1,12 @@
 package com.codekoi.apiserver.user.controller;
 
 import com.codekoi.apiserver.comment.dto.UserCodeCommentDto;
-import com.codekoi.apiserver.comment.service.ReviewCommentQueryService;
 import com.codekoi.apiserver.review.dto.UserActivityHistory;
 import com.codekoi.apiserver.review.dto.UserCodeReviewDto;
-import com.codekoi.apiserver.review.service.CodeReviewQueryService;
 import com.codekoi.apiserver.review.vo.Activity;
 import com.codekoi.apiserver.review.vo.ActivityHistories;
 import com.codekoi.apiserver.skill.review.dto.UserSkillStatistics;
-import com.codekoi.apiserver.skill.review.service.CodeReviewSkillQueryService;
 import com.codekoi.apiserver.user.dto.UserDetail;
-import com.codekoi.apiserver.user.service.UserQueryService;
 import com.codekoi.apiserver.utils.ControllerTest;
 import com.codekoi.domain.koi.KoiType;
 import com.codekoi.domain.review.CodeReviewStatus;
@@ -19,8 +15,6 @@ import com.codekoi.fixture.SkillFixture;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
-import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
-import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.restdocs.payload.JsonFieldType;
 import org.springframework.test.web.servlet.ResultActions;
 
@@ -40,20 +34,7 @@ import static org.springframework.restdocs.request.RequestDocumentation.paramete
 import static org.springframework.restdocs.request.RequestDocumentation.pathParameters;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-@WebMvcTest(controllers = UserRestController.class)
 class UserRestControllerTest extends ControllerTest {
-
-    @MockBean
-    UserQueryService userQueryService;
-
-    @MockBean
-    CodeReviewQueryService codeReviewQueryService;
-
-    @MockBean
-    CodeReviewSkillQueryService codeReviewSkillQueryService;
-
-    @MockBean
-    ReviewCommentQueryService reviewCommentQueryService;
 
     @Test
     @DisplayName("유저 상세조회")

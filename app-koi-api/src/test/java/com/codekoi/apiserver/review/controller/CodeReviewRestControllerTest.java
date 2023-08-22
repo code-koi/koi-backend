@@ -1,18 +1,14 @@
 package com.codekoi.apiserver.review.controller;
 
 import com.codekoi.apiserver.comment.dto.CommentReviewDetailDto;
-import com.codekoi.apiserver.comment.service.ReviewCommentQueryService;
 import com.codekoi.apiserver.review.dto.BasicCodeReview;
 import com.codekoi.apiserver.review.dto.CodeReviewDetailDto;
-import com.codekoi.apiserver.review.service.CodeReviewQueryService;
 import com.codekoi.apiserver.utils.ControllerTest;
 import com.codekoi.domain.koi.KoiType;
 import com.codekoi.domain.review.CodeReviewStatus;
 import com.codekoi.pagination.NoOffSetPagination;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
-import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.restdocs.payload.JsonFieldType;
 import org.springframework.test.web.servlet.ResultActions;
 
@@ -30,15 +26,7 @@ import static org.springframework.restdocs.request.RequestDocumentation.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 
-@WebMvcTest(controllers = CodeReviewRestController.class)
 class CodeReviewRestControllerTest extends ControllerTest {
-
-    @MockBean
-    CodeReviewQueryService codeReviewQueryService;
-
-    @MockBean
-    ReviewCommentQueryService reviewCommentQueryService;
-
 
     @Test
     @DisplayName("코드리뷰 목록 조회")
