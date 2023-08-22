@@ -1,6 +1,7 @@
 package com.codekoi.apiserver.review.controller;
 
 import com.codekoi.apiserver.comment.dto.CommentReviewDetailDto;
+import com.codekoi.apiserver.docs.RestDocsCommonDescriptor;
 import com.codekoi.apiserver.review.dto.BasicCodeReview;
 import com.codekoi.apiserver.review.dto.CodeReviewDetailDto;
 import com.codekoi.apiserver.utils.ControllerTest;
@@ -72,15 +73,6 @@ class CodeReviewRestControllerTest extends ControllerTest {
                                         fieldWithPath("list[].createdAt").type(JsonFieldType.STRING)
                                                 .description("생성일"),
 
-                                        fieldWithPath("list[].user").type(JsonFieldType.OBJECT)
-                                                .description("유저 정보"),
-                                        fieldWithPath("list[].user.profileImageUrl").type(JsonFieldType.STRING)
-                                                .description("프로필 이미지").optional(),
-                                        fieldWithPath("list[].user.nickname").type(JsonFieldType.STRING)
-                                                .description("닉네임"),
-                                        fieldWithPath("list[].user.id").type(JsonFieldType.NUMBER)
-                                                .description("유저 고유 아이디"),
-
                                         fieldWithPath("list[].skills").type(JsonFieldType.ARRAY)
                                                 .description("스킬 목록"),
 
@@ -88,7 +80,7 @@ class CodeReviewRestControllerTest extends ControllerTest {
                                                 .description("다음 페이지 있는지 여부"),
                                         fieldWithPath("lastId").type(JsonFieldType.NUMBER)
                                                 .description("현 페이지의 마지막 리뷰 ID. 첫 요청시 보내지 않음")
-                                )
+                                ).and(RestDocsCommonDescriptor.userProfileDto("list[]"))
                         )
                 );
     }
@@ -119,13 +111,6 @@ class CodeReviewRestControllerTest extends ControllerTest {
                                 fieldWithPath("review").type(JsonFieldType.OBJECT)
                                         .description("리뷰 정보"),
 
-                                fieldWithPath("review.user.profileImageUrl").type(JsonFieldType.STRING)
-                                        .description("프로필 이미지").optional(),
-                                fieldWithPath("review.user.nickname").type(JsonFieldType.STRING)
-                                        .description("닉네임"),
-                                fieldWithPath("review.user.id").type(JsonFieldType.NUMBER)
-                                        .description("유저 고유 아이디"),
-
                                 fieldWithPath("review.createdAt").type(JsonFieldType.STRING)
                                         .description("코드리뷰를 요청한 날"),
                                 fieldWithPath("review.title").type(JsonFieldType.STRING)
@@ -139,7 +124,7 @@ class CodeReviewRestControllerTest extends ControllerTest {
                                                 "세션유저가 즐겨찾기 한 경우 true, 세션유저가 자신의 프로필이 아니거나, 즐겨찾기를 하지 않은 경우 false"),
                                 fieldWithPath("review.me").type(JsonFieldType.BOOLEAN)
                                         .description("로그인된 유저와 리뷰요청을 남긴 유저가 같으면 true")
-                        )
+                        ).and(RestDocsCommonDescriptor.userProfileDto("review"))
                 ));
     }
 
@@ -169,16 +154,6 @@ class CodeReviewRestControllerTest extends ControllerTest {
                                 fieldWithPath("comments").type(JsonFieldType.ARRAY)
                                         .description("코드리뷰에 대해 남긴 댓글 목록"),
 
-                                fieldWithPath("comments[].user").type(JsonFieldType.OBJECT)
-                                        .description("댓글을 남긴 유저 정보"),
-                                fieldWithPath("comments[].user.profileImageUrl").type(JsonFieldType.STRING)
-                                        .description("프로필 이미지").optional(),
-                                fieldWithPath("comments[].user.nickname").type(JsonFieldType.STRING)
-                                        .description("닉네임"),
-                                fieldWithPath("comments[].user.id").type(JsonFieldType.NUMBER)
-                                        .description("유저 고유 아이디"),
-
-
                                 fieldWithPath("comments[].id").type(JsonFieldType.NUMBER)
                                         .description("댓글 고유아이디"),
                                 fieldWithPath("comments[].likeCount").type(JsonFieldType.NUMBER)
@@ -193,7 +168,7 @@ class CodeReviewRestControllerTest extends ControllerTest {
                                         .description("현재 로그인한 유저가 작성한 댓글인지 여부"),
                                 fieldWithPath("comments[].liked").type(JsonFieldType.BOOLEAN)
                                         .description("현재 로그인한 유저가 해당 댓글에 좋아요 했는 지 여부")
-                        )
+                        ).and(RestDocsCommonDescriptor.userProfileDto("comments[]"))
                 ));
     }
 
@@ -228,18 +203,9 @@ class CodeReviewRestControllerTest extends ControllerTest {
                                 fieldWithPath("reviews[].createdAt").type(JsonFieldType.STRING)
                                         .description("생성일"),
 
-                                fieldWithPath("reviews[].user").type(JsonFieldType.OBJECT)
-                                        .description("유저 정보"),
-                                fieldWithPath("reviews[].user.profileImageUrl").type(JsonFieldType.STRING)
-                                        .description("프로필 이미지").optional(),
-                                fieldWithPath("reviews[].user.nickname").type(JsonFieldType.STRING)
-                                        .description("닉네임"),
-                                fieldWithPath("reviews[].user.id").type(JsonFieldType.NUMBER)
-                                        .description("유저 고유 아이디"),
-
                                 fieldWithPath("reviews[].skills").type(JsonFieldType.ARRAY)
                                         .description("스킬 목록")
-                        )
+                        ).and(RestDocsCommonDescriptor.userProfileDto("reviews[]"))
                 ));
     }
 }
