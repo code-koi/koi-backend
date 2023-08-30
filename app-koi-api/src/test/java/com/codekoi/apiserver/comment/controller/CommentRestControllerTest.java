@@ -1,6 +1,7 @@
 package com.codekoi.apiserver.comment.controller;
 
 import com.codekoi.apiserver.comment.dto.HotReviewComment;
+import com.codekoi.apiserver.docs.RestDocsCommonDescriptor;
 import com.codekoi.apiserver.utils.ControllerTest;
 import com.codekoi.domain.koi.KoiType;
 import org.junit.jupiter.api.Test;
@@ -47,23 +48,13 @@ class CommentRestControllerTest extends ControllerTest {
                                         .description("리뷰 아이디"),
                                 fieldWithPath("comments[].content").type(JsonFieldType.STRING)
                                         .description("리뷰 댓글 내용"),
-
-                                fieldWithPath("comments[].user").type(JsonFieldType.OBJECT)
-                                        .description("댓글을 남긴 유저 정보"),
-                                fieldWithPath("comments[].user.profileImageUrl").type(JsonFieldType.STRING)
-                                        .description("프로필 이미지").optional(),
-                                fieldWithPath("comments[].user.nickname").type(JsonFieldType.STRING)
-                                        .description("닉네임"),
-                                fieldWithPath("comments[].user.id").type(JsonFieldType.NUMBER)
-                                        .description("유저 고유 아이디"),
-
                                 fieldWithPath("comments[].koiType").type(JsonFieldType.STRING)
                                         .description("코이 타입"),
                                 fieldWithPath("comments[].liked").type(JsonFieldType.BOOLEAN)
                                         .description("좋아요 여부").optional(),
                                 fieldWithPath("comments[].likeCount").type(JsonFieldType.NUMBER)
                                         .description("좋아요 개수")
-                        )
+                        ).and(RestDocsCommonDescriptor.userProfileDto("comments[]"))
                 ));
 
 
