@@ -23,9 +23,12 @@ public class NoOffSetPagination<T, K> {
             list.remove(pageSize);
             this.hasNext = true;
         }
+
         this.list = list;
 
-        final T lastElement = list.get(list.size() - 1);
-        this.lastId = idGetter.apply(lastElement);
+        if (list.size() >= 1) {
+            final T lastElement = list.get(list.size() - 1);
+            this.lastId = idGetter.apply(lastElement);
+        }
     }
 }
