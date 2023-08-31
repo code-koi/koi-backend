@@ -5,7 +5,6 @@ import com.codekoi.domain.review.CodeReview;
 import com.codekoi.domain.review.CodeReviewStatus;
 import com.codekoi.domain.review.QCodeReview;
 import com.codekoi.domain.skill.review.QCodeReviewSkill;
-import com.codekoi.domain.skill.skill.QSkill;
 import com.querydsl.core.types.dsl.BooleanExpression;
 import com.querydsl.jpa.JPAExpressions;
 import com.querydsl.jpa.impl.JPAQueryFactory;
@@ -23,37 +22,27 @@ public class CodeReviewQueryRepository {
 
     private final QCodeReview codeReview = QCodeReview.codeReview;
     private final QCodeReviewSkill codeReviewSkill = QCodeReviewSkill.codeReviewSkill;
-    private final QSkill skill = QSkill.skill;
 
     public List<CodeReview> getReviewList(CodeReviewListCondition condition, int pageSize) {
         return queryFactory.selectFrom(codeReview)
                 .where(reviewIdLt(condition.getLastId()),
                         statusEq(condition.getStatus()),
                         titleContains(condition.getTitle()),
-                        tagContains(condition.getTag()))
+                        tagContains(condition.getSkillIds()))
                 .orderBy(codeReview.createdAt.desc())
                 .limit(pageSize + 1)
                 .fetch();
     }
 
-    private BooleanExpression tagContains(List<String> tags) {
-        tags = tags.stream()
-                .filter(StringUtils::hasText)
-                .toList();
-
-        if (tags.isEmpty()) {
+    private BooleanExpression tagContains(List<Long> skillIds) {
+        if (skillIds.isEmpty()) {
             return null;
         }
 
         return codeReview.id.in(
                 JPAExpressions.select(codeReviewSkill.codeReview.id)
                         .from(codeReviewSkill)
-                        .where(codeReviewSkill.skill.id.in(
-                                        JPAExpressions.select(skill.id)
-                                                .from(skill)
-                                                .where(skill.name.in(tags))
-                                )
-                        )
+                        .where(codeReviewSkill.skill.id.in(skillIds))
         );
     }
 
