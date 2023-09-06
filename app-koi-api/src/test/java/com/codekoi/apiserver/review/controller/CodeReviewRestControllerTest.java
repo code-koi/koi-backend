@@ -41,7 +41,7 @@ class CodeReviewRestControllerTest extends ControllerTest {
         final ResultActions result = mvc.perform(
                 get("/api/code-reviews")
                         .param("status", CodeReviewStatus.PENDING.toString())
-                        .param("skillId", "1", "2")
+                        .param("skillIds", "1", "2")
                         .param("lastId", "11")
                         .param("title", "transaction")
         );
@@ -53,7 +53,7 @@ class CodeReviewRestControllerTest extends ControllerTest {
                         queryParameters(
                                 parameterWithName("status")
                                         .description("코드리뷰 상태, PENDING, RESOLVED. 조건없으면 안보내기").optional(),
-                                parameterWithName("skillId")
+                                parameterWithName("skillIds")
                                         .description("기술 태그").optional(),
                                 parameterWithName("lastId")
                                         .description("현재 페이지의 마지막 reviewId. 처음에는 없고 서버가 주는 값 그대로 전달").optional(),

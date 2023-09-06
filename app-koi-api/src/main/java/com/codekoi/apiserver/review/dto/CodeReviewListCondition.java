@@ -1,7 +1,6 @@
 package com.codekoi.apiserver.review.dto;
 
 import com.codekoi.domain.review.CodeReviewStatus;
-import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Getter;
 
 import java.util.ArrayList;
@@ -13,7 +12,6 @@ public class CodeReviewListCondition {
 
     private CodeReviewStatus status;
 
-    @JsonProperty("skillId")
     private List<Long> skillIds;
 
     private String title;
