@@ -48,6 +48,23 @@ public class ReviewComment extends TimeBaseEntity {
         this.likes = Objects.requireNonNullElse(likes, new ArrayList<>());
     }
 
+    public static ReviewComment of(User user, CodeReview codeReview, String content) {
+        return ReviewComment.builder()
+                .user(user)
+                .codeReview(codeReview)
+                .content(content)
+                .likeCount(0)
+                .build();
+    }
+
+    public boolean isMyComment(Long userId) {
+        return this.getUser().getId().equals(userId);
+    }
+
+    public void update(String content) {
+        this.content = content;
+    }
+
     public void addLikeOne() {
         this.likeCount += 1;
     }

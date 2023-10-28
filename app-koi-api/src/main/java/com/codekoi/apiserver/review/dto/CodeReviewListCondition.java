@@ -11,13 +11,15 @@ import java.util.Objects;
 public class CodeReviewListCondition {
 
     private CodeReviewStatus status;
-    private List<String> tag;
+
+    private List<Long> skillIds;
+
     private String title;
     private Long lastId;
 
-    public CodeReviewListCondition(CodeReviewStatus status, List<String> tag, String title, Long lastId) {
+    public CodeReviewListCondition(CodeReviewStatus status, List<Long> skillIds, String title, Long lastId) {
         this.status = status;
-        this.tag = Objects.requireNonNullElse(tag, new ArrayList<>());
+        this.skillIds = Objects.requireNonNullElse(skillIds, new ArrayList<>());
         this.title = title;
         this.lastId = lastId;
     }

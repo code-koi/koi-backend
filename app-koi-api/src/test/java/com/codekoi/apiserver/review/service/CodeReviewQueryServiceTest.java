@@ -37,7 +37,6 @@ import static org.mockito.BDDMockito.given;
 
 class CodeReviewQueryServiceTest extends ServiceTest {
 
-
     @Mock
     private FavoriteRepository favoriteRepository;
     @Mock
@@ -75,7 +74,7 @@ class CodeReviewQueryServiceTest extends ServiceTest {
     @Test
     void 리뷰_목록_조회하기() {
         //given
-        final CodeReviewListCondition condition = new CodeReviewListCondition(CodeReviewStatus.PENDING, List.of("JPA"), "제목", 11L);
+        final CodeReviewListCondition condition = new CodeReviewListCondition(CodeReviewStatus.PENDING, List.of(1L, 2L), "제목", 11L);
         given(codeReviewQueryRepository.getReviewList(any(), anyInt()))
                 .willReturn(List.of(codeReview1));
 
