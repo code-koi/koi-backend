@@ -210,6 +210,18 @@ include::{snippets}/codeReviews/get-hot/http-request.adoc[]
 include::{snippets}/codeReviews/get-hot/response-fields.adoc[]
 include::{snippets}/codeReviews/get-hot/response-body.adoc[]
 
+== 코드리뷰 목록 조회
+
+=== Request
+
+include::{snippets}/codeReviews/post/http-request.adoc[]
+
+=== Response
+
+include::{snippets}/codeReviews/post/response-fields.adoc[]
+include::{snippets}/codeReviews/post/response-body.adoc[]
+
+
 = 좋아요 [ /likes ]
 == 좋아요하기
 === Request
