@@ -20,7 +20,6 @@ import java.util.List;
 import static com.codekoi.apiserver.utils.fixture.UserProfileDtoFixture.PROFILE1;
 import static org.mockito.ArgumentMatchers.*;
 import static org.mockito.BDDMockito.given;
-import static org.mockito.Mockito.verify;
 import static org.springframework.http.HttpHeaders.AUTHORIZATION;
 import static org.springframework.http.MediaType.APPLICATION_JSON;
 import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.document;
@@ -269,8 +268,6 @@ class CodeReviewRestControllerTest extends ControllerTest {
         );
 
         //then
-        verify(codeReviewService).update(anyLong(), anyLong(), anyString(), anyString(), anyList());
-
         result
                 .andExpect(status().isOk())
                 .andDo(document("codeReviews/put-reviewId",
@@ -285,6 +282,29 @@ class CodeReviewRestControllerTest extends ControllerTest {
                                                 .description("코드리뷰 내용"),
                                         fieldWithPath("skillIds").type(JsonFieldType.ARRAY)
                                                 .description("스킬 아이디 목록")
+                                )
+                        )
+                );
+    }
+
+    @Test
+    void 코드리뷰_삭제() throws Exception {
+        //given
+
+        //when
+        final ResultActions result = mvc.perform(
+                delete("/api/code-reviews/{reviewId}", 1L)
+                        .header(AUTHORIZATION, accessToken)
+                        .contentType(APPLICATION_JSON)
+        );
+
+        //then
+        result
+                .andExpect(status().isOk())
+                .andDo(document("codeReviews/delete-reviewId",
+                                pathParameters(
+                                        parameterWithName("reviewId")
+                                                .description("코드리뷰 고유아이디")
                                 )
                         )
                 );

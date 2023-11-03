@@ -66,4 +66,9 @@ public class CodeReviewRestController {
                              @Valid @RequestBody UpdateCodeReveiwRequest request) {
         codeReviewService.update(reviewId, authInfo.getUserId(), request.title(), request.content(), request.skillIds());
     }
+
+    @DeleteMapping("/{reviewId}")
+    public void deleteReview(@Principal AuthInfo authInfo, @PathVariable Long reviewId) {
+        codeReviewService.delete(reviewId, authInfo.getUserId());
+    }
 }
