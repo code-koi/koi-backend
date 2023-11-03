@@ -3,6 +3,7 @@ package com.codekoi.apiserver.review.controller;
 import com.codekoi.apiserver.comment.dto.CommentReviewDetailDto;
 import com.codekoi.apiserver.docs.RestDocsCommonDescriptor;
 import com.codekoi.apiserver.review.controller.request.CreateCodeReviewRequest;
+import com.codekoi.apiserver.review.controller.request.UpdateCodeReveiwRequest;
 import com.codekoi.apiserver.review.dto.BasicCodeReview;
 import com.codekoi.apiserver.review.dto.CodeReviewDetailDto;
 import com.codekoi.apiserver.utils.ControllerTest;
@@ -19,11 +20,11 @@ import java.util.List;
 import static com.codekoi.apiserver.utils.fixture.UserProfileDtoFixture.PROFILE1;
 import static org.mockito.ArgumentMatchers.*;
 import static org.mockito.BDDMockito.given;
+import static org.mockito.Mockito.verify;
 import static org.springframework.http.HttpHeaders.AUTHORIZATION;
 import static org.springframework.http.MediaType.APPLICATION_JSON;
 import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.document;
-import static org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders.get;
-import static org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders.post;
+import static org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders.*;
 import static org.springframework.restdocs.payload.PayloadDocumentation.*;
 import static org.springframework.restdocs.request.RequestDocumentation.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -246,6 +247,44 @@ class CodeReviewRestControllerTest extends ControllerTest {
                                 responseFields(
                                         fieldWithPath("id").type(JsonFieldType.NUMBER)
                                                 .description("생성된 코드리뷰 아이디")
+                                )
+                        )
+                );
+    }
+
+    @Test
+    void 코드리뷰_수정() throws Exception {
+        //given
+        final String UPDATE_TITLE = "변경할 제목";
+        final String UPDATE_CONTENT = "변경할 내용";
+        final List<Long> UPDATE_SKILL_IDS = List.of(1L, 2L);
+        UpdateCodeReveiwRequest request = new UpdateCodeReveiwRequest(UPDATE_TITLE, UPDATE_CONTENT, UPDATE_SKILL_IDS);
+
+        //when
+        final ResultActions result = mvc.perform(
+                put("/api/code-reviews/{reviewId}", 1L)
+                        .header(AUTHORIZATION, accessToken)
+                        .contentType(APPLICATION_JSON)
+                        .content(mapper.writeValueAsString(request))
+        );
+
+        //then
+        verify(codeReviewService).update(anyLong(), anyLong(), anyString(), anyString(), anyList());
+
+        result
+                .andExpect(status().isOk())
+                .andDo(document("codeReviews/put-reviewId",
+                                pathParameters(
+                                        parameterWithName("reviewId")
+                                                .description("코드리뷰 고유아이디")
+                                ),
+                                requestFields(
+                                        fieldWithPath("title").type(JsonFieldType.STRING)
+                                                .description("코드리뷰 제목"),
+                                        fieldWithPath("content").type(JsonFieldType.STRING)
+                                                .description("코드리뷰 내용"),
+                                        fieldWithPath("skillIds").type(JsonFieldType.ARRAY)
+                                                .description("스킬 아이디 목록")
                                 )
                         )
                 );

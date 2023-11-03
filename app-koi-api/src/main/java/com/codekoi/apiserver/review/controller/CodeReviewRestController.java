@@ -3,6 +3,7 @@ package com.codekoi.apiserver.review.controller;
 import com.codekoi.apiserver.comment.dto.CommentReviewDetailDto;
 import com.codekoi.apiserver.comment.service.ReviewCommentQueryService;
 import com.codekoi.apiserver.review.controller.request.CreateCodeReviewRequest;
+import com.codekoi.apiserver.review.controller.request.UpdateCodeReveiwRequest;
 import com.codekoi.apiserver.review.controller.response.CodeReviewDetailResponse;
 import com.codekoi.apiserver.review.controller.response.HotCodeReviewListResponse;
 import com.codekoi.apiserver.review.controller.response.ReviewCommentListResponse;
@@ -57,5 +58,12 @@ public class CodeReviewRestController {
     public SimpleIdResponse createReview(@Principal AuthInfo authInfo, @Valid @RequestBody CreateCodeReviewRequest request) {
         final Long codeReviewId = codeReviewService.create(authInfo.getUserId(), request.title(), request.content(), request.skillIds());
         return new SimpleIdResponse(codeReviewId);
+    }
+
+    @PutMapping("/{reviewId}")
+    public void updateReview(@Principal AuthInfo authInfo,
+                             @PathVariable Long reviewId,
+                             @Valid @RequestBody UpdateCodeReveiwRequest request) {
+        codeReviewService.update(reviewId, authInfo.getUserId(), request.title(), request.content(), request.skillIds());
     }
 }
