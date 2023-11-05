@@ -2,6 +2,8 @@ package com.codekoi.apiserver.review.controller;
 
 import com.codekoi.apiserver.comment.dto.CommentReviewDetailDto;
 import com.codekoi.apiserver.comment.service.ReviewCommentQueryService;
+import com.codekoi.apiserver.review.controller.request.CreateCodeReviewRequest;
+import com.codekoi.apiserver.review.controller.request.UpdateCodeReveiwRequest;
 import com.codekoi.apiserver.review.controller.response.CodeReviewDetailResponse;
 import com.codekoi.apiserver.review.controller.response.HotCodeReviewListResponse;
 import com.codekoi.apiserver.review.controller.response.ReviewCommentListResponse;
@@ -9,9 +11,12 @@ import com.codekoi.apiserver.review.dto.BasicCodeReview;
 import com.codekoi.apiserver.review.dto.CodeReviewDetailDto;
 import com.codekoi.apiserver.review.dto.CodeReviewListCondition;
 import com.codekoi.apiserver.review.service.CodeReviewQueryService;
+import com.codekoi.apiserver.review.service.CodeReviewService;
 import com.codekoi.coreweb.jwt.AuthInfo;
 import com.codekoi.coreweb.jwt.Principal;
 import com.codekoi.pagination.NoOffSetPagination;
+import com.codekoi.response.SimpleIdResponse;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
@@ -24,6 +29,7 @@ public class CodeReviewRestController {
 
     private final CodeReviewQueryService codeReviewQueryService;
     private final ReviewCommentQueryService reviewCommentQueryService;
+    private final CodeReviewService codeReviewService;
 
     @GetMapping
     public NoOffSetPagination<BasicCodeReview, Long> reviewList(@ModelAttribute CodeReviewListCondition condition) {
@@ -46,5 +52,23 @@ public class CodeReviewRestController {
     public ReviewCommentListResponse commentsOnReview(@Principal AuthInfo authInfo, @PathVariable Long reviewId) {
         final List<CommentReviewDetailDto> comments = reviewCommentQueryService.getCommentsOnReview(authInfo.getUserId(), reviewId);
         return new ReviewCommentListResponse(comments);
+    }
+
+    @PostMapping
+    public SimpleIdResponse createReview(@Principal AuthInfo authInfo, @Valid @RequestBody CreateCodeReviewRequest request) {
+        final Long codeReviewId = codeReviewService.create(authInfo.getUserId(), request.title(), request.content(), request.skillIds());
+        return new SimpleIdResponse(codeReviewId);
+    }
+
+    @PutMapping("/{reviewId}")
+    public void updateReview(@Principal AuthInfo authInfo,
+                             @PathVariable Long reviewId,
+                             @Valid @RequestBody UpdateCodeReveiwRequest request) {
+        codeReviewService.update(reviewId, authInfo.getUserId(), request.title(), request.content(), request.skillIds());
+    }
+
+    @DeleteMapping("/{reviewId}")
+    public void deleteReview(@Principal AuthInfo authInfo, @PathVariable Long reviewId) {
+        codeReviewService.delete(reviewId, authInfo.getUserId());
     }
 }
