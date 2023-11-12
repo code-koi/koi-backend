@@ -249,7 +249,7 @@ class UserRestControllerTest extends ControllerTest {
     @Test
     void 유저의_활동_로그_조회() throws Exception {
         //given
-        final Activity activity = new Activity(ActivityHistories.Type.LIKE, 1L, "이 코드 여기서 이상합니다.", LocalDateTime.now());
+        final Activity activity = new Activity(Activity.Type.LIKE, 1L, "이 코드 여기서 이상합니다.", LocalDateTime.now());
         final List<UserActivityHistory> dto = UserActivityHistory.listFrom(List.of(activity));
 
         given(codeReviewQueryService.findUserHistory(anyLong()))

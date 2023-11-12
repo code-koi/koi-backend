@@ -7,8 +7,11 @@ import lombok.NoArgsConstructor;
 @Getter
 @NoArgsConstructor
 public class UserSkillStatistics {
+
     private Long id;
+
     private String name;
+
     private int count;
 
     public UserSkillStatistics(Long id, String name, int count) {
@@ -16,7 +19,6 @@ public class UserSkillStatistics {
         this.name = name;
         this.count = count;
     }
-
 
     public static UserSkillStatistics of(Skill skill, int count) {
         return new UserSkillStatistics(skill.getId(), skill.getName(), count);

@@ -5,7 +5,6 @@ import com.codekoi.coreweb.formatter.BeforeTimeSerializer;
 import com.codekoi.domain.favorite.Favorite;
 import com.codekoi.domain.review.CodeReview;
 import com.codekoi.domain.review.CodeReviewStatus;
-import com.codekoi.domain.skill.review.CodeReviewSkill;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -26,7 +25,9 @@ public class UserCodeReviewDto {
     private LocalDateTime createdAt;
 
     private String title;
+
     private List<String> skills = new ArrayList<>();
+
     private CodeReviewStatus status;
 
     private Long reviewId;
@@ -47,25 +48,31 @@ public class UserCodeReviewDto {
         final Map<Long, Favorite> favoriteMap = favorites.stream()
                 .collect(Collectors.toMap(f -> f.getCodeReview().getId(), favorite -> favorite));
 
-        return reviews
-                .stream()
-                .map(r -> new UserCodeReviewDto(UserProfileDto.from(r.getUser()), r.getCreatedAt(), r.getTitle(),
-                        getSkillNames(r.getSkills()), r.getStatus(), r.getId(), me && favoriteMap.containsKey(r.getId())))
-                .collect(Collectors.toList());
-    }
-
-    private static List<String> getSkillNames(List<CodeReviewSkill> skills) {
-        return skills
-                .stream()
-                .map(s -> s.getSkill().getName())
+        return reviews.stream()
+                .map(r -> of(isFavorite(me, favoriteMap, r), r))
                 .toList();
     }
 
     public static List<UserCodeReviewDto> listOf(List<Favorite> favorites, boolean me) {
         return favorites.stream()
                 .map(Favorite::getCodeReview)
-                .map(r -> new UserCodeReviewDto(UserProfileDto.from(r.getUser()), r.getCreatedAt(), r.getTitle(), getSkillNames(r.getSkills()),
-                        r.getStatus(), r.getId(), me))
-                .collect(Collectors.toList());
+                .map(r -> of(me, r))
+                .toList();
+    }
+
+    public static UserCodeReviewDto of(boolean me, CodeReview r) {
+        return new UserCodeReviewDto(
+                UserProfileDto.from(r.getUser()),
+                r.getCreatedAt(),
+                r.getTitle(),
+                r.getSkillNames(),
+                r.getStatus(),
+                r.getId(),
+                me
+        );
+    }
+
+    private static boolean isFavorite(boolean me, Map<Long, Favorite> favoriteMap, CodeReview r) {
+        return me && favoriteMap.containsKey(r.getId());
     }
 }

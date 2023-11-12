@@ -10,12 +10,13 @@ import lombok.NoArgsConstructor;
 
 import java.time.LocalDateTime;
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Getter
 @NoArgsConstructor
 public class BasicCodeReview {
+
     private Long id;
+
     private String title;
 
     private CodeReviewStatus status;
@@ -38,9 +39,18 @@ public class BasicCodeReview {
 
     public static List<BasicCodeReview> listFrom(List<CodeReview> reviews) {
         return reviews.stream()
-                .map(r -> new BasicCodeReview(
-                        r.getId(), r.getTitle(), r.getStatus(), r.getCreatedAt(),
-                        UserProfileDto.from(r.getUser()), r.getSkillNames()
-                )).collect(Collectors.toList());
+                .map(BasicCodeReview::from)
+                .toList();
+    }
+
+    public static BasicCodeReview from(CodeReview r) {
+        return new BasicCodeReview(
+                r.getId(),
+                r.getTitle(),
+                r.getStatus(),
+                r.getCreatedAt(),
+                UserProfileDto.from(r.getUser()),
+                r.getSkillNames()
+        );
     }
 }

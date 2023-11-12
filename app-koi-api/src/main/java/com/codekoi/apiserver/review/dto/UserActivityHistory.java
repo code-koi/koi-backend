@@ -1,7 +1,6 @@
 package com.codekoi.apiserver.review.dto;
 
 import com.codekoi.apiserver.review.vo.Activity;
-import com.codekoi.apiserver.review.vo.ActivityHistories;
 import com.codekoi.coreweb.formatter.BeforeTimeSerializer;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import lombok.Getter;
@@ -14,7 +13,9 @@ import java.util.List;
 @Getter
 @NoArgsConstructor
 public class UserActivityHistory {
+
     private Long reviewId;
+
     private String log;
 
     @JsonSerialize(using = BeforeTimeSerializer.class)
@@ -28,26 +29,16 @@ public class UserActivityHistory {
 
     public static List<UserActivityHistory> listFrom(List<Activity> activities) {
         return activities.stream()
-                .map(a -> new UserActivityHistory(a.id(), mapLog(a.targetText(), a.type()), a.createdAt()))
+                .map(UserActivityHistory::from)
                 .toList();
     }
 
-    private static String mapLog(String content, ActivityHistories.Type type) {
-        final String c = "\"" + content + "\"";
-        switch (type) {
-            case REVIEW -> {
-                return c + " 리뷰 요청";
-            }
-            case LIKE -> {
-                return c + " 좋아요";
-            }
-            case COMMENT -> {
-                return c + " 리뷰 작성";
-            }
-            case FAVORITE -> {
-                return c + " 즐겨찾기";
-            }
-        }
-        throw new IllegalArgumentException();
+    public static UserActivityHistory from(Activity a) {
+        return new UserActivityHistory(a.id(), mapLog(a.targetText(), a.type()), a.createdAt());
+    }
+
+    private static String mapLog(String content, Activity.Type type) {
+        final String logPrefix = "\"" + content + "\" ";
+        return logPrefix + type.description;
     }
 }

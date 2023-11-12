@@ -14,6 +14,7 @@ public class UserProfileDto {
     private String profileImageUrl;
 
     private String nickname;
+
     private Long id;
 
     public UserProfileDto(String profileImageUrl, String nickname, Long id) {

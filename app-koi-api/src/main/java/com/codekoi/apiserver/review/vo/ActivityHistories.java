@@ -14,14 +14,6 @@ public class ActivityHistories {
 
     private static final int HISTORY_SIZE = 10;
 
-    public enum Type {
-        REVIEW("리뷰 작성"), COMMENT("리뷰 요청"), LIKE("좋아요"), FAVORITE("즐겨찾기");
-
-        Type(String s) {
-
-        }
-    }
-
     private final List<Activity> activities = new ArrayList<>();
 
     public ActivityHistories(List<CodeReview> codeReviews,
@@ -31,25 +23,25 @@ public class ActivityHistories {
     ) {
         activities.addAll(
                 codeReviews.stream()
-                        .map(r -> new Activity(Type.REVIEW, r.getId(), r.getTitle(), r.getCreatedAt()))
+                        .map(Activity::from)
                         .toList()
         );
 
         activities.addAll(
                 comments.stream()
-                        .map(c -> new Activity(Type.COMMENT, c.getCodeReview().getId(), c.getContent(), c.getCreatedAt()))
+                        .map(Activity::from)
                         .toList()
         );
 
         activities.addAll(
                 likes.stream()
-                        .map(l -> new Activity(Type.LIKE, l.getComment().getCodeReview().getId(), l.getComment().getContent(), l.getCreatedAt()))
+                        .map(Activity::from)
                         .toList()
         );
 
         activities.addAll(
                 favorites.stream()
-                        .map(f -> new Activity(Type.FAVORITE, f.getCodeReview().getId(), f.getCodeReview().getTitle(), f.getCreatedAt()))
+                        .map(Activity::from)
                         .toList()
         );
 
