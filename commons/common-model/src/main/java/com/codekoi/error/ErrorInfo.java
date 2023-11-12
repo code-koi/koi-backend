@@ -30,6 +30,7 @@ public enum ErrorInfo {
     USER_NICKNAME_OVER("유저의 닉네임은 10자 이하만 가능합니다.", "USER_005", 400),
 
     CODE_REVIEW_NOT_FOUND("해당 코드리뷰 요청건을 찾을 수 없습니다.", "REVIEW_001", 400),
+    CAN_NOT_DELETE_CODE_REVIEW("코드 리뷰를 삭제할 권한이 없습니다.", "REVIEW_002", 403),
 
     COMMENT_NOT_FOUND("해당 답변을 찾을 수 없습니다.", "COMMENT_001", 400),
 
