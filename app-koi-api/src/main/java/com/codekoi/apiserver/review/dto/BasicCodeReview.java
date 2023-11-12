@@ -10,7 +10,6 @@ import lombok.NoArgsConstructor;
 
 import java.time.LocalDateTime;
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Getter
 @NoArgsConstructor
@@ -39,7 +38,7 @@ public class BasicCodeReview {
     public static List<BasicCodeReview> listFrom(List<CodeReview> reviews) {
         return reviews.stream()
                 .map(BasicCodeReview::from)
-                .collect(Collectors.toList());
+                .toList();
     }
 
     public static BasicCodeReview from(CodeReview r) {

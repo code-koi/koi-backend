@@ -26,6 +26,6 @@ public class SkillInfo {
         return hardSkillList
                 .stream()
                 .map(SkillInfo::from)
-                .collect(Collectors.toList());
+                .toList();
     }
 }

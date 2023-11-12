@@ -57,7 +57,7 @@ public class CommentReviewDetailDto {
 
         return comment.stream()
                 .map(c -> of(sessionUserId, koiMap, likeCountMap, likedByMeMap, c))
-                .collect(Collectors.toList());
+                .toList();
     }
 
     private static Map<Long, KoiType> getKoiMap(List<KoiHistory> koiHistories) {

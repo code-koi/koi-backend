@@ -49,14 +49,14 @@ public class UserCodeReviewDto {
 
         return reviews.stream()
                 .map(r -> of(isFavorite(me, favoriteMap, r), r))
-                .collect(Collectors.toList());
+                .toList();
     }
 
     public static List<UserCodeReviewDto> listOf(List<Favorite> favorites, boolean me) {
         return favorites.stream()
                 .map(Favorite::getCodeReview)
                 .map(r -> of(me, r))
-                .collect(Collectors.toList());
+                .toList();
     }
 
     public static UserCodeReviewDto of(boolean me, CodeReview r) {
