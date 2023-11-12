@@ -1,7 +1,6 @@
 package com.codekoi.apiserver.review.dto;
 
 import com.codekoi.apiserver.review.vo.Activity;
-import com.codekoi.apiserver.review.vo.ActivityHistories;
 import com.codekoi.coreweb.formatter.BeforeTimeSerializer;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import lombok.Getter;
@@ -32,22 +31,9 @@ public class UserActivityHistory {
                 .toList();
     }
 
-    private static String mapLog(String content, ActivityHistories.Type type) {
-        final String c = "\"" + content + "\"";
-        switch (type) {
-            case REVIEW -> {
-                return c + " 리뷰 요청";
-            }
-            case LIKE -> {
-                return c + " 좋아요";
-            }
-            case COMMENT -> {
-                return c + " 리뷰 작성";
-            }
-            case FAVORITE -> {
-                return c + " 즐겨찾기";
-            }
-        }
-        throw new IllegalArgumentException();
+
+    private static String mapLog(String content, Activity.Type type) {
+        final String logPrefix = "\"" + content + "\" ";
+        return logPrefix + type.description;
     }
 }
