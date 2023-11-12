@@ -18,10 +18,6 @@ class DeleteCodeReview implements DeleteCodeReviewUsecase {
     public void command(Command command) {
         CodeReview codeReview = codeReviewRepository.getOneById(command.codeReviewId());
 
-        if (!codeReview.isMyCodeReview(command.userId())) {
-            return;
-        }
-
         codeReviewRepository.delete(codeReview);
     }
 }

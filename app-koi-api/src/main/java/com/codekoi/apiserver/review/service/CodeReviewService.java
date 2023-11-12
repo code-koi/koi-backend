@@ -27,6 +27,6 @@ public class CodeReviewService {
     }
 
     public void delete(Long codeReviewId, Long userId) {
-        deleteCodeReviewUsecase.command(new DeleteCodeReviewUsecase.Command(codeReviewId, userId));
+        deleteCodeReviewUsecase.command(new DeleteCodeReviewUsecase.Command(codeReviewId));
     }
 }

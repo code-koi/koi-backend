@@ -5,8 +5,7 @@ public interface DeleteCodeReviewUsecase {
     void command(Command command);
 
     record Command(
-            Long codeReviewId,
-            Long userId
+            Long codeReviewId
     ) {
     }
 }
