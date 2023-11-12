@@ -13,7 +13,9 @@ import java.util.List;
 @Getter
 @NoArgsConstructor
 public class UserActivityHistory {
+
     private Long reviewId;
+
     private String log;
 
     @JsonSerialize(using = BeforeTimeSerializer.class)

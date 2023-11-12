@@ -15,6 +15,7 @@ public class CodeReviewListCondition {
     private List<Long> skillIds;
 
     private String title;
+
     private Long lastId;
 
     public CodeReviewListCondition(CodeReviewStatus status, List<Long> skillIds, String title, Long lastId) {

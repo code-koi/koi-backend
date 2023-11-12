@@ -5,12 +5,13 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
 @NoArgsConstructor
 @Getter
 public class SkillInfo {
+
     private String name;
+
     private Long id;
 
     public SkillInfo(String name, Long id) {
@@ -22,9 +23,8 @@ public class SkillInfo {
         return new SkillInfo(skill.getName(), skill.getId());
     }
 
-    public static List<SkillInfo> listFrom(List<Skill> hardSkillList) {
-        return hardSkillList
-                .stream()
+    public static List<SkillInfo> listFrom(List<Skill> hardSkills) {
+        return hardSkills.stream()
                 .map(SkillInfo::from)
                 .toList();
     }

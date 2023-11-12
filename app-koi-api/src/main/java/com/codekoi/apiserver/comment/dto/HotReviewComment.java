@@ -17,7 +17,9 @@ import java.util.stream.Collectors;
 public class HotReviewComment {
 
     private Long id;
+
     private UserProfileDto user;
+
     private String content;
 
     @JsonInclude(JsonInclude.Include.NON_NULL)

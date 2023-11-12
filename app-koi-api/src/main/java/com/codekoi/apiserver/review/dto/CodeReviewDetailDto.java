@@ -20,12 +20,15 @@ public class CodeReviewDetailDto {
 
     @JsonSerialize(using = BeforeTimeSerializer.class)
     private LocalDateTime createdAt;
+
     private String title;
+
     private List<String> skills = new ArrayList<>();
+
     private CodeReviewStatus status;
 
-
     private Boolean isFavorite;
+
     private Boolean me;
 
     public CodeReviewDetailDto(UserProfileDto user, LocalDateTime createdAt, String title, List<String> skills, CodeReviewStatus status, Boolean isFavorite, Boolean me) {
