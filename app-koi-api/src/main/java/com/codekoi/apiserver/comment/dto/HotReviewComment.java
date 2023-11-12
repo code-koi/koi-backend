@@ -51,8 +51,18 @@ public class HotReviewComment {
 
                     final Boolean isLikedByMe = likeMap.get(commentId) == null ? null : true;
 
-                    return new HotReviewComment(reviewId, UserProfileDto.from(c.getUser()), c.getContent(),
-                            koiMap.get(commentId), isLikedByMe, c.getLikes().size());
+                    return of(koiMap, c, commentId, reviewId, isLikedByMe);
                 }).toList();
+    }
+
+    private static HotReviewComment of(Map<Long, KoiType> koiMap, ReviewComment c, Long commentId, Long reviewId, Boolean isLikedByMe) {
+        return new HotReviewComment(
+                reviewId,
+                UserProfileDto.from(c.getUser()),
+                c.getContent(),
+                koiMap.get(commentId),
+                isLikedByMe,
+                c.getLikes().size()
+        );
     }
 }

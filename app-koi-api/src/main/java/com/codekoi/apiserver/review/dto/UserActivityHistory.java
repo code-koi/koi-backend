@@ -27,10 +27,13 @@ public class UserActivityHistory {
 
     public static List<UserActivityHistory> listFrom(List<Activity> activities) {
         return activities.stream()
-                .map(a -> new UserActivityHistory(a.id(), mapLog(a.targetText(), a.type()), a.createdAt()))
+                .map(UserActivityHistory::from)
                 .toList();
     }
 
+    public static UserActivityHistory from(Activity a) {
+        return new UserActivityHistory(a.id(), mapLog(a.targetText(), a.type()), a.createdAt());
+    }
 
     private static String mapLog(String content, Activity.Type type) {
         final String logPrefix = "\"" + content + "\" ";

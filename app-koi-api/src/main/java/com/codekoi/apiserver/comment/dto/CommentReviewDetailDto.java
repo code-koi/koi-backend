@@ -56,10 +56,8 @@ public class CommentReviewDetailDto {
         final Map<Long, Boolean> likedByMeMap = getLikedByMeMap(likes, sessionUserId);
 
         return comment.stream()
-                .map(c -> new CommentReviewDetailDto(UserProfileDto.from(c.getUser()), c.getId(), c.getCreatedAt(),
-                        c.getContent(), koiMap.get(c.getId()), Objects.equals(sessionUserId, c.getUser().getId()),
-                        likeCountMap.getOrDefault(c.getId(), 0L), likedByMeMap.getOrDefault(c.getId(), false)
-                )).collect(Collectors.toList());
+                .map(c -> of(sessionUserId, koiMap, likeCountMap, likedByMeMap, c))
+                .collect(Collectors.toList());
     }
 
     private static Map<Long, KoiType> getKoiMap(List<KoiHistory> koiHistories) {
@@ -71,6 +69,19 @@ public class CommentReviewDetailDto {
     private static Map<Long, Long> getLikeCountMap(List<Like> likes) {
         return likes.stream()
                 .collect(Collectors.groupingBy(like -> like.getComment().getId(), Collectors.counting()));
+    }
+
+    private static CommentReviewDetailDto of(Long sessionUserId, Map<Long, KoiType> koiMap, Map<Long, Long> likeCountMap, Map<Long, Boolean> likedByMeMap, ReviewComment c) {
+        return new CommentReviewDetailDto(
+                UserProfileDto.from(c.getUser()),
+                c.getId(),
+                c.getCreatedAt(),
+                c.getContent(),
+                koiMap.get(c.getId()),
+                Objects.equals(sessionUserId, c.getUser().getId()),
+                likeCountMap.getOrDefault(c.getId(), 0L),
+                likedByMeMap.getOrDefault(c.getId(), false)
+        );
     }
 
     private static Map<Long, Boolean> getLikedByMeMap(List<Like> likes, Long userId) {
