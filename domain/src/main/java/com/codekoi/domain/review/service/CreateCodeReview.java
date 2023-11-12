@@ -16,7 +16,7 @@ import java.util.List;
 @Service
 @Transactional
 @RequiredArgsConstructor
-public class CreateCodeReview implements CreateCodeReviewUsecase {
+class CreateCodeReview implements CreateCodeReviewUsecase {
 
     private final UserRepository userRepository;
     private final CodeReviewRepository codeReviewRepository;

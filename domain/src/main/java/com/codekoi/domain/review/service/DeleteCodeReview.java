@@ -10,7 +10,7 @@ import org.springframework.transaction.annotation.Transactional;
 @Service
 @Transactional
 @RequiredArgsConstructor
-public class DeleteCodeReview implements DeleteCodeReviewUsecase {
+class DeleteCodeReview implements DeleteCodeReviewUsecase {
 
     private final CodeReviewRepository codeReviewRepository;
 
