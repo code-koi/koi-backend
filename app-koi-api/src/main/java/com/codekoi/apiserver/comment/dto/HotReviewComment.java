@@ -37,7 +37,7 @@ public class HotReviewComment {
         this.likeCount = likeCount;
     }
 
-    public static List<HotReviewComment> listFrom(List<ReviewComment> comments, List<KoiHistory> koiHistories, List<Like> likesByMe) {
+    public static List<HotReviewComment> listOf(List<ReviewComment> comments, List<KoiHistory> koiHistories, List<Like> likesByMe) {
         final Map<Long, KoiType> koiMap = koiHistories.stream()
                 .collect(Collectors.toMap(koiHistory -> koiHistory.getCodeReviewComment().getId(), KoiHistory::getKoiType));
 
