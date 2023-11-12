@@ -37,27 +37,9 @@ class DeleteCodeReviewTest {
         given(codeReviewRepository.getOneById(anyLong())).willReturn(codeReview);
 
         //when
-        deleteCodeReview.command(new DeleteCodeReviewUsecase.Command(CODE_REVIEW_ID, USER_ID));
+        deleteCodeReview.command(new DeleteCodeReviewUsecase.Command(CODE_REVIEW_ID));
 
         //then
         verify(codeReviewRepository).delete(any(CodeReview.class));
-    }
-
-    @Test
-    void 내가_작성한_코드리뷰가_아니면_코드리뷰_삭제에_실패한다() {
-        //given
-        final long CODE_REVIEW_ID = 1L;
-        final long USER_ID = 2L;
-        final User user = SUNDO.toUser(USER_ID);
-        final CodeReview codeReview = REVIEW1.toCodeReview(CODE_REVIEW_ID, user);
-
-        given(codeReviewRepository.getOneById(anyLong())).willReturn(codeReview);
-
-        //when
-        final long ANOTHER_USER_ID = 3L;
-        deleteCodeReview.command(new DeleteCodeReviewUsecase.Command(CODE_REVIEW_ID, ANOTHER_USER_ID));
-
-        //then
-        verify(codeReviewRepository, never()).delete(any(CodeReview.class));
     }
 }

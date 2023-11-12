@@ -10,17 +10,13 @@ import org.springframework.transaction.annotation.Transactional;
 @Service
 @Transactional
 @RequiredArgsConstructor
-public class DeleteCodeReview implements DeleteCodeReviewUsecase {
+class DeleteCodeReview implements DeleteCodeReviewUsecase {
 
     private final CodeReviewRepository codeReviewRepository;
 
     @Override
     public void command(Command command) {
         CodeReview codeReview = codeReviewRepository.getOneById(command.codeReviewId());
-
-        if (!codeReview.isMyCodeReview(command.userId())) {
-            return;
-        }
 
         codeReviewRepository.delete(codeReview);
     }
