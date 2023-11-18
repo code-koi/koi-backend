@@ -56,7 +56,7 @@ public class UserCodeCommentDto {
 
         return comments.stream()
                 .map(c -> UserCodeCommentDto.of(user, c, koiMap.get(c.getId()), likeCountMap.getOrDefault(c.getId(), 0L)))
-                .collect(Collectors.toList());
+                .toList();
     }
 
     private static Map<Long, KoiType> getKoiMap(List<KoiHistory> koiHistories) {

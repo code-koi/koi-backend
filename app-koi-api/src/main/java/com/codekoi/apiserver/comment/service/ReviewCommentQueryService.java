@@ -67,7 +67,7 @@ public class ReviewCommentQueryService {
         final List<KoiHistory> koiHistories = koiHistoryRepository.findKoiHistoryInCommentIds(commentIds);
         final List<Like> likes = likeRepository.findByUserIdAndCommentIdIn(sessionUserId, commentIds);
 
-        return HotReviewComment.listFrom(comments, koiHistories, likes);
+        return HotReviewComment.listOf(comments, koiHistories, likes);
     }
 
     private static List<Long> extractCommentIds(List<ReviewComment> comments) {

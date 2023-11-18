@@ -49,7 +49,7 @@ public class CodeReview extends TimeBaseEntity {
         this.content = content;
         this.status = status;
         this.skills = Objects.requireNonNullElse(skills, new ArrayList<>());
-        this.comments = Objects.requireNonNullElse(comments, new ArrayList<>());;
+        this.comments = Objects.requireNonNullElse(comments, new ArrayList<>());
     }
 
     public static CodeReview of(User user, String title, String content) {
@@ -75,6 +75,18 @@ public class CodeReview extends TimeBaseEntity {
                 .map(CodeReviewSkill::getSkill)
                 .map(Skill::getName)
                 .collect(Collectors.toList());
+    }
+
+    public boolean isMyCodeReview(Long userId) {
+        return user.getId().equals(userId);
+    }
+
+    public void update(String title, String content, List<Skill> skills) {
+        this.title = title;
+        this.content = content;
+
+        this.skills.clear();
+        skills.forEach(this::addCodeReviewSkill);
     }
 
     public Long getId() {

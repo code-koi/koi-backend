@@ -17,7 +17,9 @@ import java.util.stream.Collectors;
 public class HotReviewComment {
 
     private Long id;
+
     private UserProfileDto user;
+
     private String content;
 
     @JsonInclude(JsonInclude.Include.NON_NULL)
@@ -37,7 +39,7 @@ public class HotReviewComment {
         this.likeCount = likeCount;
     }
 
-    public static List<HotReviewComment> listFrom(List<ReviewComment> comments, List<KoiHistory> koiHistories, List<Like> likesByMe) {
+    public static List<HotReviewComment> listOf(List<ReviewComment> comments, List<KoiHistory> koiHistories, List<Like> likesByMe) {
         final Map<Long, KoiType> koiMap = koiHistories.stream()
                 .collect(Collectors.toMap(koiHistory -> koiHistory.getCodeReviewComment().getId(), KoiHistory::getKoiType));
 
@@ -51,8 +53,18 @@ public class HotReviewComment {
 
                     final Boolean isLikedByMe = likeMap.get(commentId) == null ? null : true;
 
-                    return new HotReviewComment(reviewId, UserProfileDto.from(c.getUser()), c.getContent(),
-                            koiMap.get(commentId), isLikedByMe, c.getLikes().size());
+                    return of(koiMap, c, commentId, reviewId, isLikedByMe);
                 }).toList();
+    }
+
+    private static HotReviewComment of(Map<Long, KoiType> koiMap, ReviewComment c, Long commentId, Long reviewId, Boolean isLikedByMe) {
+        return new HotReviewComment(
+                reviewId,
+                UserProfileDto.from(c.getUser()),
+                c.getContent(),
+                koiMap.get(commentId),
+                isLikedByMe,
+                c.getLikes().size()
+        );
     }
 }

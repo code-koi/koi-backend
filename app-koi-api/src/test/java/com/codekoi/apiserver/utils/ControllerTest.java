@@ -3,10 +3,12 @@ package com.codekoi.apiserver.utils;
 import com.codekoi.apiserver.auth.service.AuthService;
 import com.codekoi.apiserver.comment.controller.CommentRestController;
 import com.codekoi.apiserver.comment.service.ReviewCommentQueryService;
+import com.codekoi.apiserver.comment.service.ReviewCommentService;
 import com.codekoi.apiserver.like.controller.LikeRestController;
 import com.codekoi.apiserver.like.service.LikeService;
 import com.codekoi.apiserver.review.controller.CodeReviewRestController;
 import com.codekoi.apiserver.review.service.CodeReviewQueryService;
+import com.codekoi.apiserver.review.service.CodeReviewService;
 import com.codekoi.apiserver.skill.review.service.CodeReviewSkillQueryService;
 import com.codekoi.apiserver.skill.skill.controller.SkillRestController;
 import com.codekoi.apiserver.skill.skill.service.SkillQueryService;
@@ -79,4 +81,8 @@ public abstract class ControllerTest {
     protected SkillQueryService skillQueryService;
     @MockBean
     protected CodeReviewSkillQueryService codeReviewSkillQueryService;
+    @MockBean
+    protected CodeReviewService codeReviewService;
+    @MockBean
+    protected ReviewCommentService reviewCommentService;
 }

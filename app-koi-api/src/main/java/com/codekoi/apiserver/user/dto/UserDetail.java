@@ -12,16 +12,21 @@ import java.util.List;
 @Getter
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class UserDetail {
+
     private boolean me;
+
     private String nickname;
+
     private String email;
 
     private String profileImageUrl;
+
     private int years;
 
     private String introduce;
 
     private Activity activity;
+
     private List<Skill> skills = new ArrayList<>();
 
     public UserDetail(boolean me, String nickname, String email, String profileImageUrl, int years, String introduce, Activity activity, List<Skill> skills) {
@@ -36,8 +41,7 @@ public class UserDetail {
     }
 
     public static UserDetail of(User user, int reviewCount, Long sessionUserId) {
-        final List<Skill> skills = user.getSkills()
-                .stream()
+        final List<Skill> skills = user.getSkills().stream()
                 .map(s -> new Skill(s.getSkill().getId(), s.getSkill().getName()))
                 .toList();
 
@@ -66,5 +70,4 @@ public class UserDetail {
             this.name = name;
         }
     }
-
 }
