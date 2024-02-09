@@ -1,7 +1,7 @@
 package com.codekoi.apiserver.like.service;
 
-import com.codekoi.domain.like.usecase.LikeReviewCommentUseCase;
-import com.codekoi.domain.like.usecase.UnlikeReviewCommentUseCase;
+import com.codekoi.review.usecase.LikeReviewCommentUseCase;
+import com.codekoi.review.usecase.UnlikeReviewCommentUseCase;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;

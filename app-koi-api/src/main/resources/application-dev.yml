@@ -13,7 +13,7 @@ spring:
   jpa:
     properties:
       hibernate:
-        show_sql: false
+        show_sql: true
         default_batch_fetch_size: 1000
     open-in-view: false
     hibernate:
@@ -21,9 +21,10 @@ spring:
 
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
-    url: ${DB_URL}
-    username: ${DB_USERNAME}
-    password: ${DB_PASSWORD}
+    url: jdbc:mysql://52.78.101.210:3306/koi?characterEncoding=UTF-8&serverTimezone=UTC
+    username: root
+    password: qwer1234
+
 
 
 security:
@@ -31,6 +32,6 @@ security:
     expire-length:
       access-token: 300000 # 5분
       refresh-token: 604800000 # 1주일
-#
-    secret-key: ${ACCESS_TOKEN_KEY}
-    refresh-secret-key: ${REFRESH_TOKEN_KEY}
+    #
+    secret-key: bGVzc29udGVycmlibGV3b25kZXJvbmRvaW5nb2NjdXJzdGF0ZW1lbnR3cml0aW5nd2g=
+    refresh-secret-key: cHVibZXjc21aZWxxaXRls2Vudflyb25tZX50aGFwcH1tb250aG1ha25zaG91dHBhcnQ=

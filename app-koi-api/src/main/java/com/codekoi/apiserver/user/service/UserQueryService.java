@@ -1,10 +1,10 @@
 package com.codekoi.apiserver.user.service;
 
 import com.codekoi.apiserver.user.dto.UserDetail;
-import com.codekoi.domain.comment.ReviewCommentRepository;
-import com.codekoi.domain.user.User;
-import com.codekoi.domain.user.UserRepository;
-import com.codekoi.domain.user.usecase.QueryUserByEmailUseCase;
+import com.codekoi.review.ReviewCommentRepository;
+import com.codekoi.user.User;
+import com.codekoi.user.UserRepository;
+import com.codekoi.user.usecase.QueryUserByEmailUseCase;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;

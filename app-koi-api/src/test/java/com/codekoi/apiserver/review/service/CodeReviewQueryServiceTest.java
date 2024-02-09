@@ -8,17 +8,13 @@ import com.codekoi.apiserver.review.dto.UserCodeReviewDto;
 import com.codekoi.apiserver.review.repository.CodeReviewQueryRepository;
 import com.codekoi.apiserver.user.dto.UserProfileDto;
 import com.codekoi.apiserver.utils.ServiceTest;
-import com.codekoi.domain.comment.ReviewCommentRepository;
-import com.codekoi.domain.favorite.Favorite;
-import com.codekoi.domain.favorite.FavoriteRepository;
-import com.codekoi.domain.like.LikeRepository;
-import com.codekoi.domain.review.CodeReview;
-import com.codekoi.domain.review.CodeReviewRepository;
-import com.codekoi.domain.review.CodeReviewStatus;
-import com.codekoi.domain.skill.skill.Skill;
-import com.codekoi.domain.user.User;
-import com.codekoi.domain.user.UserRepository;
+import com.codekoi.favorite.Favorite;
+import com.codekoi.favorite.FavoriteRepository;
 import com.codekoi.pagination.NoOffSetPagination;
+import com.codekoi.review.*;
+import com.codekoi.skill.Skill;
+import com.codekoi.user.User;
+import com.codekoi.user.UserRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
@@ -28,9 +24,9 @@ import org.mockito.Mock;
 import java.util.List;
 import java.util.Optional;
 
-import static com.codekoi.fixture.CodeReviewFixture.REVIEW1;
-import static com.codekoi.fixture.SkillFixture.SPRING;
-import static com.codekoi.fixture.UserFixture.SUNDO;
+import static com.codekoi.codereview.fixture.CodeReviewFixture.REVIEW1;
+import static com.codekoi.skill.fixture.SkillFixture.SPRING;
+import static com.codekoi.user.fixture.UserFixture.SUNDO;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.ArgumentMatchers.*;
 import static org.mockito.BDDMockito.given;
@@ -42,7 +38,7 @@ class CodeReviewQueryServiceTest extends ServiceTest {
     @Mock
     private ReviewCommentRepository reviewCommentRepository;
     @Mock
-    private LikeRepository likeRepository;
+    private CommentLikeRepository likeRepository;
     @Mock
     private CodeReviewRepository codeReviewRepository;
     @Mock

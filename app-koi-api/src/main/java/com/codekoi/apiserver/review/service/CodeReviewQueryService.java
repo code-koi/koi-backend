@@ -4,17 +4,12 @@ import com.codekoi.apiserver.review.dto.*;
 import com.codekoi.apiserver.review.repository.CodeReviewQueryRepository;
 import com.codekoi.apiserver.review.vo.Activity;
 import com.codekoi.apiserver.review.vo.ActivityHistories;
-import com.codekoi.domain.comment.ReviewComment;
-import com.codekoi.domain.comment.ReviewCommentRepository;
-import com.codekoi.domain.favorite.Favorite;
-import com.codekoi.domain.favorite.FavoriteRepository;
-import com.codekoi.domain.like.Like;
-import com.codekoi.domain.like.LikeRepository;
-import com.codekoi.domain.review.CodeReview;
-import com.codekoi.domain.review.CodeReviewRepository;
-import com.codekoi.domain.user.User;
-import com.codekoi.domain.user.UserRepository;
+import com.codekoi.favorite.Favorite;
+import com.codekoi.favorite.FavoriteRepository;
 import com.codekoi.pagination.NoOffSetPagination;
+import com.codekoi.review.*;
+import com.codekoi.user.User;
+import com.codekoi.user.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -30,7 +25,7 @@ public class CodeReviewQueryService {
     private final FavoriteRepository favoriteRepository;
     private final CodeReviewRepository codeReviewRepository;
     private final ReviewCommentRepository reviewCommentRepository;
-    private final LikeRepository likeRepository;
+    private final CommentLikeRepository commentLikeRepository;
     private final UserRepository userRepository;
 
     private final CodeReviewQueryRepository codeReviewQueryRepository;
@@ -78,7 +73,7 @@ public class CodeReviewQueryService {
 
         final List<CodeReview> codeReviews = codeReviewRepository.findTop10ByUserIdOrderByCreatedAtDesc(userId);
         final List<ReviewComment> comments = reviewCommentRepository.findTop10ByUserIdOrderByCreatedAtDesc(userId);
-        final List<Like> likes = likeRepository.findTop10ByUserIdOrderByCreatedAtDesc(userId);
+        final List<CommentLike> likes = commentLikeRepository.findTop10ByUserIdOrderByCreatedAtDesc(userId);
         final List<Favorite> favorites = favoriteRepository.findTop10ByUserIdOrderByCreatedAtDesc(userId);
 
         final ActivityHistories histories = new ActivityHistories(codeReviews, comments, likes, favorites);

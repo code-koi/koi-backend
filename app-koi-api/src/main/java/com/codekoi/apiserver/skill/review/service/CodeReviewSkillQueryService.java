@@ -1,15 +1,10 @@
 package com.codekoi.apiserver.skill.review.service;
 
 import com.codekoi.apiserver.skill.review.dto.UserSkillStatistics;
-import com.codekoi.domain.comment.ReviewComment;
-import com.codekoi.domain.comment.ReviewCommentRepository;
-import com.codekoi.domain.review.CodeReview;
-import com.codekoi.domain.review.CodeReviewRepository;
-import com.codekoi.domain.skill.review.CodeReviewSkill;
-import com.codekoi.domain.skill.review.CodeReviewSkillRepository;
-import com.codekoi.domain.skill.skill.Skill;
-import com.codekoi.domain.user.User;
-import com.codekoi.domain.user.UserRepository;
+import com.codekoi.review.*;
+import com.codekoi.skill.Skill;
+import com.codekoi.user.User;
+import com.codekoi.user.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;

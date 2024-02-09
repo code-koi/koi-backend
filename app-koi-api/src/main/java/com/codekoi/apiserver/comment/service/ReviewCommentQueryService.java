@@ -3,16 +3,11 @@ package com.codekoi.apiserver.comment.service;
 import com.codekoi.apiserver.comment.dto.CommentReviewDetailDto;
 import com.codekoi.apiserver.comment.dto.HotReviewComment;
 import com.codekoi.apiserver.comment.dto.UserCodeCommentDto;
-import com.codekoi.domain.comment.ReviewComment;
-import com.codekoi.domain.comment.ReviewCommentRepository;
-import com.codekoi.domain.koi.KoiHistory;
-import com.codekoi.domain.koi.KoiHistoryRepository;
-import com.codekoi.domain.like.Like;
-import com.codekoi.domain.like.LikeRepository;
-import com.codekoi.domain.review.CodeReview;
-import com.codekoi.domain.review.CodeReviewRepository;
-import com.codekoi.domain.user.User;
-import com.codekoi.domain.user.UserRepository;
+import com.codekoi.koi.KoiHistory;
+import com.codekoi.koi.KoiHistoryRepository;
+import com.codekoi.review.*;
+import com.codekoi.user.User;
+import com.codekoi.user.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -26,7 +21,7 @@ import java.util.stream.Collectors;
 public class ReviewCommentQueryService {
 
     private final ReviewCommentRepository reviewCommentRepository;
-    private final LikeRepository likeRepository;
+    private final CommentLikeRepository commentLikeRepository;
     private final KoiHistoryRepository koiHistoryRepository;
 
     private final CodeReviewRepository codeReviewRepository;
@@ -43,9 +38,9 @@ public class ReviewCommentQueryService {
         );
 
         final List<Long> commentIds = extractCommentIds(comments);
-        final List<Like> likes = likeRepository.findByCommentIdIn(commentIds);
+        final List<CommentLike> commentLikes = commentLikeRepository.findByCommentIdIn(commentIds);
 
-        return UserCodeCommentDto.listOf(user, comments, koiHistories, likes);
+        return UserCodeCommentDto.listOf(user, comments, koiHistories, commentLikes);
     }
 
     public List<CommentReviewDetailDto> getCommentsOnReview(Long sessionUserId, Long reviewId) {
@@ -53,11 +48,11 @@ public class ReviewCommentQueryService {
         final List<ReviewComment> comments = reviewCommentRepository.findByCodeReviewId(codeReview.getId());
 
         final List<Long> commentIds = extractCommentIds(comments);
-        final List<Like> likes = likeRepository.findByCommentIdIn(commentIds);
+        final List<CommentLike> commentLikes = commentLikeRepository.findByCommentIdIn(commentIds);
 
         final List<KoiHistory> koiHistories = koiHistoryRepository.findKoiHistoryInCommentIds(commentIds);
 
-        return CommentReviewDetailDto.listOf(comments, koiHistories, sessionUserId, likes);
+        return CommentReviewDetailDto.listOf(comments, koiHistories, sessionUserId, commentLikes);
     }
 
     public List<HotReviewComment> getHotComments(Long sessionUserId) {
@@ -65,9 +60,9 @@ public class ReviewCommentQueryService {
         final List<Long> commentIds = extractCommentIds(comments);
 
         final List<KoiHistory> koiHistories = koiHistoryRepository.findKoiHistoryInCommentIds(commentIds);
-        final List<Like> likes = likeRepository.findByUserIdAndCommentIdIn(sessionUserId, commentIds);
+        final List<CommentLike> commentLikes = commentLikeRepository.findByUserIdAndCommentIdIn(sessionUserId, commentIds);
 
-        return HotReviewComment.listOf(comments, koiHistories, likes);
+        return HotReviewComment.listOf(comments, koiHistories, commentLikes);
     }
 
     private static List<Long> extractCommentIds(List<ReviewComment> comments) {

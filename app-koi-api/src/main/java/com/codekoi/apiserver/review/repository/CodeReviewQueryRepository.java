@@ -1,10 +1,10 @@
 package com.codekoi.apiserver.review.repository;
 
 import com.codekoi.apiserver.review.dto.CodeReviewListCondition;
-import com.codekoi.domain.review.CodeReview;
-import com.codekoi.domain.review.CodeReviewStatus;
-import com.codekoi.domain.review.QCodeReview;
-import com.codekoi.domain.skill.review.QCodeReviewSkill;
+import com.codekoi.review.CodeReview;
+import com.codekoi.review.CodeReviewStatus;
+import com.codekoi.review.QCodeReview;
+import com.codekoi.review.QCodeReviewSkill;
 import com.querydsl.core.types.dsl.BooleanExpression;
 import com.querydsl.jpa.JPAExpressions;
 import com.querydsl.jpa.impl.JPAQueryFactory;
