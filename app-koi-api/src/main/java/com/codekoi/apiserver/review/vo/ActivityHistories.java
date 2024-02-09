@@ -1,10 +1,10 @@
 package com.codekoi.apiserver.review.vo;
 
 
-import com.codekoi.domain.comment.ReviewComment;
-import com.codekoi.domain.favorite.Favorite;
-import com.codekoi.domain.like.Like;
-import com.codekoi.domain.review.CodeReview;
+import com.codekoi.favorite.Favorite;
+import com.codekoi.review.CodeReview;
+import com.codekoi.review.CommentLike;
+import com.codekoi.review.ReviewComment;
 
 import java.util.ArrayList;
 import java.util.Comparator;
@@ -18,7 +18,7 @@ public class ActivityHistories {
 
     public ActivityHistories(List<CodeReview> codeReviews,
                              List<ReviewComment> comments,
-                             List<Like> likes,
+                             List<CommentLike> likes,
                              List<Favorite> favorites
     ) {
         activities.addAll(

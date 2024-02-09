@@ -1,8 +1,8 @@
 package com.codekoi.apiserver.auth.service;
 
-import com.codekoi.domain.authtoken.usecase.CreateAuthTokenUseCase;
-import com.codekoi.domain.authtoken.usecase.DeleteAuthTokenUseCase;
-import com.codekoi.domain.authtoken.usecase.ValidateAuthTokenUseCase;
+import com.codekoi.auth.usecase.CreateAuthTokenUseCase;
+import com.codekoi.auth.usecase.DeleteAuthTokenUseCase;
+import com.codekoi.auth.usecase.ValidateAuthTokenUseCase;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;

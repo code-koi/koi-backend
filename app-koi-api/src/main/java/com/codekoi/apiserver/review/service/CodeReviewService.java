@@ -1,11 +1,11 @@
 package com.codekoi.apiserver.review.service;
 
 import com.codekoi.apiserver.review.exception.CanNotDeleteCodeReviewException;
-import com.codekoi.domain.review.CodeReview;
-import com.codekoi.domain.review.CodeReviewRepository;
-import com.codekoi.domain.review.usecase.CreateCodeReviewUsecase;
-import com.codekoi.domain.review.usecase.DeleteCodeReviewUsecase;
-import com.codekoi.domain.review.usecase.UpdateCodeReviewUsecase;
+import com.codekoi.review.CodeReview;
+import com.codekoi.review.CodeReviewRepository;
+import com.codekoi.review.usecase.CreateCodeReviewUsecase;
+import com.codekoi.review.usecase.DeleteCodeReviewUsecase;
+import com.codekoi.review.usecase.UpdateCodeReviewUsecase;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;

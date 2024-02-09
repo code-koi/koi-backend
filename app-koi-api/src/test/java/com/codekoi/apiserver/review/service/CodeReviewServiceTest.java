@@ -2,15 +2,15 @@ package com.codekoi.apiserver.review.service;
 
 import com.codekoi.apiserver.review.exception.CanNotDeleteCodeReviewException;
 import com.codekoi.apiserver.utils.ServiceTest;
-import com.codekoi.domain.review.CodeReview;
-import com.codekoi.domain.review.CodeReviewRepository;
-import com.codekoi.domain.user.User;
+import com.codekoi.review.CodeReview;
+import com.codekoi.review.CodeReviewRepository;
+import com.codekoi.user.User;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 
-import static com.codekoi.fixture.CodeReviewFixture.REVIEW1;
-import static com.codekoi.fixture.UserFixture.SUNDO;
+import static com.codekoi.codereview.fixture.CodeReviewFixture.REVIEW1;
+import static com.codekoi.user.fixture.UserFixture.SUNDO;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.mockito.ArgumentMatchers.anyLong;
 import static org.mockito.BDDMockito.given;

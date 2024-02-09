@@ -1,6 +1,6 @@
 package com.codekoi.apiserver.skill.skill.dto;
 
-import com.codekoi.domain.skill.skill.Skill;
+import com.codekoi.skill.Skill;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 

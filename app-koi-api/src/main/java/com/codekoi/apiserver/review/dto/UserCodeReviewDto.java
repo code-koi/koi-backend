@@ -2,9 +2,9 @@ package com.codekoi.apiserver.review.dto;
 
 import com.codekoi.apiserver.user.dto.UserProfileDto;
 import com.codekoi.coreweb.formatter.BeforeTimeSerializer;
-import com.codekoi.domain.favorite.Favorite;
-import com.codekoi.domain.review.CodeReview;
-import com.codekoi.domain.review.CodeReviewStatus;
+import com.codekoi.favorite.Favorite;
+import com.codekoi.review.CodeReview;
+import com.codekoi.review.CodeReviewStatus;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import lombok.Getter;
 import lombok.NoArgsConstructor;

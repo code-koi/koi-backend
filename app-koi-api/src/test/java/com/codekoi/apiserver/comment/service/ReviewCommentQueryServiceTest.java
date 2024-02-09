@@ -5,28 +5,23 @@ import com.codekoi.apiserver.comment.dto.HotReviewComment;
 import com.codekoi.apiserver.comment.dto.UserCodeCommentDto;
 import com.codekoi.apiserver.user.dto.UserProfileDto;
 import com.codekoi.apiserver.utils.ServiceTest;
-import com.codekoi.domain.comment.ReviewComment;
-import com.codekoi.domain.comment.ReviewCommentRepository;
-import com.codekoi.domain.koi.KoiHistory;
-import com.codekoi.domain.koi.KoiHistoryRepository;
-import com.codekoi.domain.like.Like;
-import com.codekoi.domain.like.LikeRepository;
-import com.codekoi.domain.review.CodeReview;
-import com.codekoi.domain.review.CodeReviewRepository;
-import com.codekoi.domain.user.User;
-import com.codekoi.domain.user.UserRepository;
-import com.codekoi.fixture.UserFixture;
+import com.codekoi.koi.KoiHistory;
+import com.codekoi.koi.KoiHistoryRepository;
+import com.codekoi.review.*;
+import com.codekoi.user.User;
+import com.codekoi.user.UserRepository;
+import com.codekoi.user.fixture.UserFixture;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 
 import java.util.List;
 
-import static com.codekoi.fixture.CodeReviewFixture.REVIEW1;
-import static com.codekoi.fixture.KoiHistoryFixture.SEA;
-import static com.codekoi.fixture.ReviewCommentFixture.REVIEW_COMMENT;
-import static com.codekoi.fixture.UserFixture.HONG;
-import static com.codekoi.fixture.UserFixture.SUNDO;
+import static com.codekoi.codereview.fixture.CodeReviewFixture.REVIEW1;
+import static com.codekoi.codereview.fixture.ReviewCommentFixture.REVIEW_COMMENT;
+import static com.codekoi.koi.fixture.KoiHistoryFixture.SEA;
+import static com.codekoi.user.fixture.UserFixture.HONG;
+import static com.codekoi.user.fixture.UserFixture.SUNDO;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.BDDMockito.given;
@@ -40,7 +35,7 @@ class ReviewCommentQueryServiceTest extends ServiceTest {
     @Mock
     private ReviewCommentRepository reviewCommentRepository;
     @Mock
-    private LikeRepository likeRepository;
+    private CommentLikeRepository likeRepository;
     @Mock
     private KoiHistoryRepository koiHistoryRepository;
     @Mock
@@ -68,7 +63,7 @@ class ReviewCommentQueryServiceTest extends ServiceTest {
         given(koiHistoryRepository.findKoiHistoryInCommentIds(any()))
                 .willReturn(List.of(koiHistory));
 
-        final Like like = Like.of(source, reviewComment);
+        final CommentLike like = CommentLike.of(source, reviewComment);
         given(likeRepository.findByCommentIdIn(any()))
                 .willReturn(List.of(like));
 
@@ -101,7 +96,7 @@ class ReviewCommentQueryServiceTest extends ServiceTest {
         given(reviewCommentRepository.findByCodeReviewId(any()))
                 .willReturn(List.of(reviewComment));
 
-        final Like like = Like.of(user, reviewComment);
+        final CommentLike like = CommentLike.of(user, reviewComment);
         given(likeRepository.findByCommentIdIn(any()))
                 .willReturn(List.of(like));
 
@@ -143,7 +138,7 @@ class ReviewCommentQueryServiceTest extends ServiceTest {
         given(koiHistoryRepository.findKoiHistoryInCommentIds(any()))
                 .willReturn(List.of(koiHistory));
 
-        final Like like = Like.of(user, comment);
+        final CommentLike like = CommentLike.of(user, comment);
         given(likeRepository.findByUserIdAndCommentIdIn(any(), any()))
                 .willReturn(List.of(like));
 

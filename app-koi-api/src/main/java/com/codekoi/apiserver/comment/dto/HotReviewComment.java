@@ -1,10 +1,10 @@
 package com.codekoi.apiserver.comment.dto;
 
 import com.codekoi.apiserver.user.dto.UserProfileDto;
-import com.codekoi.domain.comment.ReviewComment;
-import com.codekoi.domain.koi.KoiHistory;
-import com.codekoi.domain.koi.KoiType;
-import com.codekoi.domain.like.Like;
+import com.codekoi.koi.KoiHistory;
+import com.codekoi.koi.KoiType;
+import com.codekoi.review.CommentLike;
+import com.codekoi.review.ReviewComment;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.Getter;
 
@@ -39,11 +39,11 @@ public class HotReviewComment {
         this.likeCount = likeCount;
     }
 
-    public static List<HotReviewComment> listOf(List<ReviewComment> comments, List<KoiHistory> koiHistories, List<Like> likesByMe) {
+    public static List<HotReviewComment> listOf(List<ReviewComment> comments, List<KoiHistory> koiHistories, List<CommentLike> likesByMe) {
         final Map<Long, KoiType> koiMap = koiHistories.stream()
                 .collect(Collectors.toMap(koiHistory -> koiHistory.getCodeReviewComment().getId(), KoiHistory::getKoiType));
 
-        final Map<Long, Like> likeMap = likesByMe.stream()
+        final Map<Long, CommentLike> likeMap = likesByMe.stream()
                 .collect(Collectors.toMap(like -> like.getComment().getId(), like -> like));
 
         return comments.stream()
@@ -64,7 +64,7 @@ public class HotReviewComment {
                 c.getContent(),
                 koiMap.get(commentId),
                 isLikedByMe,
-                c.getLikes().size()
+                c.getCommentLikes().size()
         );
     }
 }

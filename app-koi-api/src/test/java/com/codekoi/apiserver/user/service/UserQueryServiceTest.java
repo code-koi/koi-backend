@@ -1,9 +1,9 @@
 package com.codekoi.apiserver.user.service;
 
 import com.codekoi.apiserver.user.dto.UserDetail;
-import com.codekoi.domain.comment.ReviewCommentRepository;
-import com.codekoi.domain.user.User;
-import com.codekoi.domain.user.UserRepository;
+import com.codekoi.review.ReviewCommentRepository;
+import com.codekoi.user.User;
+import com.codekoi.user.UserRepository;
 import org.junit.jupiter.api.DisplayNameGeneration;
 import org.junit.jupiter.api.DisplayNameGenerator;
 import org.junit.jupiter.api.Test;
@@ -12,7 +12,7 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
-import static com.codekoi.fixture.UserFixture.SUNDO;
+import static com.codekoi.user.fixture.UserFixture.SUNDO;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.BDDMockito.given;

@@ -1,9 +1,10 @@
 package com.codekoi.apiserver.review.vo;
 
-import com.codekoi.domain.comment.ReviewComment;
-import com.codekoi.domain.favorite.Favorite;
-import com.codekoi.domain.like.Like;
-import com.codekoi.domain.review.CodeReview;
+
+import com.codekoi.favorite.Favorite;
+import com.codekoi.review.CodeReview;
+import com.codekoi.review.CommentLike;
+import com.codekoi.review.ReviewComment;
 
 import java.time.LocalDateTime;
 
@@ -18,7 +19,7 @@ public record Activity(Activity.Type type, Long id, String targetText, LocalDate
         return new Activity(Type.COMMENT, codeReviewId, reviewComment.getContent(), reviewComment.getCreatedAt());
     }
 
-    public static Activity from(Like like) {
+    public static Activity from(CommentLike like) {
         Long codeReviewId = like.getComment().getCodeReview().getId();
         String content = like.getComment().getContent();
         return new Activity(Type.LIKE, codeReviewId, content, like.getCreatedAt());
