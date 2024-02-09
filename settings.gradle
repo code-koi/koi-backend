@@ -1,8 +1,6 @@
 rootProject.name = 'koi-backend'
 
 include 'app-koi-api'
-include 'domain'
-
 include 'commons'
 include 'commons:common-model'
 findProject(':commons:common-model')?.name = 'common-model'
@@ -10,3 +8,11 @@ include 'commons:common-util'
 findProject(':commons:common-util')?.name = 'common-util'
 
 include 'core-web'
+
+include 'domain:common'
+include 'domain:code-review'
+include 'domain:koi'
+include 'domain:user'
+include 'domain:auth'
+include 'domain:favorite'
+include 'domain:skill'

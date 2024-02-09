@@ -268,19 +268,19 @@ include::{snippets}/codeReviews/put-reviewId/http-request.adoc[]
 
 include::{snippets}/codeReviews/put-reviewId/http-response.adoc[]
 
-= 좋아요 [ /likes ]
+= 좋아요 [ /commentLikes ]
 == 좋아요하기
 === Request
-include::{snippets}/likes/post-code-comments-commentId/http-request.adoc[]
-include::{snippets}/likes/post-code-comments-commentId/path-parameters.adoc[]
+include::{snippets}/commentLikes/post-code-comments-commentId/http-request.adoc[]
+include::{snippets}/commentLikes/post-code-comments-commentId/path-parameters.adoc[]
 
 
 == 좋아요 취소하기
 
 === Request
 
-include::{snippets}/likes/delete-code-comments-commentId/http-request.adoc[]
-include::{snippets}/likes/delete-code-comments-commentId/path-parameters.adoc[]
+include::{snippets}/commentLikes/delete-code-comments-commentId/http-request.adoc[]
+include::{snippets}/commentLikes/delete-code-comments-commentId/path-parameters.adoc[]
 
 = 코드리뷰 댓글 [/comments]
 == 핫한 댓글 목록

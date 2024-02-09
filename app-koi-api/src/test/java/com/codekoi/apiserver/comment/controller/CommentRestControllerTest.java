@@ -3,7 +3,7 @@ package com.codekoi.apiserver.comment.controller;
 import com.codekoi.apiserver.comment.dto.HotReviewComment;
 import com.codekoi.apiserver.docs.RestDocsCommonDescriptor;
 import com.codekoi.apiserver.utils.ControllerTest;
-import com.codekoi.domain.koi.KoiType;
+import com.codekoi.koi.KoiType;
 import org.junit.jupiter.api.Test;
 import org.springframework.restdocs.payload.JsonFieldType;
 import org.springframework.test.web.servlet.ResultActions;

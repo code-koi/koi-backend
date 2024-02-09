@@ -2,10 +2,10 @@ package com.codekoi.apiserver.comment.dto;
 
 import com.codekoi.apiserver.user.dto.UserProfileDto;
 import com.codekoi.coreweb.formatter.BeforeTimeSerializer;
-import com.codekoi.domain.comment.ReviewComment;
-import com.codekoi.domain.koi.KoiHistory;
-import com.codekoi.domain.koi.KoiType;
-import com.codekoi.domain.like.Like;
+import com.codekoi.koi.KoiHistory;
+import com.codekoi.koi.KoiType;
+import com.codekoi.review.CommentLike;
+import com.codekoi.review.ReviewComment;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import lombok.Getter;
@@ -50,7 +50,7 @@ public class CommentReviewDetailDto {
         this.liked = liked;
     }
 
-    public static List<CommentReviewDetailDto> listOf(List<ReviewComment> comment, List<KoiHistory> koiHistories, Long sessionUserId, List<Like> likes) {
+    public static List<CommentReviewDetailDto> listOf(List<ReviewComment> comment, List<KoiHistory> koiHistories, Long sessionUserId, List<CommentLike> likes) {
         final Map<Long, KoiType> koiMap = getKoiMap(koiHistories);
         final Map<Long, Long> likeCountMap = getLikeCountMap(likes);
         final Map<Long, Boolean> likedByMeMap = getLikedByMeMap(likes, sessionUserId);
@@ -66,7 +66,7 @@ public class CommentReviewDetailDto {
                         KoiHistory::getKoiType));
     }
 
-    private static Map<Long, Long> getLikeCountMap(List<Like> likes) {
+    private static Map<Long, Long> getLikeCountMap(List<CommentLike> likes) {
         return likes.stream()
                 .collect(Collectors.groupingBy(like -> like.getComment().getId(), Collectors.counting()));
     }
@@ -84,9 +84,9 @@ public class CommentReviewDetailDto {
         );
     }
 
-    private static Map<Long, Boolean> getLikedByMeMap(List<Like> likes, Long userId) {
+    private static Map<Long, Boolean> getLikedByMeMap(List<CommentLike> likes, Long userId) {
         return likes.stream()
                 .filter(like -> like.getUser().getId().equals(userId))
-                .collect(Collectors.toMap(Like::getId, like -> Boolean.TRUE));
+                .collect(Collectors.toMap(CommentLike::getId, like -> Boolean.TRUE));
     }
 }

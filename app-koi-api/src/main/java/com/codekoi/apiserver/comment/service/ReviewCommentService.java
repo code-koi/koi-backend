@@ -1,8 +1,8 @@
 package com.codekoi.apiserver.comment.service;
 
-import com.codekoi.domain.comment.usecase.CreateReviewCommentUseCase;
-import com.codekoi.domain.comment.usecase.DeleteReviewCommentUseCase;
-import com.codekoi.domain.comment.usecase.UpdateReviewCommentUseCase;
+import com.codekoi.review.usecase.CreateReviewCommentUseCase;
+import com.codekoi.review.usecase.DeleteReviewCommentUseCase;
+import com.codekoi.review.usecase.UpdateReviewCommentUseCase;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;

@@ -1,6 +1,6 @@
 package com.codekoi.apiserver.review.dto;
 
-import com.codekoi.domain.review.CodeReviewStatus;
+import com.codekoi.review.CodeReviewStatus;
 import lombok.Getter;
 
 import java.util.ArrayList;
