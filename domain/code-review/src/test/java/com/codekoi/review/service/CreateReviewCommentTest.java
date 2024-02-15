@@ -1,6 +1,7 @@
 package com.codekoi.review.service;
 
 import com.codekoi.codereview.fixture.CodeReviewFixture;
+import com.codekoi.codereview.fixture.ReviewCommentFixture;
 import com.codekoi.review.CodeReview;
 import com.codekoi.review.CodeReviewRepository;
 import com.codekoi.review.ReviewComment;
@@ -47,8 +48,9 @@ class CreateReviewCommentTest {
     void 코드리뷰에_댓글을_생성한다() {
         //given
         final String CONTENT = "댓글입니다.";
-        final long USER_ID = 1L;
-        final long REVIEW_ID = 2L;
+        final Long USER_ID = 1L;
+        final Long REVIEW_ID = 2L;
+        final Long PARENT_ID = null;
 
         User user = UserFixture.SUNDO.toUser(USER_ID);
         CodeReview codeReview = CodeReviewFixture.REVIEW1.toCodeReview(REVIEW_ID, user);
@@ -57,7 +59,7 @@ class CreateReviewCommentTest {
         given(codeReviewRepository.getOneById(anyLong())).willReturn(codeReview);
 
         //when
-        createReviewComment.command(new CreateReviewCommentUseCase.Command(REVIEW_ID, USER_ID, CONTENT));
+        createReviewComment.command(new CreateReviewCommentUseCase.Command(REVIEW_ID, PARENT_ID, USER_ID, CONTENT));
 
         //then
         verify(reviewCommentRepository).save(captor.capture());
@@ -66,5 +68,33 @@ class CreateReviewCommentTest {
         assertThat(reviewComment.getUser().getId()).isEqualTo(USER_ID);
         assertThat(reviewComment.getCodeReview().getId()).isEqualTo(REVIEW_ID);
         assertThat(reviewComment.getContent()).isEqualTo(CONTENT);
+    }
+
+    @Test
+    void 코드리뷰에_달린_댓글에_대댓글을_생성한다() {
+        //given
+        final String COMMENT_CONTENT = "대댓글입니다.";
+        final Long USER_ID = 1L;
+        final Long REVIEW_ID = 2L;
+        final Long PARENT_ID = 4L;
+
+        User user = UserFixture.SUNDO.toUser(USER_ID);
+        CodeReview codeReview = CodeReviewFixture.REVIEW1.toCodeReview(REVIEW_ID, user);
+        ReviewComment parentComment = ReviewCommentFixture.REVIEW_COMMENT.toCodeReviewComment(PARENT_ID, user, codeReview);
+
+        given(userRepository.getOneById(anyLong())).willReturn(user);
+        given(codeReviewRepository.getOneById(anyLong())).willReturn(codeReview);
+        given(reviewCommentRepository.getOneById(anyLong())).willReturn(parentComment);
+
+        //when
+        createReviewComment.command(new CreateReviewCommentUseCase.Command(REVIEW_ID, PARENT_ID, USER_ID, COMMENT_CONTENT));
+
+        //then
+        verify(reviewCommentRepository).save(captor.capture());
+        ReviewComment childReviewComment = captor.getValue();
+
+        assertThat(childReviewComment.getUser().getId()).isEqualTo(USER_ID);
+        assertThat(childReviewComment.getCodeReview().getId()).isEqualTo(REVIEW_ID);
+        assertThat(childReviewComment.getContent()).isEqualTo(COMMENT_CONTENT);
     }
 }

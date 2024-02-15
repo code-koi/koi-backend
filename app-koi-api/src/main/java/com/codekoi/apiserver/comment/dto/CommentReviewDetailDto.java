@@ -39,7 +39,9 @@ public class CommentReviewDetailDto {
 
     private boolean liked;
 
-    public CommentReviewDetailDto(UserProfileDto user, Long id, LocalDateTime createdAt, String content, KoiType koiType, Boolean me, long likeCount, boolean liked) {
+    private List<CommentReviewDetailDto> childComments;
+
+    public CommentReviewDetailDto(UserProfileDto user, Long id, LocalDateTime createdAt, String content, KoiType koiType, Boolean me, long likeCount, boolean liked, List<CommentReviewDetailDto> childComments) {
         this.user = user;
         this.id = id;
         this.createdAt = createdAt;
@@ -48,6 +50,7 @@ public class CommentReviewDetailDto {
         this.me = me;
         this.likeCount = likeCount;
         this.liked = liked;
+        this.childComments = childComments;
     }
 
     public static List<CommentReviewDetailDto> listOf(List<ReviewComment> comment, List<KoiHistory> koiHistories, Long sessionUserId, List<CommentLike> likes) {
@@ -56,7 +59,8 @@ public class CommentReviewDetailDto {
         final Map<Long, Boolean> likedByMeMap = getLikedByMeMap(likes, sessionUserId);
 
         return comment.stream()
-                .map(c -> of(sessionUserId, koiMap, likeCountMap, likedByMeMap, c))
+                .filter(ReviewComment::isParentComment)
+                .map(pc -> of(sessionUserId, koiMap, likeCountMap, likedByMeMap, pc))
                 .toList();
     }
 
@@ -80,7 +84,10 @@ public class CommentReviewDetailDto {
                 koiMap.get(c.getId()),
                 Objects.equals(sessionUserId, c.getUser().getId()),
                 likeCountMap.getOrDefault(c.getId(), 0L),
-                likedByMeMap.getOrDefault(c.getId(), false)
+                likedByMeMap.getOrDefault(c.getId(), false),
+                c.getChildComments().stream()
+                        .map(cc -> of(sessionUserId, koiMap, likeCountMap, likedByMeMap, cc))
+                        .toList()
         );
     }
 

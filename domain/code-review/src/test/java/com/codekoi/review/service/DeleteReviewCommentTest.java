@@ -48,4 +48,24 @@ class DeleteReviewCommentTest {
         //then
         verify(reviewCommentRepository).delete(any(ReviewComment.class));
     }
+
+    @Test
+    void 코드리뷰_댓글의_대댓글을_삭제한다() {
+        //given
+        final long USER_ID = 1L;
+        final long COMMENT_ID = 2L;
+        final long CHILD_COMMENT_ID = 4L;
+        User user = UserFixture.SUNDO.toUser(USER_ID);
+        CodeReview codeReview = CodeReviewFixture.REVIEW1.toCodeReview(user);
+        ReviewComment parentComment = ReviewCommentFixture.REVIEW_COMMENT.toCodeReviewComment(COMMENT_ID, user, codeReview);
+        ReviewComment childComment = ReviewCommentFixture.REVIEW_COMMENT.toCodeReviewChildComment(CHILD_COMMENT_ID, user, codeReview, parentComment);
+
+        given(reviewCommentRepository.getOneById(anyLong())).willReturn(childComment);
+
+        //when
+        deleteReviewComment.command(new DeleteReviewCommentUseCase.Command(CHILD_COMMENT_ID));
+
+        //then
+        verify(reviewCommentRepository).delete(childComment);
+    }
 }

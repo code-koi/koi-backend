@@ -16,8 +16,8 @@ public class ReviewCommentService {
     private final DeleteReviewCommentUseCase deleteReviewCommentUseCase;
     private final UpdateReviewCommentUseCase updateReviewCommentUseCase;
 
-    public Long create(Long reviewId, Long userId, String content) {
-        return createReviewCommentUseCase.command(new CreateReviewCommentUseCase.Command(reviewId, userId, content));
+    public Long create(Long reviewId, Long parentId, Long userId, String content) {
+        return createReviewCommentUseCase.command(new CreateReviewCommentUseCase.Command(reviewId, parentId, userId, content));
     }
 
     //todo: 해당 유저만 삭제하도록 변경

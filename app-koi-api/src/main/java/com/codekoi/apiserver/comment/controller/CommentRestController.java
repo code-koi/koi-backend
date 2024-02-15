@@ -25,7 +25,7 @@ public class CommentRestController {
 
     @PostMapping
     public SimpleIdResponse create(@AuthenticationPrincipal AuthInfo sessionUser, @RequestBody CreateCommentRequest request) {
-        final Long commentId = reviewCommentService.create(request.reviewId(), sessionUser.getUserId(), request.content());
+        final Long commentId = reviewCommentService.create(request.reviewId(), request.parentId(), sessionUser.getUserId(), request.content());
 
         return new SimpleIdResponse(commentId);
     }

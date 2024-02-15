@@ -31,4 +31,22 @@ public enum ReviewCommentFixture {
                 .build();
     }
 
+    public ReviewComment toCodeReviewChildComment(User user, CodeReview codeReview, ReviewComment parentComment) {
+        return ReviewComment.builder()
+                .codeReview(codeReview)
+                .user(user)
+                .content(content)
+                .parentComment(parentComment)
+                .build();
+    }
+
+    public ReviewComment toCodeReviewChildComment(Long id, User user, CodeReview codeReview, ReviewComment parentComment) {
+        return ReviewComment.builder()
+                .id(id)
+                .codeReview(codeReview)
+                .user(user)
+                .content(content)
+                .parentComment(parentComment)
+                .build();
+    }
 }
