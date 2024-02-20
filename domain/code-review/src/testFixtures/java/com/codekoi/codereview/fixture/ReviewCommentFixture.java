@@ -14,30 +14,23 @@ public enum ReviewCommentFixture {
         this.content = content;
     }
 
-    public ReviewComment toCodeReviewComment(User user, CodeReview codeReview) {
+    private ReviewComment.ReviewCommentBuilder initialize(User user, CodeReview codeReview, ReviewComment parentComment) {
         return ReviewComment.builder()
-                .codeReview(codeReview)
                 .user(user)
-                .content(content)
-                .build();
+                .codeReview(codeReview)
+                .parentComment(parentComment);
+    }
+
+    public ReviewComment toCodeReviewComment(User user, CodeReview codeReview) {
+        return toCodeReviewChildComment(null, user, codeReview, null);
     }
 
     public ReviewComment toCodeReviewComment(Long id, User user, CodeReview codeReview) {
-        return ReviewComment.builder()
-                .id(id)
-                .codeReview(codeReview)
-                .user(user)
-                .content(content)
-                .build();
+        return toCodeReviewChildComment(id, user, codeReview, null);
     }
 
     public ReviewComment toCodeReviewChildComment(User user, CodeReview codeReview, ReviewComment parentComment) {
-        return ReviewComment.builder()
-                .codeReview(codeReview)
-                .user(user)
-                .content(content)
-                .parentComment(parentComment)
-                .build();
+        return toCodeReviewChildComment(null, user, codeReview, parentComment);
     }
 
     public ReviewComment toCodeReviewChildComment(Long id, User user, CodeReview codeReview, ReviewComment parentComment) {
