@@ -129,7 +129,6 @@ public class ReviewComment extends TimeBaseEntity {
                 ", user=" + user.getId() +
                 ", content='" + content + '\'' +
                 ", likeCount=" + likeCount +
-                ", childComment=" + childComments.stream().map(ReviewComment::getId).toList() +
                 '}';
     }
 }
