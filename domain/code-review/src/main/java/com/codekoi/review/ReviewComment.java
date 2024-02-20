@@ -114,10 +114,7 @@ public class ReviewComment extends TimeBaseEntity {
     }
 
     public boolean isParentComment() {
-        if (parentComment == null) {
-            return true;
-        }
-        return false;
+        return parentComment == null;
     }
 
     @Override
