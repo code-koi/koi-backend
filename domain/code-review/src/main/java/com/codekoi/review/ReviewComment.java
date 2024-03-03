@@ -23,6 +23,10 @@ public class ReviewComment extends TimeBaseEntity {
     private CodeReview codeReview;
 
     @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "parent_comment_id")
+    private ReviewComment parentComment;
+
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "code_reviewer_users_id")
     private User user;
 
@@ -33,23 +37,29 @@ public class ReviewComment extends TimeBaseEntity {
     @OneToMany(mappedBy = "comment", cascade = CascadeType.REMOVE, orphanRemoval = true)
     private List<CommentLike> commentLikes = new ArrayList<>();
 
+    @OneToMany(mappedBy = "parentComment", fetch = FetchType.LAZY)
+    private List<ReviewComment> childComments = new ArrayList<>();
+
     protected ReviewComment() {
     }
 
     @Builder
-    private ReviewComment(Long id, CodeReview codeReview, User user, String content, int likeCount, List<CommentLike> commentLikes) {
+    private ReviewComment(Long id, CodeReview codeReview, ReviewComment parentComment, User user, String content, int likeCount, List<CommentLike> commentLikes, List<ReviewComment> childComments) {
         this.id = id;
         this.codeReview = codeReview;
+        this.parentComment = parentComment;
         this.user = user;
         this.content = content;
         this.likeCount = likeCount;
         this.commentLikes = Objects.requireNonNullElse(commentLikes, new ArrayList<>());
+        this.childComments = Objects.requireNonNullElse(childComments, new ArrayList<>());
     }
 
-    public static ReviewComment of(User user, CodeReview codeReview, String content) {
+    public static ReviewComment of(User user, CodeReview codeReview, ReviewComment parentComment, String content) {
         return ReviewComment.builder()
                 .user(user)
                 .codeReview(codeReview)
+                .parentComment(parentComment)
                 .content(content)
                 .likeCount(0)
                 .build();
@@ -79,6 +89,10 @@ public class ReviewComment extends TimeBaseEntity {
         return codeReview;
     }
 
+    public ReviewComment getParentComment() {
+        return parentComment;
+    }
+
     public User getUser() {
         return user;
     }
@@ -95,11 +109,20 @@ public class ReviewComment extends TimeBaseEntity {
         return commentLikes;
     }
 
+    public List<ReviewComment> getChildComments() {
+        return childComments;
+    }
+
+    public boolean isParentComment() {
+        return parentComment == null;
+    }
+
     @Override
     public String toString() {
         return "ReviewComment{" +
                 "id=" + id +
                 ", codeReview=" + codeReview.getId() +
+                ", parentComment=" + parentComment.getId() +
                 ", user=" + user.getId() +
                 ", content='" + content + '\'' +
                 ", likeCount=" + likeCount +

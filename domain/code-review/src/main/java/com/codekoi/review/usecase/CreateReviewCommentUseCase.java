@@ -6,6 +6,7 @@ public interface CreateReviewCommentUseCase {
 
     record Command(
             Long reviewId,
+            Long parentId,
             Long userId,
             String content
     ) {

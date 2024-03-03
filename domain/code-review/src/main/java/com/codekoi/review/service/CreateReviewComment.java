@@ -24,8 +24,9 @@ class CreateReviewComment implements CreateReviewCommentUseCase {
     public Long command(Command command) {
         final User user = userRepository.getOneById(command.userId());
         final CodeReview codeReview = codeReviewRepository.getOneById(command.reviewId());
+        final ReviewComment parentComment = reviewCommentRepository.getOneById((command.parentId()));
 
-        final ReviewComment reviewComment = ReviewComment.of(user, codeReview, command.content());
+        final ReviewComment reviewComment = ReviewComment.of(user, codeReview, parentComment, command.content());
         reviewCommentRepository.save(reviewComment);
 
         return reviewComment.getId();

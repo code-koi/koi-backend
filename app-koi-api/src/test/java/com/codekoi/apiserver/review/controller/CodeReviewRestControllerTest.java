@@ -136,7 +136,7 @@ class CodeReviewRestControllerTest extends ControllerTest {
     void 코드리뷰_요청에_대한_댓글_목록_조회() throws Exception {
         //given
         final CommentReviewDetailDto dto = new CommentReviewDetailDto(PROFILE1.toUserProfileDto(), 2L, LocalDateTime.now(), "코드리뷰 요청합니다",
-                KoiType.FISHBOWL, true, 1L, true);
+                KoiType.FISHBOWL, true, 1L, true, null);
 
         given(reviewCommentQueryService.getCommentsOnReview(any(), any()))
                 .willReturn(List.of(dto));
